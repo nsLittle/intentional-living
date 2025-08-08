@@ -1,44 +1,44 @@
-// src/components/LatestPost.tsx
-import Image from "next/image";
 import Link from "next/link";
+import { getLatestPost } from "lib/posts";
 
 export default function LatestPost() {
+  const post = getLatestPost();
+
+  if (!post) return null;
+
   return (
-    <div>
-      <h2 className="text-4xl font-bold text-black">My Latest Prattling...</h2>
-
-      <div className="flex flex-col md:flex-row gap-8 items-start mt-8">
-        {/* Image block */}
-        <div className="w-full md:w-1/3 max-w-xs rounded-xl overflow-hidden shadow-md mx-auto md:mx-0">
-          <Image
-            src="/images/little-wildflowers.jpeg"
-            alt="Luxury of the Meadows"
-            width={400}
-            height={250}
-            layout="responsive"
-            className="object-cover"
+    <section className="my-12">
+      <h2 className="text-4xl font-bold mb-6">My Latest Prattling…</h2>
+      <div className="flex flex-col md:flex-row items-start gap-6">
+        {post.hero && (
+          <img
+            src={post.hero}
+            alt={post.title}
+            className="w-[300px] h-[400px] object-cover rounded-xl shadow-md"
           />
-        </div>
+        )}
 
-        {/* Text block */}
-        <div className="md:w-2/3">
-          <h3 className="text-3xl font-bold text-black mb-2">
-            <Link href="/posts/luxury-meadows" className="hover:underline">
-              Luxury of the Meadows
-            </Link>
-          </h3>
-          <p className="text-sm text-gray-500 mb-3">August 7, 2025</p>
-          <p className="text-2xl max-w-md">
-            Gathering wildflowers and having them in the house all summer long
-            is the luxury of the meadows...
+        <div className="flex-1">
+          <Link href={`/posts/${post.slug}`}>
+            <h3 className="text-2xl font-semibold text-gray-800 hover:underline mb-2">
+              {post.title}
+            </h3>
+          </Link>
+          <p className="text-sm text-gray-500 mb-6">
+            {post.date.toLocaleDateString(undefined, {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
           </p>
+          <p className="text-lg text-gray-700 mb-8">{post.text}</p>
           <Link
-            href="/posts/luxury-meadows"
-            className="inline-block mt-4 text-[#4b816d] font-semibold hover:underline">
+            href={`/posts/${post.slug}`}
+            className="text-green-700 font-semibold hover:underline">
             Read more →
           </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
