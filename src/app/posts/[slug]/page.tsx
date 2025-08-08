@@ -1,0 +1,41 @@
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import PostLayout from "components/PostLayout";
+
+export async function generateStaticParams() {
+  const dir = path.join(process.cwd(), "src", "content");
+  const files = fs.readdirSync(dir);
+  return files.map((file) => ({
+    slug: file.replace(/\.mdx$/, ""),
+  }));
+}
+
+export default async function PostPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const slug = params.slug;
+  const filePath = path.join(
+    process.cwd(),
+    "src",
+    "content",
+    `${params.slug}.mdx`
+  );
+  const fileContent = fs.readFileSync(filePath, "utf8");
+  const { content, data } = matter(fileContent);
+
+  return (
+    <div className="prose mx-auto px-6 py-12">
+      <PostLayout
+        title={data.title}
+        date={data.date}
+        hero={data.hero}
+        text={data.text}>
+        <MDXRemote source={content} />
+      </PostLayout>
+    </div>
+  );
+}
