@@ -1,4 +1,6 @@
 import Header from "./Header";
+import Footer from "./Footer";
+import ReturnHome from "./ReturnHome";
 
 type PostLayoutProps = {
   title: string;
@@ -33,11 +35,10 @@ export default function PostLayout({
             />
           )}
 
-          <article className="prose prose-lg prose-neutral max-w-none">
-            {children}
-          </article>
+          <ReturnHome />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
