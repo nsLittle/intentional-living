@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Intentional Living",
+  title: "Simple Intentions",
   description: "Wild food, simple living, and seasonal joy from Vermont.",
   icons: {
     icon: "/favicon.ico",
