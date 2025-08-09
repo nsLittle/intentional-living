@@ -4,11 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef } from "react";
 
-type MenuKey = "prattles" | null;
+type MenuKey = "posts" | null;
 
 type HeaderNavBarProps = {
-  prattlesRecent?: { title: string; href: string }[];
-  prattlesHighlights?: { title: string; href: string; img?: string }[];
+  postsRecent?: { title: string; href: string }[];
+  postsHighlights?: { title: string; href: string; img?: string }[];
 };
 
 export default function HeaderNavBar(props: HeaderNavBarProps) {
@@ -49,18 +49,18 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
           {/* Quick links */}
           <div className="flex-1 flex justify-center gap-6">
-            {/* Prattles (with dropdown) */}
+            {/* Posts (with dropdown) */}
             <div
               className="relative"
-              onMouseEnter={() => openMenu("prattles")}
+              onMouseEnter={() => openMenu("posts")}
               onMouseLeave={scheduleClose}>
               <button
                 className="text-[#fefcf9] text-sm hover:underline"
-                onFocus={() => openMenu("prattles")}
+                onFocus={() => openMenu("posts")}
                 onBlur={scheduleClose}
-                aria-expanded={open === "prattles"}
+                aria-expanded={open === "posts"}
                 aria-haspopup="true">
-                Prattles &amp; Such
+                Posts
               </button>
             </div>
 
@@ -122,12 +122,12 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
       </div>
       {/*Dropdown panel for posts*/}
       <div
-        onMouseEnter={() => openMenu("prattles")}
+        onMouseEnter={() => openMenu("posts")}
         onMouseLeave={scheduleClose}
-        onFocus={() => openMenu("prattles")}
+        onFocus={() => openMenu("posts")}
         onBlur={scheduleClose}
         className={`${
-          open === "prattles"
+          open === "posts"
             ? "fixed top-14 left-0 w-full z-40 opacity-100 translate-y-0 pointer-events-auto"
             : "fixed top-14 left-0 w-full z-40 opacity-0 -translate-y-1 pointer-events-none"
         } transition-all duration-150`}>
@@ -135,15 +135,13 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 grid grid-cols-12 gap-6">
             {/* Left column: section nav */}
             <div className="col-span-12 md:col-span-3">
-              <h4 className="font-serif text-lg text-[#2f5d4b]">
-                Prattles &amp; Such
-              </h4>
+              <h4 className="font-serif text-lg text-[#2f5d4b]">Posts</h4>
               <ul className="mt-3 space-y-2 text-sm">
                 <li>
                   <Link
-                    href="/prattles"
+                    href="/posts"
                     className="text-[#5c5045] hover:underline">
-                    All Prattles →
+                    All Posts →
                   </Link>
                 </li>
                 <li>
@@ -170,52 +168,63 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               </ul>
             </div>
 
-            {/* Middle column: recent list (placeholder items for now) */}
-            <ul className="mt-2 divide-y divide-black/5">
-              {(props.prattlesRecent ?? []).map((p) => (
-                <li key={p.href} className="py-2">
-                  <Link
-                    href={p.href}
-                    className="text-sm text-[#3f372f] hover:underline">
-                    {p.title}
-                  </Link>
-                </li>
-              ))}
-              {(!props.prattlesRecent || props.prattlesRecent.length === 0) && (
-                <li className="py-2 text-sm text-[#7a6f64] italic">
-                  No posts yet.
-                </li>
-              )}
-            </ul>
+            {/* Middle column: recent posts */}
+            <div className="col-span-12 md:col-span-5">
+              <ul className="mt-2 divide-y divide-black/5">
+                {(props.postsRecent ?? []).map((p) => (
+                  <li key={p.href} className="py-2">
+                    <Link
+                      href={p.href}
+                      className="text-sm text-[#3f372f] hover:underline">
+                      {p.title}
+                    </Link>
+                  </li>
+                ))}
+                {(!props.postsRecent || props.postsRecent.length === 0) && (
+                  <li className="py-2 text-sm text-[#7a6f64] italic">
+                    No posts yet.
+                  </li>
+                )}
+              </ul>
+            </div>
 
             {/* Right column: two highlights */}
-            <div className="col-span-12 md:col-span-4 grid grid-cols-2 gap-3">
-              {[
-                {
-                  title: "Spectral Ghost Pipe",
-                  href: "/posts/spectral-ghost-pipe",
-                  img: "/images/posts/ghost-pipe.jpeg",
-                },
-                {
-                  title: "Keeping House with Ferns",
-                  href: "/prattles/house-with-ferns",
-                  img: "/images/posts/ferns.jpg",
-                },
-              ].map((h) => (
-                <Link key={h.href} href={h.href} className="group">
-                  <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-black/5">
-                    {/* You can swap to next/image if these exist */}
-                    <img
-                      src={h.img}
-                      alt=""
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                    />
-                  </div>
-                  <div className="mt-2 text-sm font-medium text-[#2f5d4b] group-hover:underline">
-                    {h.title}
-                  </div>
-                </Link>
-              ))}
+            <div className="col-span-12 md:col-span-3">
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  {
+                    title: "Spectral Ghost Pipes",
+                    href: "/posts/spectral-ghost-pipes",
+                    img: "/images/posts/ghost-pipe.jpeg",
+                  },
+                  {
+                    title: "Golden Fairy Rings",
+                    href: "/posts/golden-fairy-rings",
+                    img: "/images/posts/chanterelles.jpeg",
+                  },
+                  {
+                    title: "Luxury of the Meadows",
+                    href: "/posts/luxury-meadows",
+                    img: "/images/posts/little-wildflowers.jpeg",
+                  },
+                ].map((h) => (
+                  <Link
+                    key={h.href}
+                    href={h.href}
+                    className="group block w-full">
+                    <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-black/5">
+                      <img
+                        src={h.img}
+                        alt=""
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                      />
+                    </div>
+                    <div className="mt-1 text-xs font-medium text-[#2f5d4b] group-hover:underline">
+                      {h.title}
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-export type CollectionType = "prattles" | "recipes" | "crafts" | "printables";
+export type CollectionType = "posts" | "recipes" | "crafts" | "printables";
 
 export type PostMeta = {
   slug: string;
