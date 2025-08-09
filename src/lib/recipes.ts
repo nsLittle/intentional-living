@@ -63,8 +63,42 @@ export function getAllRecipes(): RecipeMeta[] {
 
   return items;
 }
+export function getLatestRecipe() {
+  const contentDir = path.join(process.cwd(), "src", "content", "recipes");
 
-export function getLatestRecipe(): RecipeMeta | null {
-  const all = getAllRecipes();
-  return all.length ? all[0] : null;
+  const filenames = fs
+    .readdirSync(contentDir, { withFileTypes: true })
+    .filter((e) => e.isFile() && e.name.endsWith(".mdx"))
+    .map((e) => e.name);
+
+  const recipes = filenames.map((filename) => {
+    const filePath = path.join(contentDir, filename);
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    const { data } = matter(fileContents);
+
+    // tolerate missing/odd fields
+    const date =
+      typeof data.date === "string" &&
+      !Number.isNaN(new Date(data.date).getTime())
+        ? new Date(data.date)
+        : new Date(fs.statSync(filePath).mtime); // fall back to file mtime
+
+    const text = data.text ?? data.description ?? data["text too"] ?? ""; // short preview optional
+
+    return {
+      slug: filename.replace(/\.mdx?$/, ""),
+      title: data.title || data.recipe || filename,
+      date,
+      text:
+        typeof text === "string"
+          ? text.length > 200
+            ? text.slice(0, 200).trim() + "..."
+            : text
+          : "",
+      hero: data.hero || null,
+    };
+  });
+
+  const sorted = recipes.sort((a, b) => b.date.getTime() - a.date.getTime());
+  return sorted[0] ?? null;
 }
