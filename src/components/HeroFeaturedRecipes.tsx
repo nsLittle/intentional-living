@@ -11,7 +11,7 @@ export default function HeroFeaturedRecipes() {
       </p>
 
       <img
-        src="/images/cat-in-moss.png"
+        src="/images/posts/cat-in-moss.png"
         alt="Cat in moss"
         className="rounded-xl shadow-lg w-full max-w-md object-cover"
       />

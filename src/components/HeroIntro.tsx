@@ -16,14 +16,12 @@ export default function HeroIntro() {
         </p>
         <p className="mt-4 text-xl">
           This is where the warmth of woodsy treasures meet homemade goodness.
-          It's about life's simple pleasures{" "}
-          <span>savored with intentions.</span>
+          It's about life's simple pleasures savored with intention.
         </p>
-      </div>
-
-      <div className="flex flex-row gap-4 w-full">
-        <ButtonPost />
-        <ButtonRecipes />
+        <p className="mt-4 text-xl">
+          Join me, and create your intentional life, one walk, one recipe, one
+          project at a time.
+        </p>
       </div>
     </div>
   );

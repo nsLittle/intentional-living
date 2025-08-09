@@ -10,16 +10,13 @@ import HeroContent from "components/HeroContent";
 export default function Home() {
   return (
     <main className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
-      {/* Header Navigation Bar */}
-      {/* <HeaderNavBar /> */}
-
       {/* Header Navigation Bar Server */}
       <HeaderNavBarServer />
 
       {/*Header*/}
       <Header />
 
-      <div className="w-full max-w-none px-6 lg:pl-24 lg:pr-6 py-16 flex flex-col lg:flex-row-reverse">
+      <div className="w-full max-w-none px-6 lg:pl-24 lg:pr-6 py-6 flex flex-col lg:flex-row-reverse">
         {/* Sidebar */}
         <Sidebar />
 

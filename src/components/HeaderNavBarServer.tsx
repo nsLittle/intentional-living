@@ -1,7 +1,6 @@
-// NEW: components/HeaderNavBarServer.tsx
-// (Server Component)
 import HeaderNavBar from "./HeaderNavBar";
 import { getCollection, getHighlights } from "../lib/content";
+import { getRecentPost } from "lib/posts";
 
 export default async function HeaderNavBarServer() {
   const prattlesRecent = getCollection("prattles", 5).map((p) => ({

@@ -5,7 +5,7 @@ import HeroLatestRecipe from "./HeroLatestRecipe";
 
 export default function HeroContent() {
   return (
-    <div className="flex-grow flex flex-col pr-0 lg:pr-12">
+    <div className="flex-grow flex flex-col pr-0 lg:pr-10">
       {/* Main */}
       <HeroIntro />
 

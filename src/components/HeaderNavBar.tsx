@@ -171,49 +171,30 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             </div>
 
             {/* Middle column: recent list (placeholder items for now) */}
-            <div className="col-span-12 md:col-span-5">
-              <h5 className="font-medium text-[#5c5045]">Recent</h5>
-              <ul className="mt-2 divide-y divide-black/5">
-                {[
-                  {
-                    title: "Quiet Joys of Mossy Mornings",
-                    href: "/prattles/mossy-mornings",
-                  },
-                  {
-                    title: "A Slow Pantry for Late Summer",
-                    href: "/prattles/slow-pantry",
-                  },
-                  {
-                    title: "When the Woods Go Quiet",
-                    href: "/prattles/woods-go-quiet",
-                  },
-                  {
-                    title: "Notes from the Herb Shelf",
-                    href: "/prattles/herb-shelf",
-                  },
-                  {
-                    title: "Walking the Creek After Rain",
-                    href: "/prattles/creek-after-rain",
-                  },
-                ].map((p) => (
-                  <li key={p.href} className="py-2">
-                    <Link
-                      href={p.href}
-                      className="text-sm text-[#3f372f] hover:underline">
-                      {p.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ul className="mt-2 divide-y divide-black/5">
+              {(props.prattlesRecent ?? []).map((p) => (
+                <li key={p.href} className="py-2">
+                  <Link
+                    href={p.href}
+                    className="text-sm text-[#3f372f] hover:underline">
+                    {p.title}
+                  </Link>
+                </li>
+              ))}
+              {(!props.prattlesRecent || props.prattlesRecent.length === 0) && (
+                <li className="py-2 text-sm text-[#7a6f64] italic">
+                  No posts yet.
+                </li>
+              )}
+            </ul>
 
             {/* Right column: two highlights */}
             <div className="col-span-12 md:col-span-4 grid grid-cols-2 gap-3">
               {[
                 {
-                  title: "Ghost Pipe, Gently",
-                  href: "/prattles/ghost-pipe-gently",
-                  img: "/images/posts/ghost-pipe.jpg",
+                  title: "Spectral Ghost Pipe",
+                  href: "/posts/spectral-ghost-pipe",
+                  img: "/images/posts/ghost-pipe.jpeg",
                 },
                 {
                   title: "Keeping House with Ferns",
