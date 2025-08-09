@@ -1,10 +1,10 @@
-export default function FeaturedRecipes() {
+export default function HeroFeaturedRecipes() {
   return (
     <div>
-      <h2 className="text-4xl font-bold text-black">
+      <h2 className="text-3xl font-bold text-black">
         Featured Recipes & Guides
       </h2>
-      <p className="mt-4 text-2xl mb-6 max-w-xl">
+      <p className="mt-4 text-2xl mb-6 max-w-lg">
         Seasonal foraging finds and wild food recipes from the Vermont woods.
         Learn to identify, harvest, and prepare nature's bounty safely and
         sustainably.

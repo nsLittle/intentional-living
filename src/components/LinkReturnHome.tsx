@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function ReturnHome() {
+export default function LinkReturnHome() {
   return (
     <div>
       <a

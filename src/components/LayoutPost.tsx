@@ -1,6 +1,6 @@
 import Header from "./Header";
 import Footer from "./Footer";
-import ReturnHome from "./ReturnHome";
+import ReturnHome from "./LinkReturnHome";
 
 type PostLayoutProps = {
   title: string;
@@ -10,7 +10,7 @@ type PostLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function PostLayout({
+export default function LayoutPost({
   title,
   date,
   hero,

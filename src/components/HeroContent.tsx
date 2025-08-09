@@ -1,18 +1,18 @@
-import LatestPost from "components/LatestPost";
-import MainHeroIntro from "./MainHeroIntro";
-import FeaturedRecipes from "./FeaturedRecipes";
+import HeroLatestPost from "./HeroLatestPost";
+import HeroIntro from "./HeroIntro";
+import HeroFeaturedRecipes from "./HeroFeaturedRecipes";
 
 export default function HeroContent() {
   return (
     <div className="flex-grow flex flex-col pr-0 lg:pr-8">
       {/* Main */}
-      <MainHeroIntro />
+      <HeroIntro />
 
       {/* Featured Recipes */}
-      <FeaturedRecipes />
+      <HeroFeaturedRecipes />
 
       {/* Latest Posts */}
-      <LatestPost />
+      <HeroLatestPost />
     </div>
   );
 }

@@ -1,7 +1,7 @@
-export default function MainHeroIntro() {
+export default function HeroIntro() {
   return (
     <div>
-      <h1 className="text-5xl font-bold text-black leading-tight mb-4">
+      <h1 className="text-4xl font-bold text-black leading-tight mb-4">
         Wild Crafting, Recipes,
         <br /> Guides & More
       </h1>

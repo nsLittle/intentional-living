@@ -1,4 +1,3 @@
-// src/components/Header.tsx
 export default function Header() {
   return (
     <header className="relative w-full h-64">

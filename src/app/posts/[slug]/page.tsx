@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import PostLayout from "components/PostLayout";
+import LayoutPost from "components/LayoutPost";
 
 export async function generateStaticParams() {
   const dir = path.join(process.cwd(), "src", "content");
@@ -29,13 +29,13 @@ export default async function PostPage({
 
   return (
     <div className="prose mx-auto px-6 py-12">
-      <PostLayout
+      <LayoutPost
         title={data.title}
         date={data.date}
         hero={data.hero}
         text={data.text}>
         <MDXRemote source={content} />
-      </PostLayout>
+      </LayoutPost>
     </div>
   );
 }

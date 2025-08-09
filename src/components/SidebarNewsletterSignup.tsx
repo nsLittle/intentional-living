@@ -1,4 +1,4 @@
-export default function NewsletterSignup() {
+export default function SidebarNewsletterSignup() {
   return (
     <div className="bg-[#3b6c5a] text-white p-6 rounded-xl shadow-md mt-8">
       <h3 className="text-2xl font-semibold mb-2">Newsletter</h3>

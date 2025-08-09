@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getLatestPost } from "lib/posts";
 
-export default function LatestPost() {
+export default function HeroLatestPost() {
   const post = getLatestPost();
 
   if (!post) return null;

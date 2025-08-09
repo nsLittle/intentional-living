@@ -3,8 +3,11 @@ import path from "path";
 import matter from "gray-matter";
 
 export function getLatestPost() {
-  const contentDir = path.join(process.cwd(), "src", "content");
-  const filenames = fs.readdirSync(contentDir);
+  const contentDir = path.join(process.cwd(), "src", "content", "posts");
+  const filenames = fs
+    .readdirSync(contentDir, { withFileTypes: true })
+    .filter((e) => e.isFile() && e.name.endsWith(".mdx"))
+    .map((e) => e.name);
 
   const posts = filenames.map((filename) => {
     const filePath = path.join(contentDir, filename);
