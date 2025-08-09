@@ -19,7 +19,7 @@ export default function Home() {
       {/*Header*/}
       <Header />
 
-      <div className="w-full max-w-none px-6 lg:pl-24 lg:pr-12 py-16 flex flex-col lg:flex-row-reverse">
+      <div className="w-full max-w-none px-6 lg:pl-24 lg:pr-6 py-16 flex flex-col lg:flex-row-reverse">
         {/* Sidebar */}
         <Sidebar />
 

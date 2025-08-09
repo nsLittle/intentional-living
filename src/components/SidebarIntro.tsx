@@ -2,7 +2,7 @@ export default function SidebarIntro() {
   return (
     <div className="items-center text-center">
       <img
-        src="/images/little-meadow.jpg"
+        src="/images/little-woods.jpeg"
         alt="Little"
         className="mx-auto items-center w-32 h-32 rounded-full object-cover mb-12 shadow-md"
       />

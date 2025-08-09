@@ -42,3 +42,7 @@ Then visit: http://localhost:3000
 
 <!-- 💌 Ready for Resend email integration (placeholder in place)
 🚀 Deployable instantly on Vercel -->
+
+## 🌲 Incoming Features
+
+- Black truffle post, recipe, field guide
