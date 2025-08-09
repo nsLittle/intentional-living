@@ -1,3 +1,6 @@
+import ButtonPost from "./ButtonPosts";
+import ButtonRecipes from "./ButtonRecipe";
+
 export default function HeroIntro() {
   return (
     <div>
@@ -16,6 +19,11 @@ export default function HeroIntro() {
           It's about life's simple pleasures{" "}
           <span>savored with intentions.</span>
         </p>
+      </div>
+
+      <div className="flex flex-row gap-4 w-full">
+        <ButtonPost />
+        <ButtonRecipes />
       </div>
     </div>
   );
