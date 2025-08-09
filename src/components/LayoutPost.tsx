@@ -19,6 +19,7 @@ export default function LayoutPost({
 }: PostLayoutProps) {
   return (
     <div>
+      {/* Header */}
       <Header />
       <div className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
         <div className="max-w-3xl mx-auto px-6 py-12">

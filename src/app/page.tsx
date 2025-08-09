@@ -10,7 +10,7 @@ export default function Home() {
     <main className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
       <Header />
 
-      <div className="w-full max-w-none px-6 lg:px-24 py-16 flex flex-col lg:flex-row-reverse">
+      <div className="w-full max-w-none px-6 lg:pl-24 lg:pr-12 py-16 flex flex-col lg:flex-row-reverse">
         {/* Sidebar */}
         <Sidebar />
 

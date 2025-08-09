@@ -5,9 +5,15 @@ import SidebarNewsletterSignup from "./SidebarNewsletterSignup";
 export default function Sidebar() {
   return (
     <aside className="w-full lg:max-w-sm flex-shrink-0 flex flex-col items-center text-center">
-      <SidebarIntro />
+      {/* Intro */}
+      <div className="mt-8">
+        <SidebarIntro />
+      </div>
 
-      <SidebarNewsletterSignup />
+      {/* Newsletter Signup */}
+      <div className="mt-8 mb-24">
+        <SidebarNewsletterSignup />
+      </div>
     </aside>
   );
 }

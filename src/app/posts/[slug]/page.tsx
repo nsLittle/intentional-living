@@ -5,8 +5,9 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import LayoutPost from "components/LayoutPost";
 
 export async function generateStaticParams() {
-  const dir = path.join(process.cwd(), "src", "content");
-  const files = fs.readdirSync(dir);
+  const dir = path.join(process.cwd(), "src", "content", "posts");
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"));
+
   return files.map((file) => ({
     slug: file.replace(/\.mdx$/, ""),
   }));
@@ -22,6 +23,7 @@ export default async function PostPage({
     process.cwd(),
     "src",
     "content",
+    "posts",
     `${params.slug}.mdx`
   );
   const fileContent = fs.readFileSync(filePath, "utf8");

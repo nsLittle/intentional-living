@@ -10,7 +10,7 @@ export default function Footer() {
         {/* Quick Links */}
         <FooterQuickLinks />
 
-        {/* Newsletter Placeholder */}
+        {/* Newsletter Signup */}
         <FooterNewsletterSignup />
 
         {/* Copyright */}
