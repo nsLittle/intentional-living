@@ -3,12 +3,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef } from "react";
+import PostsDropdown from "./HeaderNavBarPostsDropdown";
+import RecipesDropdown from "./HeaderNavBarRecipesDropdown";
 
-type MenuKey = "posts" | null;
+type MenuKey = "posts" | "recipes" | null;
 
 type HeaderNavBarProps = {
   postsRecent?: { title: string; href: string }[];
   postsHighlights?: { title: string; href: string; img?: string }[];
+  recipesRecent?: { title: string; href: string }[];
+  recipesHighlights?: { title: string; href: string; img?: string }[];
 };
 
 export default function HeaderNavBar(props: HeaderNavBarProps) {
@@ -64,11 +68,25 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               </button>
             </div>
 
+            <div
+              className="relative"
+              onMouseEnter={() => openMenu("recipes")}
+              onMouseLeave={scheduleClose}>
+              <button
+                className="text-[#fefcf9] text-sm hover:underline"
+                onFocus={() => openMenu("recipes")}
+                onBlur={scheduleClose}
+                aria-expanded={open === "recipes"}
+                aria-haspopup="true">
+                Recipes
+              </button>
+            </div>
+
             {/* Static links for now */}
             <Link
               href="/recipes"
               className="text-[#fefcf9] text-sm hover:underline">
-              Kitchen Goodies
+              Recipes
             </Link>
             <Link
               href="/crafts"
@@ -144,25 +162,26 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                     All Posts →
                   </Link>
                 </li>
+                <br />
                 <li>
                   <Link
-                    href="/tags/reflections"
+                    href="/posts/woodland"
                     className="text-[#5c5045] hover:underline">
-                    Reflections
+                    Woodland Finds
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/tags/seasons"
+                    href="/posts/kitchen"
                     className="text-[#5c5045] hover:underline">
-                    Seasons
+                    Kitchen Recipes
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/tags/foraging-life"
+                    href="/posts/crafts"
                     className="text-[#5c5045] hover:underline">
-                    Foraging Life
+                    Crafty Creations
                   </Link>
                 </li>
               </ul>
@@ -224,6 +243,108 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                     </div>
                   </Link>
                 ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Dropdown panel for recipes */}
+      <div
+        onMouseEnter={() => openMenu("recipes")}
+        onMouseLeave={scheduleClose}
+        onFocus={() => openMenu("recipes")}
+        onBlur={scheduleClose}
+        className={`${
+          open === "recipes"
+            ? "fixed top-14 left-0 w-full z-40 opacity-100 translate-y-0 pointer-events-auto"
+            : "fixed top-14 left-0 w-full z-40 opacity-0 -translate-y-1 pointer-events-none"
+        } transition-all duration-150`}>
+        <div className="bg-[#fefcf9] border-t border-black/10 shadow-lg">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 grid grid-cols-12 gap-6">
+            {/* Left column: section nav */}
+            <div className="col-span-12 md:col-span-3">
+              <h4 className="font-serif text-lg text-[#2f5d4b]">Recipes</h4>
+              <ul className="mt-3 space-y-2 text-sm">
+                <li>
+                  <Link
+                    href="/recipes"
+                    className="text-[#5c5045] hover:underline">
+                    All Recipes →
+                  </Link>
+                </li>
+                <br />
+                <li>
+                  <Link
+                    href="/recipes/spice-mix"
+                    className="text-[#5c5045] hover:underline">
+                    Spice Mix
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/recipes/cookies"
+                    className="text-[#5c5045] hover:underline">
+                    Cookies in a Jar
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/recipes/soup-pasta"
+                    className="text-[#5c5045] hover:underline">
+                    Soup & Pasta in a Jar
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Middle column: recent recipes */}
+            <div className="col-span-12 md:col-span-5">
+              <ul className="mt-2 divide-y divide-black/5">
+                {(props.recipesRecent ?? []).map((r) => (
+                  <li key={r.href} className="py-2">
+                    <Link
+                      href={r.href}
+                      className="text-sm text-[#3f372f] hover:underline">
+                      {r.title}
+                    </Link>
+                  </li>
+                ))}
+                {(!props.recipesRecent || props.recipesRecent.length === 0) && (
+                  <li className="py-2 text-sm text-[#7a6f64] italic">
+                    No recipes yet.
+                  </li>
+                )}
+              </ul>
+            </div>
+
+            {/* Right column: recipe highlights */}
+            <div className="col-span-12 md:col-span-3">
+              <div className="grid grid-cols-2 gap-3">
+                {(props.recipesHighlights ?? []).map((h) => (
+                  <Link
+                    key={h.href}
+                    href={h.href}
+                    className="group block w-full">
+                    <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-black/5">
+                      <Image
+                        src={h.img}
+                        alt=""
+                        width={400}
+                        height={300}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                      />
+                    </div>
+                    <div className="mt-1 text-xs font-medium text-[#2f5d4b] group-hover:underline">
+                      {h.title}
+                    </div>
+                  </Link>
+                ))}
+                {(!props.recipesHighlights ||
+                  props.recipesHighlights.length === 0) && (
+                  <div className="text-xs text-[#7a6f64] italic col-span-2">
+                    No highlights yet.
+                  </div>
+                )}
               </div>
             </div>
           </div>

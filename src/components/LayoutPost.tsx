@@ -1,13 +1,15 @@
-import Header from "./Header";
-import Footer from "./Footer";
-import ReturnHome from "./LinkReturnHome";
+import Image from "next/image";
+import HeaderNavBarServer from "components/HeaderNavBarServer";
+import Header from "components/Header";
+import Sidebar from "components/Sidebar";
+import Footer from "components/Footer";
+import LinkReturnHome from "components/LinkReturnHome";
 
 type PostLayoutProps = {
   title: string;
-  date: string;
+  date?: string;
   hero?: string;
   text?: string;
-  children: React.ReactNode;
 };
 
 export default function LayoutPost({
@@ -15,30 +17,42 @@ export default function LayoutPost({
   date,
   hero,
   text,
-  children,
 }: PostLayoutProps) {
   return (
-    <div>
-      {/* Header */}
+    <div className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
+      <HeaderNavBarServer />
       <Header />
-      <div className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
-        <div className="max-w-3xl mx-auto px-6 py-12">
+
+      <div className="w-full bg-[#fefcf9] px-6 py-12 flex flex-col lg:flex-row-reverse gap-8">
+        {/* Sidebar */}
+        <aside className="lg:w-80 shrink-0">
+          <Sidebar />
+        </aside>
+
+        {/* Content */}
+        <article className="flex-1">
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
-          <p className="text-gray-500 italic mb-8">{date}</p>
+          {date && <p className="text-gray-500 italic mb-8">{date}</p>}
 
           {text && <p className="text-xl leading-relaxed mb-8">{text}</p>}
 
           {hero && (
-            <img
+            <Image
               src={hero}
               alt={title}
-              className="w-1/2 h-auto rounded-xl shadow mb-8 object-cover mx-auto"
+              width={1600}
+              height={900}
+              className="w-full h-auto object-cover rounded-xl"
+              priority
             />
           )}
 
-          <ReturnHome />
-        </div>
+          <div className="mt-8">
+            <LinkReturnHome />
+          </div>
+        </article>
       </div>
+
       <Footer />
     </div>
   );
