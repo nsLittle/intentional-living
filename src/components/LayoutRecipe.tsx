@@ -1,4 +1,5 @@
 // src/components/LayoutRecipe.tsx
+import Image from "next/image";
 import Header from "./Header";
 import Footer from "./Footer";
 import ReturnHome from "./LinkReturnHome";
@@ -14,6 +15,7 @@ type RecipeLayoutProps = {
   ingredients?: string[];
   steps?: string[];
   notes?: string;
+  pdf?: string;
   children: React.ReactNode;
 };
 
@@ -28,6 +30,7 @@ export default function LayoutRecipe({
   ingredients,
   steps,
   notes,
+  pdf,
   children,
 }: RecipeLayoutProps) {
   return (
@@ -55,9 +58,11 @@ export default function LayoutRecipe({
               {/* Image column (1/3) */}
               {hero ? (
                 <div className="md:col-span-1">
-                  <img
+                  <Image
                     src={hero}
                     alt={title}
+                    width={600}
+                    height={400}
                     className="w-full h-auto rounded-xl shadow object-cover"
                   />
                 </div>
@@ -120,13 +125,15 @@ export default function LayoutRecipe({
           ) : null}
 
           {/* Download PDF button */}
-          <a
-            href="/downloads/recipes/bold-earth.pdf"
-            download
-            className="inline-block bg-[#4b816d] text-white text-lg font-semibold px-6 py-3 rounded-full hover:bg-[#3b6c5a]"
-            aria-label="Download Bold Earth recipe PDF">
-            Download Recipe (PDF)
-          </a>
+          {pdf && (
+            <a
+              href="/downloads/recipes/bold-earth.pdf"
+              download
+              className="inline-block bg-[#4b816d] text-white text-lg font-semibold px-6 py-3 rounded-full hover:bg-[#3b6c5a]"
+              aria-label="Download Bold Earth recipe PDF">
+              Download Recipe (PDF)
+            </a>
+          )}
 
           {/* MDX body content (optional) */}
           <section className="prose">{children}</section>

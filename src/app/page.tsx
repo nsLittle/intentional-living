@@ -1,7 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
 import HeaderNavBarServer from "components/HeaderNavBarServer";
-import HeaderNavBar from "components/HeaderNavBar";
 import Header from "components/Header";
 import Sidebar from "components/Sidebar";
 import Footer from "components/Footer";

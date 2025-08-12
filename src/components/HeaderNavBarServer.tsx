@@ -1,6 +1,5 @@
 import HeaderNavBar from "./HeaderNavBar";
 import { getCollection, getHighlights } from "../lib/content";
-import { getRecentPost } from "lib/posts";
 
 export default async function HeaderNavBarServer() {
   const postsRecent = getCollection("posts", 5).map((p) => ({

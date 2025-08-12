@@ -18,12 +18,13 @@ export default async function RecipePage({
 }: {
   params: { slug: string };
 }) {
+  const { slug } = await params;
   const filePath = path.join(
     process.cwd(),
     "src",
     "content",
     "recipes",
-    `${params.slug}.mdx`
+    `${slug}.mdx`
   );
   const fileContent = fs.readFileSync(filePath, "utf8");
   const { content, data } = matter(fileContent);
@@ -41,6 +42,7 @@ export default async function RecipePage({
     : [];
   const steps: string[] = Array.isArray(data.steps) ? data.steps : [];
   const notes: string | undefined = data.notes ?? undefined;
+  const pdf: string | undefined = data.pdf ?? undefined;
 
   return (
     <div className="prose mx-auto px-6 py-12">
@@ -54,7 +56,8 @@ export default async function RecipePage({
         prepTime={prepTime}
         ingredients={ingredients}
         steps={steps}
-        notes={notes}>
+        notes={notes}
+        pdf={pdf}>
         <MDXRemote source={content} />
       </LayoutRecipe>
     </div>
