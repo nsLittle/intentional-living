@@ -1,3 +1,4 @@
+// src/components/HeaderNavBar.tsx
 "use client";
 
 import Link from "next/link";
@@ -83,11 +84,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             </div>
 
             {/* Static links for now */}
-            <Link
-              href="/recipes"
-              className="text-[#fefcf9] text-sm hover:underline">
-              Recipes
-            </Link>
             <Link
               href="/crafts"
               className="text-[#fefcf9] text-sm hover:underline">
@@ -232,9 +228,11 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                     href={h.href}
                     className="group block w-full">
                     <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-black/5">
-                      <img
+                      <Image
                         src={h.img}
                         alt=""
+                        width={400}
+                        height={300}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                       />
                     </div>
