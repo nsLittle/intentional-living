@@ -1,3 +1,4 @@
+// src/compoenents/LayoutAllRecipes.tsx
 import Link from "next/link";
 import Image from "next/image";
 import ReturnHome from "./LinkReturnHome";
@@ -7,19 +8,24 @@ type RecipeSummary = {
   title: string;
   date?: string;
   hero?: string;
-  text?: string; // intro / excerpt
+  text?: string;
 };
 
 type LayoutAllRecipesProps = {
   recipes: RecipeSummary[];
+  heading?: string;
 };
 
-export default function LayoutAllRecipes({ recipes }: LayoutAllRecipesProps) {
+export default function LayoutAllRecipes({
+  recipes,
+  heading,
+}: LayoutAllRecipesProps) {
   return (
     <div className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
       <div className="max-w-5xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-bold mb-8 text-center">All Recipes</h1>
-
+        <h1 className="text-4xl font-bold mb-8 text-center">
+          {heading ?? "All Recipes"} {/* UPDATED */}
+        </h1>
         <div className="grid gap-8 md:grid-cols-2 mb-12">
           {recipes.map((recipe) => (
             <Link
