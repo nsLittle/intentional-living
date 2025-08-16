@@ -1,4 +1,5 @@
 import Image from "next/image";
+import React from "react";
 import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Sidebar from "components/Sidebar";
@@ -10,6 +11,7 @@ type PostLayoutProps = {
   date?: string;
   hero?: string;
   text?: string;
+  children?: React.ReactNode;
 };
 
 export default function LayoutPost({
@@ -17,6 +19,7 @@ export default function LayoutPost({
   date,
   hero,
   text,
+  children,
 }: PostLayoutProps) {
   return (
     <div className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
@@ -50,6 +53,8 @@ export default function LayoutPost({
           <div className="mt-8">
             <LinkReturnHome />
           </div>
+
+          {children}
         </article>
       </div>
 

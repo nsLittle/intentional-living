@@ -30,7 +30,7 @@ export default async function PostPage({
   const { content, data } = matter(fileContent);
 
   return (
-    <div className="prose mx-auto px-6 py-12">
+    <div className="prose max-w-none px-0 py-0">
       <LayoutPost
         title={data.title}
         date={data.date}
