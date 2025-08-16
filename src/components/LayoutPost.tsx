@@ -44,7 +44,9 @@ export default function LayoutPost({
               <div className="md:col-span-2 space-y-6">
                 {text && (
                   <div
-                    className="text-lg leading-relaxed whitespace-pre-line"
+                    className="text-lg leading-relaxed whitespace-pre-line 
+             [&_a]:text-green-700 [&_a]:font-medium [&_a]:underline 
+             [&_a:hover]:text-green-900"
                     dangerouslySetInnerHTML={{ __html: text }}
                   />
                 )}
