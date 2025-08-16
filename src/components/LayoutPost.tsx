@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
+import { marked } from "marked";
 import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
-import Sidebar from "components/Sidebar";
 import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
 
@@ -13,6 +13,7 @@ type PostLayoutProps = {
   tags?: string[];
   text?: string;
   textToo?: string;
+  textThree?: string;
   children?: React.ReactNode;
 };
 
@@ -22,6 +23,7 @@ export default function LayoutPost({
   hero,
   text,
   textToo,
+  textThree,
   children,
 }: PostLayoutProps) {
   return (
@@ -36,22 +38,21 @@ export default function LayoutPost({
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
           {date && <p className="text-gray-500 italic mb-8">{date}</p>}
 
-          {text && <p className="text-xl leading-relaxed">{text}</p>}
-          {textToo && <p className="text-lg leading-relaxed">{textToo}</p>}
-
           {(text || hero) && (
             <div className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
               {/* Text column (2/3) */}
               <div className="md:col-span-2 space-y-6">
-                {text && <p className="text-xl leading-relaxed">{text}</p>}
-                {textToo && (
-                  <p className="text-lg leading-relaxed">{textToo}</p>
+                {text && (
+                  <div
+                    className="text-lg leading-relaxed whitespace-pre-line"
+                    dangerouslySetInnerHTML={{ __html: text }}
+                  />
                 )}
               </div>
 
               {/* Image column (1/3) */}
               {hero && (
-                <div className="md:col-span-1 md:pl-4">
+                <div className="md:col-span-1 md:pl">
                   <Image
                     src={hero}
                     alt={title}
