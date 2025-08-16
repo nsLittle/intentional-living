@@ -1,22 +1,23 @@
 // src/components/LayoutRecipe.tsx
 import Image from "next/image";
-import Header from "./Header";
-import Footer from "./Footer";
-import ReturnHome from "./LinkReturnHome";
+import React from "react";
+import HeaderNavBarServer from "components/HeaderNavBarServer";
+import Header from "components/Header";
+import Footer from "components/Footer";
+import LinkReturnHome from "components/LinkReturnHome";
 
 type RecipeLayoutProps = {
   title: string;
-  date?: string;
+  date: string;
   hero?: string;
   text?: string;
-  textToo?: string; // Optional additional text
+  textToo?: string;
   yield?: string;
   prepTime?: string;
   ingredients?: string[];
   steps?: string[];
-  notes?: string;
   pdf?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function LayoutRecipe({
@@ -29,15 +30,16 @@ export default function LayoutRecipe({
   prepTime,
   ingredients,
   steps,
-  notes,
   pdf,
   children,
 }: RecipeLayoutProps) {
   return (
-    <div>
+    <div className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
+      <HeaderNavBarServer />
       <Header />
-      <div className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
-        <div className="max-w-3xl mx-auto px-6 py-12">
+
+      <div className="w-full bg-[#fefcf9] px-6 py-12 flex flex-col items-center">
+        <article className="w-full max-w-3xl">
           {/* Title + date */}
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
           {date ? <p className="text-gray-500 italic mb-8">{date}</p> : null}
@@ -116,14 +118,6 @@ export default function LayoutRecipe({
             </section>
           ) : null}
 
-          {/* Notes */}
-          {notes ? (
-            <section className="mb-10">
-              <h2 className="text-2xl font-semibold mb-2">Notes</h2>
-              <p className="leading-relaxed">{notes}</p>
-            </section>
-          ) : null}
-
           {/* Download PDF button */}
           {pdf && (
             <a
@@ -139,9 +133,9 @@ export default function LayoutRecipe({
           <section className="prose">{children}</section>
 
           <div className="mt-10">
-            <ReturnHome />
+            <LinkReturnHome />
           </div>
-        </div>
+        </article>
       </div>
       <Footer />
     </div>

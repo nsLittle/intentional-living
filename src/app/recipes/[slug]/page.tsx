@@ -45,21 +45,19 @@ export default async function RecipePage({
   const pdf: string | undefined = data.pdf ?? undefined;
 
   return (
-    <div className="prose mx-auto px-6 py-12">
-      <LayoutRecipe
-        title={title}
-        date={date}
-        hero={hero}
-        text={text}
-        textToo={textToo}
-        yield={recipeYield}
-        prepTime={prepTime}
-        ingredients={ingredients}
-        steps={steps}
-        notes={notes}
-        pdf={pdf}>
-        <MDXRemote source={content} />
-      </LayoutRecipe>
-    </div>
+    <LayoutRecipe
+      title={title}
+      date={date}
+      hero={hero}
+      text={text}
+      textToo={textToo}
+      yield={recipeYield}
+      prepTime={prepTime}
+      ingredients={ingredients}
+      steps={steps}
+      notes={notes}
+      pdf={pdf}>
+      <MDXRemote source={content} />
+    </LayoutRecipe>
   );
 }

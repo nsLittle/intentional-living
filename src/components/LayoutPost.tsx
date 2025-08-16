@@ -10,7 +10,9 @@ type PostLayoutProps = {
   title: string;
   date?: string;
   hero?: string;
+  tags?: string[];
   text?: string;
+  textToo?: string;
   children?: React.ReactNode;
 };
 
@@ -19,6 +21,7 @@ export default function LayoutPost({
   date,
   hero,
   text,
+  textToo,
   children,
 }: PostLayoutProps) {
   return (
@@ -26,28 +29,39 @@ export default function LayoutPost({
       <HeaderNavBarServer />
       <Header />
 
-      <div className="w-full bg-[#fefcf9] px-6 py-12 flex flex-col lg:flex-row-reverse gap-8">
-        {/* Sidebar */}
-        <aside className="lg:w-80 shrink-0">
-          <Sidebar />
-        </aside>
-
+      <div className="w-full bg-[#fefcf9] px-6 py-12 flex flex-col items-center">
+        {" "}
         {/* Content */}
-        <article className="flex-1">
+        <article className="w-full max-w-3xl">
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
           {date && <p className="text-gray-500 italic mb-8">{date}</p>}
 
-          {text && <p className="text-xl leading-relaxed mb-8">{text}</p>}
+          {text && <p className="text-xl leading-relaxed">{text}</p>}
+          {textToo && <p className="text-lg leading-relaxed">{textToo}</p>}
 
-          {hero && (
-            <Image
-              src={hero}
-              alt={title}
-              width={1600}
-              height={900}
-              className="w-full h-auto object-cover rounded-xl"
-              priority
-            />
+          {(text || hero) && (
+            <div className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+              {/* Text column (2/3) */}
+              <div className="md:col-span-2 space-y-6">
+                {text && <p className="text-xl leading-relaxed">{text}</p>}
+                {textToo && (
+                  <p className="text-lg leading-relaxed">{textToo}</p>
+                )}
+              </div>
+
+              {/* Image column (1/3) */}
+              {hero && (
+                <div className="md:col-span-1 md:pl-4">
+                  <Image
+                    src={hero}
+                    alt={title}
+                    width={800}
+                    height={533}
+                    className="w-full h-auto rounded-xl shadow object-cover"
+                  />
+                </div>
+              )}
+            </div>
           )}
 
           <div className="mt-8">

@@ -25,6 +25,8 @@ body {
   margin: 0;
   padding: 0;
   background-color: #fefcf9 !important;
+  width: 100%;
+  height: 100%;
 }
 
 body {
@@ -36,6 +38,14 @@ main {
 }
 
 .blog-content p {
+  font-family: serif;
+  font-size: 1.25rem; /* text-xl */
+  line-height: 1.75; /* leading-relaxed */
+  color: #5c5045;
+  margin-bottom: 1.5rem;
+}
+
+.recipe-content p {
   font-family: serif;
   font-size: 1.25rem; /* text-xl */
   line-height: 1.75; /* leading-relaxed */
