@@ -4,6 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef } from "react";
+import DropDownPanelContainer from "./DropDownPanelContainer";
 import DropDownHighLightsGrid from "./DropDownPanelHighlightsGrid";
 import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
 import DropDownPanelRecentList from "./DropDownPanelRecentList";
@@ -136,93 +137,73 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
         </div>
       </div>
       {/*Dropdown panel for posts*/}
-      <div
-        onMouseEnter={() => openMenu("posts")}
-        onMouseLeave={scheduleClose}
-        onFocus={() => openMenu("posts")}
-        onBlur={scheduleClose}
-        className={`${
-          open === "posts"
-            ? "fixed top-14 left-0 w-full z-40 opacity-100 translate-y-0 pointer-events-auto"
-            : "fixed top-14 left-0 w-full z-40 opacity-0 -translate-y-1 pointer-events-none"
-        } transition-all duration-150`}>
-        <div className="bg-[#fefcf9] border-t border-black/10 shadow-lg">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 grid grid-cols-12 gap-6">
-            {/* Left column: section nav */}
-            <DropDownPanelCategoryGrid
-              className="col-span-12 md:col-span-3 md:col-start-1"
-              title="Posts"
-              allHref="/posts"
-              allLabel="All Posts →"
-              items={[
-                { href: "/posts/woodland", label: "Woodland Finds" },
-                { href: "/posts/kitchen", label: "Kitchen Recipes" },
-                { href: "/posts/crafts", label: "Crafty Creations" },
-              ]}
-            />
+      <DropDownPanelContainer
+        isOpen={open === "posts"}
+        onOpen={() => openMenu("posts")}
+        onClose={scheduleClose}>
+        {/* Left column: section nav */}
+        <DropDownPanelCategoryGrid
+          className="col-span-12 md:col-span-3 md:col-start-1"
+          title="Posts"
+          allHref="/posts"
+          allLabel="All Posts →"
+          items={[
+            { href: "/posts/woodland", label: "Woodland Finds" },
+            { href: "/posts/kitchen", label: "Kitchen Recipes" },
+            { href: "/posts/crafts", label: "Crafty Creations" },
+          ]}
+        />
 
-            {/* Middle column: recent posts */}
-            <DropDownPanelRecentList
-              className="col-span-12 md:col-span-4 md:col-start-5"
-              items={props.postsRecent}
-              emptyMessage="No posts yet."
-            />
+        {/* Middle column: recent posts */}
+        <DropDownPanelRecentList
+          className="col-span-12 md:col-span-4 md:col-start-5"
+          items={props.postsRecent}
+          emptyMessage="No posts yet."
+        />
 
-            {/* Right column: post highlights */}
-            <DropDownHighLightsGrid
-              className="col-span-12 md:col-span-3 md:col-start-9"
-              items={props.postsHighlights}
-              fallbackImg="/images/header-banner/log-garden.jpeg"
-              emptyMessage="No highlights yet."
-              maxItems={4}
-            />
-          </div>
-        </div>
-      </div>
+        {/* Right column: post highlights */}
+        <DropDownHighLightsGrid
+          className="col-span-12 md:col-span-3 md:col-start-9"
+          items={props.postsHighlights}
+          fallbackImg="/images/header-banner/log-garden.jpeg"
+          emptyMessage="No highlights yet."
+          maxItems={4}
+        />
+      </DropDownPanelContainer>
       {/* Dropdown panel for recipes */}
-      <div
-        onMouseEnter={() => openMenu("recipes")}
-        onMouseLeave={scheduleClose}
-        onFocus={() => openMenu("recipes")}
-        onBlur={scheduleClose}
-        className={`${
-          open === "recipes"
-            ? "fixed top-14 left-0 w-full z-40 opacity-100 translate-y-0 pointer-events-auto"
-            : "fixed top-14 left-0 w-full z-40 opacity-0 -translate-y-1 pointer-events-none"
-        } transition-all duration-150`}>
-        <div className="bg-[#fefcf9] border-t border-black/10 shadow-lg">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 grid grid-cols-12 gap-6">
-            {/* Left column: section nav */}
-            <DropDownPanelCategoryGrid
-              className="col-span-12 md:col-span-3 md:col-start-1"
-              title="Recipes"
-              allHref="/recipes"
-              allLabel="All Recipes →"
-              items={[
-                { href: "/recipes/spice-mix", label: "Spice Mix" },
-                { href: "/recipes/cookies", label: "Cookies in a Jar" },
-                { href: "/recipes/soup-pasta", label: "Soup & Pasta in a Jar" },
-              ]}
-            />
+      <DropDownPanelContainer
+        isOpen={open === "recipes"}
+        onOpen={() => openMenu("recipes")}
+        onClose={scheduleClose}>
+        {/* Left column */}
+        <DropDownPanelCategoryGrid
+          className="col-span-12 md:col-span-3 md:col-start-1"
+          title="Recipes"
+          allHref="/recipes"
+          allLabel="All Recipes →"
+          items={[
+            { href: "/recipes/spice-mix", label: "Spice Mix" },
+            { href: "/recipes/cookies", label: "Cookies in a Jar" },
+            { href: "/recipes/soup-pasta", label: "Soup & Pasta in a Jar" },
+          ]}
+        />
 
-            {/* Middle column: recent recipes */}
-            <DropDownPanelRecentList
-              className="col-span-12 md:col-span-4 md:col-start-5"
-              items={props.recipesRecent}
-              emptyMessage="No recipes yet."
-            />
+        {/* Middle column */}
+        <DropDownPanelRecentList
+          className="col-span-12 md:col-span-4 md:col-start-5"
+          items={props.recipesRecent}
+          emptyMessage="No recipes yet."
+        />
 
-            {/* Right column: recipe highlights */}
-            <DropDownHighLightsGrid
-              className="col-span-12 md:col-span-3 md:col-start-9"
-              items={props.recipesHighlights}
-              fallbackImg="/images/recipes/spice-mix/bold-earth.png"
-              emptyMessage="No highlights yet."
-              maxItems={4}
-            />
-          </div>
-        </div>
-      </div>
+        {/* Right column */}
+        <DropDownHighLightsGrid
+          className="col-span-12 md:col-span-3 md:col-start-9"
+          items={props.recipesHighlights}
+          fallbackImg="/images/recipes/spice-mix/bold-earth.png"
+          emptyMessage="No highlights yet."
+          maxItems={4}
+        />
+      </DropDownPanelContainer>
       ;
     </nav>
   );
