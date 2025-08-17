@@ -4,8 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef } from "react";
-import PostsDropdown from "./HeaderNavBarPostsDropdown";
-import RecipesDropdown from "./HeaderNavBarRecipesDropdown";
+import HighlightsGrid from "./HighlightsGrid";
 
 type MenuKey = "posts" | "recipes" | null;
 
@@ -203,45 +202,14 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               </ul>
             </div>
 
-            {/* Right column: two highlights */}
+            {/* Right column: post highlights (mirrors Recipes) */}
             <div className="col-span-12 md:col-span-3">
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  {
-                    title: "Spectral Ghost Pipes",
-                    href: "/posts/spectral-ghost-pipes",
-                    img: "/images/posts/ghost-pipe.jpeg",
-                  },
-                  {
-                    title: "Golden Fairy Rings",
-                    href: "/posts/golden-fairy-rings",
-                    img: "/images/posts/chanterelles.jpeg",
-                  },
-                  {
-                    title: "Luxury of the Meadows",
-                    href: "/posts/luxury-meadows",
-                    img: "/images/posts/little-wildflowers.jpeg",
-                  },
-                ].map((h) => (
-                  <Link
-                    key={h.href}
-                    href={h.href}
-                    className="group block w-full">
-                    <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-black/5">
-                      <Image
-                        src={h.img}
-                        alt=""
-                        width={400}
-                        height={300}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                      />
-                    </div>
-                    <div className="mt-1 text-xs font-medium text-[#2f5d4b] group-hover:underline">
-                      {h.title}
-                    </div>
-                  </Link>
-                ))}
-              </div>
+              <HighlightsGrid
+                items={props.postsHighlights}
+                fallbackImg="/images/header-banner/log-garden.jpeg"
+                emptyMessage="No highlights yet."
+                maxItems={4}
+              />
             </div>
           </div>
         </div>
@@ -317,45 +285,12 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
             {/* Right column: recipe highlights */}
             <div className="col-span-12 md:col-span-3">
-              <div className="grid grid-cols-2 gap-3">
-                {(props.recipesHighlights ?? []).map(
-                  (h: { title: string; href: string; img?: string }) => {
-                    const img =
-                      typeof h.img === "string" && h.img.length > 0
-                        ? h.img.startsWith("/")
-                          ? h.img
-                          : `/${h.img}`
-                        : "/images/recipes/spice-mix/bold-earth.png"; // fallback to one existing file
-
-                    return (
-                      <Link
-                        key={h.href}
-                        href={h.href}
-                        className="group block w-full">
-                        <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-black/5">
-                          <Image
-                            src={img}
-                            alt={h.title}
-                            width={400}
-                            height={300}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                          />
-                        </div>
-                        <div className="mt-1 text-xs font-medium text-[#2f5d4b] group-hover:underline">
-                          {h.title}
-                        </div>
-                      </Link>
-                    );
-                  }
-                )}
-
-                {(!props.recipesHighlights ||
-                  props.recipesHighlights.length === 0) && (
-                  <div className="text-xs text-[#7a6f64] italic col-span-2">
-                    No highlights yet.
-                  </div>
-                )}
-              </div>
+              <HighlightsGrid
+                items={props.recipesHighlights}
+                fallbackImg="/images/recipes/spice-mix/bold-earth.png"
+                emptyMessage="No highlights yet."
+                maxItems={4}
+              />
             </div>
           </div>
         </div>

@@ -1,18 +1,12 @@
+// src/components/HeaderNavBarServer.tsx
 import HeaderNavBar from "./HeaderNavBar";
-import { getCollection, getHighlights } from "../lib/content";
-import { getAllRecipes } from "lib/recipes";
+import { getAllRecipes } from "../lib/recipes";
+import { getRecentPosts, getPostHighlights } from "../lib/posts";
 
 export default async function HeaderNavBarServer() {
-  const postsRecent = getCollection("posts", 5).map((p) => ({
-    title: p.title,
-    href: `/posts/${p.slug}`,
-  }));
+  const postsRecent = getRecentPosts(5);
 
-  const postsHighlights = getHighlights("posts", 2).map((p) => ({
-    title: p.title,
-    href: `/posts/${p.slug}`,
-    img: p.coverImage,
-  }));
+  const postsHighlights = getPostHighlights(4);
 
   const recipesRecent = getAllRecipes()
     .slice(0, 6)
