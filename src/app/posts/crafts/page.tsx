@@ -34,15 +34,15 @@ export default function CraftyPostsPage() {
     <>
       <HeaderNavBarServer />
       <Header />
-      <div className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
+      <div className="bg-white text-black">
         <div className="max-w-5xl mx-auto px-6 py-12">
-          <h1 className="text-4xl font-bold mb-8 text-center">
+          <h1 className="font-serif text-[#5c5045] text-4xl font-bold text-center">
             Posts about Crafty Projects
           </h1>
-          <LayoutAllPosts posts={craftyPosts} />
-          <Footer />
         </div>
       </div>
+      <LayoutAllPosts posts={craftyPosts} />
+      <Footer />
     </>
   );
 }

@@ -39,11 +39,10 @@ export default function KitchenPostsPage() {
           <h1 className="font-serif text-[#5c5045] text-4xl font-bold text-center">
             Posts from the Kitchen
           </h1>
-
-          <LayoutAllPosts posts={kitchenPosts} />
-          <Footer />
         </div>
       </div>
+      <LayoutAllPosts posts={kitchenPosts} />
+      <Footer />
     </>
   );
 }
