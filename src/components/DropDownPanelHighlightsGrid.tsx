@@ -1,17 +1,17 @@
-// src/components/HighlightsGrid.tsx
+// src/components/DropDownHighLightsGrid.tsx
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
 
-export type HighlightItem = {
+export type DropDownHighLightsGridItem = {
   title: string;
   href: string;
   img?: string;
 };
 
-export type HighlightsGridProps = {
-  items?: HighlightItem[];
+export type DropDownHighLightsGridsGridProps = {
+  items?: DropDownHighLightsGridItem[];
   fallbackImg: string;
   emptyMessage?: string;
   className?: string;
@@ -23,13 +23,13 @@ function normalizeImg(src: string | undefined, fallbackImg: string) {
   return src.startsWith("/") ? src : `/${src}`;
 }
 
-export default function HighlightsGrid({
+export default function DropDownHighLightsGrid({
   items = [],
   fallbackImg,
-  emptyMessage = "No highlights yet.",
+  emptyMessage = "No DropDownHighLightsGrids yet.",
   className,
   maxItems,
-}: HighlightsGridProps) {
+}: DropDownHighLightsGridsGridProps) {
   const list = maxItems ? items.slice(0, maxItems) : items;
   const hasItems = list.length > 0;
 

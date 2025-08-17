@@ -4,7 +4,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef } from "react";
-import HighlightsGrid from "./HighlightsGrid";
+import DropDownHighLightsGrid from "./DropDownPanelHighlightsGrid";
+import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
+import DropDownPanelRecentList from "./DropDownPanelRecentList";
 
 type MenuKey = "posts" | "recipes" | null;
 
@@ -147,70 +149,33 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
         <div className="bg-[#fefcf9] border-t border-black/10 shadow-lg">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 grid grid-cols-12 gap-6">
             {/* Left column: section nav */}
-            <div className="col-span-12 md:col-span-3">
-              <h4 className="font-serif text-lg text-[#2f5d4b]">Posts</h4>
-              <ul className="mt-3 space-y-2 text-sm">
-                <li>
-                  <Link
-                    href="/posts"
-                    className="text-[#5c5045] hover:underline">
-                    All Posts →
-                  </Link>
-                </li>
-                <br />
-                <li>
-                  <Link
-                    href="/posts/woodland"
-                    className="text-[#5c5045] hover:underline">
-                    Woodland Finds
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/posts/kitchen"
-                    className="text-[#5c5045] hover:underline">
-                    Kitchen Recipes
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/posts/crafts"
-                    className="text-[#5c5045] hover:underline">
-                    Crafty Creations
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            <DropDownPanelCategoryGrid
+              className="col-span-12 md:col-span-3 md:col-start-1"
+              title="Posts"
+              allHref="/posts"
+              allLabel="All Posts →"
+              items={[
+                { href: "/posts/woodland", label: "Woodland Finds" },
+                { href: "/posts/kitchen", label: "Kitchen Recipes" },
+                { href: "/posts/crafts", label: "Crafty Creations" },
+              ]}
+            />
 
             {/* Middle column: recent posts */}
-            <div className="col-span-12 md:col-span-5">
-              <ul className="mt-2 divide-y divide-black/5">
-                {(props.postsRecent ?? []).map((p) => (
-                  <li key={p.href} className="py-2">
-                    <Link
-                      href={p.href}
-                      className="text-sm text-[#3f372f] hover:underline">
-                      {p.title}
-                    </Link>
-                  </li>
-                ))}
-                {(!props.postsRecent || props.postsRecent.length === 0) && (
-                  <li className="py-2 text-sm text-[#7a6f64] italic">
-                    No posts yet.
-                  </li>
-                )}
-              </ul>
-            </div>
+            <DropDownPanelRecentList
+              className="col-span-12 md:col-span-4 md:col-start-5"
+              items={props.postsRecent}
+              emptyMessage="No posts yet."
+            />
 
-            {/* Right column: post highlights (mirrors Recipes) */}
-            <div className="col-span-12 md:col-span-3">
-              <HighlightsGrid
-                items={props.postsHighlights}
-                fallbackImg="/images/header-banner/log-garden.jpeg"
-                emptyMessage="No highlights yet."
-                maxItems={4}
-              />
-            </div>
+            {/* Right column: post highlights */}
+            <DropDownHighLightsGrid
+              className="col-span-12 md:col-span-3 md:col-start-9"
+              items={props.postsHighlights}
+              fallbackImg="/images/header-banner/log-garden.jpeg"
+              emptyMessage="No highlights yet."
+              maxItems={4}
+            />
           </div>
         </div>
       </div>
@@ -228,70 +193,33 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
         <div className="bg-[#fefcf9] border-t border-black/10 shadow-lg">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 grid grid-cols-12 gap-6">
             {/* Left column: section nav */}
-            <div className="col-span-12 md:col-span-3">
-              <h4 className="font-serif text-lg text-[#2f5d4b]">Recipes</h4>
-              <ul className="mt-3 space-y-2 text-sm">
-                <li>
-                  <Link
-                    href="/recipes"
-                    className="text-[#5c5045] hover:underline">
-                    All Recipes →
-                  </Link>
-                </li>
-                <br />
-                <li>
-                  <Link
-                    href="/recipes/spice-mix"
-                    className="text-[#5c5045] hover:underline">
-                    Spice Mix
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/recipes/cookies"
-                    className="text-[#5c5045] hover:underline">
-                    Cookies in a Jar
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/recipes/soup-pasta"
-                    className="text-[#5c5045] hover:underline">
-                    Soup & Pasta in a Jar
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            <DropDownPanelCategoryGrid
+              className="col-span-12 md:col-span-3 md:col-start-1"
+              title="Recipes"
+              allHref="/recipes"
+              allLabel="All Recipes →"
+              items={[
+                { href: "/recipes/spice-mix", label: "Spice Mix" },
+                { href: "/recipes/cookies", label: "Cookies in a Jar" },
+                { href: "/recipes/soup-pasta", label: "Soup & Pasta in a Jar" },
+              ]}
+            />
 
             {/* Middle column: recent recipes */}
-            <div className="col-span-12 md:col-span-5">
-              <ul className="mt-2 divide-y divide-black/5">
-                {(props.recipesRecent ?? []).map((r) => (
-                  <li key={r.href} className="py-2">
-                    <Link
-                      href={r.href}
-                      className="text-sm text-[#3f372f] hover:underline">
-                      {r.title}
-                    </Link>
-                  </li>
-                ))}
-                {(!props.recipesRecent || props.recipesRecent.length === 0) && (
-                  <li className="py-2 text-sm text-[#7a6f64] italic">
-                    No recipes yet.
-                  </li>
-                )}
-              </ul>
-            </div>
+            <DropDownPanelRecentList
+              className="col-span-12 md:col-span-4 md:col-start-5"
+              items={props.recipesRecent}
+              emptyMessage="No recipes yet."
+            />
 
             {/* Right column: recipe highlights */}
-            <div className="col-span-12 md:col-span-3">
-              <HighlightsGrid
-                items={props.recipesHighlights}
-                fallbackImg="/images/recipes/spice-mix/bold-earth.png"
-                emptyMessage="No highlights yet."
-                maxItems={4}
-              />
-            </div>
+            <DropDownHighLightsGrid
+              className="col-span-12 md:col-span-3 md:col-start-9"
+              items={props.recipesHighlights}
+              fallbackImg="/images/recipes/spice-mix/bold-earth.png"
+              emptyMessage="No highlights yet."
+              maxItems={4}
+            />
           </div>
         </div>
       </div>
