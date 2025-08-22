@@ -1,6 +1,6 @@
+// src/components/LayoutPost.tsx
 import Image from "next/image";
 import React from "react";
-import { marked } from "marked";
 import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Footer from "components/Footer";
@@ -12,8 +12,6 @@ type PostLayoutProps = {
   hero?: string;
   tags?: string[];
   text?: string;
-  textToo?: string;
-  textThree?: string;
   children?: React.ReactNode;
 };
 
@@ -22,8 +20,6 @@ export default function LayoutPost({
   date,
   hero,
   text,
-  textToo,
-  textThree,
   children,
 }: PostLayoutProps) {
   return (
