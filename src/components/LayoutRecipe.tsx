@@ -121,7 +121,7 @@ export default function LayoutRecipe({
           {/* Download PDF button */}
           {pdf && (
             <a
-              href="/downloads/recipes/bold-earth.pdf"
+              href={`/downloads/recipes/${pdf}`}
               download
               className="inline-block bg-[#4b816d] text-white text-lg font-semibold px-6 py-3 rounded-full hover:bg-[#3b6c5a]"
               aria-label="Download Bold Earth recipe PDF">
