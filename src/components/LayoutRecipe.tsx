@@ -131,7 +131,7 @@ export default function LayoutRecipe({
           ) : null}
 
           <h2 className="text-3xl font-semibold mb-10 my-20">
-            Baking Instructions
+            Cooking/Baking Instructions
           </h2>
           {/* Baking section */}
           {/* Meta row (yield / prep time) */}
