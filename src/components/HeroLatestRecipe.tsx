@@ -1,19 +1,35 @@
+// src/components/HeroLatestRecipe.tsx
+import Image from "next/image";
 import Link from "next/link";
 import { getLatestRecipe } from "lib/recipes";
 
 export default function HeroLatestRecipe() {
   const recipe = getLatestRecipe();
 
-  if (!recipe) return null;
+  if (!recipe) {
+    console.log("[HeroLatestRecipe] No recipe returned from getLatestRecipe()");
+    return (
+      <section className="my-12 border border-red-300 rounded-lg p-4">
+        <h2 className="text-xl font-semibold text-red-700">
+          No latest recipe found.
+        </h2>
+        <p className="text-sm text-red-600">
+          getLatestRecipe() returned null/undefined.
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section className="my-12">
       <h2 className="text-4xl font-bold mb-6">My Latest Kitchen Goodies…</h2>
       <div className="flex flex-col md:flex-row items-start gap-6">
         {recipe.hero && (
-          <img
+          <Image
             src={recipe.hero}
             alt={recipe.title}
+            height={400}
+            width={300}
             className="w-[300px] h-[400px] object-cover rounded-xl shadow-md"
           />
         )}

@@ -1,18 +1,23 @@
+// src/components/HeroFeaturedRecipes.tsx
+import Image from "next/image";
+
 export default function HeroFeaturedRecipes() {
   return (
     <div>
       <h2 className="text-3xl font-bold text-black">
         Featured Recipes & Guides
       </h2>
-      <p className="mt-4 text-2xl mb-6 max-w-">
+      <p className="mt-4 text-xl mb-6 max-w-">
         Seasonal foraging finds and wild food recipes from the Vermont woods.
         Learn to identify, harvest, and prepare nature's bounty safely and
         sustainably.
       </p>
 
-      <img
+      <Image
         src="/images/posts/cat-in-moss.png"
         alt="Cat in moss"
+        width={600}
+        height={400}
         className="rounded-xl shadow-lg w-full max-w-md object-cover"
       />
 

@@ -1,3 +1,5 @@
+// src/components/HeroLatestPost.tsx
+import Image from "next/image";
 import Link from "next/link";
 import { getLatestPost } from "lib/posts";
 
@@ -11,9 +13,11 @@ export default function HeroLatestPost() {
       <h2 className="text-4xl font-bold mb-6">My Latest Prattling…</h2>
       <div className="flex flex-col md:flex-row items-start gap-6">
         {post.hero && (
-          <img
+          <Image
             src={post.hero}
             alt={post.title}
+            height={400}
+            width={300}
             className="w-[300px] h-[400px] object-cover rounded-xl shadow-md"
           />
         )}
