@@ -22,7 +22,7 @@ export default async function RecipePage({
   const { slug: slugParam } = await params;
   const slugParts = Array.isArray(slugParam) ? slugParam : [slugParam];
 
-  if (slugParts.length < 2) {
+  if (slugParts.length < 1) {
     return notFound();
   }
 
@@ -30,7 +30,13 @@ export default async function RecipePage({
     path.join(process.cwd(), "src", "content", "recipes", ...slugParts) +
     ".mdx";
 
-  const fileContent = fs.readFileSync(filePath, "utf8");
+  let fileContent: string;
+  try {
+    fileContent = fs.readFileSync(filePath, "utf8");
+  } catch {
+    return notFound(); // renders your global app/not-found.tsx
+  }
+
   const { content, data } = matter(fileContent);
 
   // Normalize frontmatter keys we expect in the layout
