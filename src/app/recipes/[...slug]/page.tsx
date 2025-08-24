@@ -39,6 +39,14 @@ export default async function RecipePage({
 
   const { content, data } = matter(fileContent);
 
+  console.log("FM keys", Object.keys(data));
+  console.log("FM baking fields (exact)", {
+    bakingPrepTime: data.bakingPrepTime,
+    bakingTime: data.bakingTime,
+    bakingIngredients: data.bakingIngredients,
+    bakingSteps: data.bakingSteps,
+  });
+
   // Normalize frontmatter keys we expect in the layout
   const title = data.title ?? data.recipe ?? params.slug;
   const date = data.date ?? undefined;
@@ -51,6 +59,14 @@ export default async function RecipePage({
     ? data.ingredients
     : [];
   const steps: string[] = Array.isArray(data.steps) ? data.steps : [];
+  const bakingPrepTime = data.bakingPrepTime ?? undefined;
+  const bakingTime = data.bakingTime ?? undefined;
+  const bakingIngredients: string[] = Array.isArray(data.bakingIngredients)
+    ? data.bakingIngredients
+    : [];
+  const bakingSteps: string[] = Array.isArray(data.bakingSteps)
+    ? data.bakingSteps
+    : [];
   const notes: string | undefined = data.notes ?? undefined;
   const pdf: string | undefined = data.pdf ?? undefined;
 
@@ -65,6 +81,10 @@ export default async function RecipePage({
       prepTime={prepTime}
       ingredients={ingredients}
       steps={steps}
+      bakingPrepTime={bakingPrepTime}
+      bakingTime={bakingTime}
+      bakingIngredients={bakingIngredients}
+      bakingSteps={bakingSteps}
       notes={notes}
       pdf={pdf}>
       <MDXRemote source={content} />

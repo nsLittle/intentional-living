@@ -16,6 +16,10 @@ type RecipeLayoutProps = {
   prepTime?: string;
   ingredients?: string[];
   steps?: string[];
+  bakingPrepTime?: string;
+  bakingTime?: string;
+  bakingIngredients?: string[];
+  bakingSteps?: string[];
   pdf?: string;
   children?: React.ReactNode;
 };
@@ -30,6 +34,10 @@ export default function LayoutRecipe({
   prepTime,
   ingredients,
   steps,
+  bakingPrepTime,
+  bakingTime,
+  bakingIngredients,
+  bakingSteps,
   pdf,
   children,
 }: RecipeLayoutProps) {
@@ -72,6 +80,10 @@ export default function LayoutRecipe({
             </div>
           )}
 
+          <h2 className="text-3xl font-semibold mb-10 my-20">
+            Jarring Instructions
+          </h2>
+          {/* Jarring Section */}
           {/* Meta row (yield / prep time) */}
           {(recipeYield || prepTime) && (
             <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -112,6 +124,58 @@ export default function LayoutRecipe({
               <h2 className="text-2xl font-semibold mb-4">Steps</h2>
               <ol className="list-decimal pl-6 space-y-3">
                 {steps.map((step, idx) => (
+                  <li key={idx}>{step}</li>
+                ))}
+              </ol>
+            </section>
+          ) : null}
+
+          <h2 className="text-3xl font-semibold mb-10 my-20">
+            Baking Instructions
+          </h2>
+          {/* Baking section */}
+          {/* Meta row (yield / prep time) */}
+          {(bakingPrepTime || bakingTime) && (
+            <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {bakingPrepTime && (
+                <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
+                  <div className="text-sm uppercase tracking-wide text-gray-500">
+                    Baking Prep Time
+                  </div>
+                  <div className="text-lg">{bakingPrepTime}</div>
+                </div>
+              )}
+              {bakingTime && (
+                <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
+                  <div className="text-sm uppercase tracking-wide text-gray-500">
+                    Baking Time
+                  </div>
+                  <div className="text-lg">{bakingTime}</div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Ingredients */}
+          {bakingIngredients?.length ? (
+            <section className="mb-10">
+              <h2 className="text-2xl font-semibold mb-4">
+                Baking Ingredients
+              </h2>
+              <ul className="list-disc pl-6 space-y-2">
+                {bakingIngredients.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {/* Steps */}
+          {bakingSteps?.length ? (
+            <section className="mb-10">
+              <h2 className="text-2xl font-semibold mb-4">Baking Steps</h2>
+              <ol className="list-decimal pl-6 space-y-3">
+                {bakingSteps.map((step, idx) => (
                   <li key={idx}>{step}</li>
                 ))}
               </ol>
