@@ -4,7 +4,7 @@ import path from "node:path";
 import React from "react";
 import matter from "gray-matter";
 import { marked } from "marked";
-import LayoutPost from "components/LayoutPost"; // adjust if your alias differs
+import LayoutPost from "components/LayoutPost";
 
 export const metadata = {
   title: "About — Simple Intentions",
@@ -12,7 +12,6 @@ export const metadata = {
     "Mother, home cook, and creator of Simple Intentions — recipes, foraging, and intentional living from Vermont.",
 };
 
-// If you keep content elsewhere, update this path
 const ABOUT_MDX_PATH = path.join(process.cwd(), "src", "content", "about.mdx");
 
 type Frontmatter = {

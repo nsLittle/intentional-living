@@ -1,31 +1,35 @@
 // src/app/recipes/[slug]/page.tsx
+import { notFound } from "next/navigation";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import LayoutRecipe from "components/LayoutRecipe";
+import { getAllRecipes } from "lib/recipes";
 
+const CONTENT_DIR = path.join(process.cwd(), "src", "content", "recipes");
+
+// Emit params for nested files, e.g. { slug: ["cookies","m-and-m-cookies"] }
 export async function generateStaticParams() {
-  const dir = path.join(process.cwd(), "src", "content", "recipes");
-  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"));
-  return files.map((file) => ({
-    slug: file.replace(/\.mdx$/, ""),
-  }));
+  return getAllRecipes().map((r) => ({ slug: r.slug.split("/") }));
 }
 
 export default async function RecipePage({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string | string[] };
 }) {
-  const { slug } = await params;
-  const filePath = path.join(
-    process.cwd(),
-    "src",
-    "content",
-    "recipes",
-    `${slug}.mdx`
-  );
+  const { slug: slugParam } = await params;
+  const slugParts = Array.isArray(slugParam) ? slugParam : [slugParam];
+
+  if (slugParts.length < 2) {
+    return notFound();
+  }
+
+  const filePath =
+    path.join(process.cwd(), "src", "content", "recipes", ...slugParts) +
+    ".mdx";
+
   const fileContent = fs.readFileSync(filePath, "utf8");
   const { content, data } = matter(fileContent);
 

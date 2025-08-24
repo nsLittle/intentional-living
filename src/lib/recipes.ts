@@ -2,6 +2,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { globSync } from "glob";
 
 const RECIPES_DIR = path.join(process.cwd(), "src", "content", "recipes");
 
@@ -41,10 +42,12 @@ function readRecipeFile(slug: string): RecipeMeta | null {
 export function getAllRecipes(): RecipeMeta[] {
   if (!fs.existsSync(RECIPES_DIR)) return [];
 
-  const slugs = fs
-    .readdirSync(RECIPES_DIR)
-    .filter((f) => f.endsWith(".mdx"))
-    .map((f) => f.replace(/\.mdx$/, ""));
+  const slugs = globSync("**/*.mdx", { cwd: RECIPES_DIR }).map((f) =>
+    f.replace(/\.mdx$/, "")
+  );
+
+  // ⬇️ TEMP DEBUG — add this, then reload the /recipes page
+  console.log("[getAllRecipes] slugs:", slugs);
 
   const items = slugs
     .map(readRecipeFile)

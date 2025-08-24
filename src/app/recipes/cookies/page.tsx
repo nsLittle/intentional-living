@@ -10,7 +10,7 @@ import Footer from "components/Footer";
 
 const RECIPES_DIR = path.join(process.cwd(), "src", "content", "recipes");
 
-export default function SpiceMixRecipesPage() {
+export default function cookiesRecipesPage() {
   const files = globSync("**/*.mdx", { cwd: RECIPES_DIR });
 
   const allRecipes = files.map((file) => {
@@ -27,24 +27,18 @@ export default function SpiceMixRecipesPage() {
       title: (data.title as string) ?? slug,
       date: typeof data.date === "string" ? data.date : undefined,
       hero: typeof data.hero === "string" ? data.hero : undefined,
-      text:
-        (data.text as string) ??
-        (data.description as string) ??
-        (data["text too"] as string) ??
-        undefined,
+      text: (data.text as string) ?? (data.description as string) ?? undefined,
       tags,
     };
   });
 
-  const spiceMixRecipes = allRecipes.filter((r) =>
-    r.tags.includes("spice-mix")
-  );
+  const cookiesRecipes = allRecipes.filter((r) => r.tags.includes("cookies"));
 
   return (
     <>
       <HeaderNavBarServer />
       <Header />
-      <LayoutAllRecipes heading="Spice Mix Recipes" recipes={spiceMixRecipes} />
+      <LayoutAllRecipes heading="Cookies Recipes" recipes={cookiesRecipes} />
       <Footer />
     </>
   );

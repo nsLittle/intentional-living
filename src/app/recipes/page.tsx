@@ -2,6 +2,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { globSync } from "glob";
 import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import LayoutAllRecipes from "components/LayoutAllRecipes";
@@ -10,7 +11,7 @@ import Footer from "components/Footer";
 
 export default function RecipesPage() {
   const dir = path.join(process.cwd(), "src", "content", "recipes");
-  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"));
+  const files = globSync("**/*.mdx", { cwd: dir });
 
   const recipes = files.map((file) => {
     const slug = file.replace(/\.mdx$/, "");
