@@ -1,3 +1,5 @@
+// src/app/page.tsx
+
 import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Sidebar from "components/Sidebar";

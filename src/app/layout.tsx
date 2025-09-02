@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+// src/app/layout.tsx
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
