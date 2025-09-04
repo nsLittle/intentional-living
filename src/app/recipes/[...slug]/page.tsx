@@ -39,34 +39,50 @@ export default async function RecipePage({
 
   const { content, data } = matter(fileContent);
 
-  console.log("FM keys", Object.keys(data));
-  console.log("FM baking fields (exact)", {
-    bakingPrepTime: data.bakingPrepTime,
-    bakingTime: data.bakingTime,
-    bakingIngredients: data.bakingIngredients,
-    bakingSteps: data.bakingSteps,
-  });
-
   // Normalize frontmatter keys we expect in the layout
   const title = data.title ?? data.recipe ?? params.slug;
   const date = data.date ?? undefined;
   const hero = data.hero ?? undefined;
   const text = data.text ?? undefined;
-  const textToo = data.textToo ?? undefined;
   const recipeYield = data.yield ?? undefined;
   const prepTime = data.prepTime ?? data["prep time"] ?? undefined;
   const ingredients: string[] = Array.isArray(data.ingredients)
     ? data.ingredients
     : [];
   const steps: string[] = Array.isArray(data.steps) ? data.steps : [];
-  const bakingPrepTime = data.bakingPrepTime ?? undefined;
-  const bakingTime = data.bakingTime ?? undefined;
-  const bakingIngredients: string[] = Array.isArray(data.bakingIngredients)
-    ? data.bakingIngredients
-    : [];
-  const bakingSteps: string[] = Array.isArray(data.bakingSteps)
-    ? data.bakingSteps
-    : [];
+  const bakingPrepTime =
+    data.bakingPrepTime ?? data.cookingPrepTime ?? undefined;
+  const bakingTime = data.bakingTime ?? data.cookingTime ?? undefined;
+  const bakingIngredients: string[] =
+    Array.isArray(data.bakingIngredients) && data.bakingIngredients.length
+      ? data.bakingIngredients
+      : Array.isArray(data.cookingIngredients)
+      ? data.cookingIngredients
+      : [];
+  const bakingSteps: string[] =
+    Array.isArray(data.bakingSteps) && data.bakingSteps.length
+      ? data.bakingSteps
+      : Array.isArray(data.cookingSteps)
+      ? data.cookingSteps
+      : [];
+  // Decide which label to show based on which fields exist
+  const hasBaking =
+    Boolean(data.bakingPrepTime || data.bakingTime) ||
+    (Array.isArray(data.bakingIngredients) &&
+      data.bakingIngredients.length > 0) ||
+    (Array.isArray(data.bakingSteps) && data.bakingSteps.length > 0);
+
+  const hasCooking =
+    Boolean(data.cookingPrepTime || data.cookingTime) ||
+    (Array.isArray(data.cookingIngredients) &&
+      data.cookingIngredients.length > 0) ||
+    (Array.isArray(data.cookingSteps) && data.cookingSteps.length > 0);
+
+  const methodLabel: "Baking" | "Cooking" | undefined = hasBaking
+    ? "Baking"
+    : hasCooking
+    ? "Cooking"
+    : undefined;
   const notes: string | undefined = data.notes ?? undefined;
   const pdf: string | undefined = data.pdf ?? undefined;
 
@@ -76,7 +92,6 @@ export default async function RecipePage({
       date={date}
       hero={hero}
       text={text}
-      textToo={textToo}
       yield={recipeYield}
       prepTime={prepTime}
       ingredients={ingredients}
@@ -86,7 +101,8 @@ export default async function RecipePage({
       bakingIngredients={bakingIngredients}
       bakingSteps={bakingSteps}
       notes={notes}
-      pdf={pdf}>
+      pdf={pdf}
+      methodLabel={methodLabel}>
       <MDXRemote source={content} />
     </LayoutRecipe>
   );

@@ -22,6 +22,7 @@ type RecipeLayoutProps = {
   bakingSteps?: string[];
   pdf?: string;
   children?: React.ReactNode;
+  methodLabel?: "Baking" | "Cooking";
 };
 
 export default function LayoutRecipe({
@@ -40,7 +41,9 @@ export default function LayoutRecipe({
   bakingSteps,
   pdf,
   children,
+  methodLabel,
 }: RecipeLayoutProps) {
+  const method = methodLabel ?? "Baking";
   return (
     <div className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
       <HeaderNavBarServer />
@@ -58,10 +61,9 @@ export default function LayoutRecipe({
               {/* Text column (2/3) */}
               <div className="md:col-span-2 space-y-6">
                 {text ? (
-                  <p className="text-xl leading-relaxed">{text}</p>
-                ) : null}
-                {textToo ? (
-                  <p className="text-lg leading-relaxed">{textToo}</p>
+                  <p className="text-xl leading-relaxed whitespace-pre-line">
+                    {text}
+                  </p>
                 ) : null}
               </div>
 
@@ -131,7 +133,7 @@ export default function LayoutRecipe({
           ) : null}
 
           <h2 className="text-3xl font-semibold mb-10 my-20">
-            Baking Instructions
+            {method} Instructions
           </h2>
           {/* Baking section */}
           {/* Meta row (yield / prep time) */}
@@ -140,7 +142,7 @@ export default function LayoutRecipe({
               {bakingPrepTime && (
                 <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
                   <div className="text-sm uppercase tracking-wide text-gray-500">
-                    Baking Prep Time
+                    {method} Prep Time
                   </div>
                   <div className="text-lg">{bakingPrepTime}</div>
                 </div>
@@ -148,7 +150,7 @@ export default function LayoutRecipe({
               {bakingTime && (
                 <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
                   <div className="text-sm uppercase tracking-wide text-gray-500">
-                    Baking Time
+                    {method} Time
                   </div>
                   <div className="text-lg">{bakingTime}</div>
                 </div>
@@ -160,7 +162,7 @@ export default function LayoutRecipe({
           {bakingIngredients?.length ? (
             <section className="mb-10">
               <h2 className="text-2xl font-semibold mb-4">
-                Baking Ingredients
+                {method} Ingredients
               </h2>
               <ul className="list-disc pl-6 space-y-2">
                 {bakingIngredients.map((item, idx) => (
@@ -173,7 +175,7 @@ export default function LayoutRecipe({
           {/* Steps */}
           {bakingSteps?.length ? (
             <section className="mb-10">
-              <h2 className="text-2xl font-semibold mb-4">Baking Steps</h2>
+              <h2 className="text-2xl font-semibold mb-4"> {method} Steps</h2>
               <ol className="list-decimal pl-6 space-y-3">
                 {bakingSteps.map((step, idx) => (
                   <li key={idx}>{step}</li>
