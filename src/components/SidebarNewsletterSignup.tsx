@@ -1,41 +1,11 @@
+// src/components/SidebarNewsletterSignup.tsx
 "use client";
 
-import { useState, type FormEvent } from "react";
-
-type Status = "idle" | "submitting" | "success" | "exists" | "error";
+import { useNewsletterSignup } from "hooks/newsletterSignup";
 
 export default function SidebarNewsletterSignup() {
-  const [email, setEmail] = useState("");
-  // Honeypot: bots tend to fill every input; humans never see this.
-  const [website, setWebsite] = useState("");
-  const [status, setStatus] = useState<Status>("idle");
-  const [error, setError] = useState<string>("");
-
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("submitting");
-    setError("");
-
-    try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, website }),
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data?.ok) {
-        throw new Error(data?.error || "Subscribe failed.");
-      }
-
-      setEmail("");
-      setWebsite("");
-      setStatus(data.status === "already-subscribed" ? "exists" : "success");
-    } catch (err: any) {
-      setStatus("error");
-      setError(err?.message || "Unexpected error.");
-    }
-  }
+  const { email, setEmail, website, setWebsite, status, error, onSubmit } =
+    useNewsletterSignup();
 
   return (
     <div className="bg-[#3b6c5a] text-white p-6 rounded-xl shadow-md mt-8">
