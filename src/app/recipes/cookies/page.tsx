@@ -32,7 +32,16 @@ export default function cookiesRecipesPage() {
     };
   });
 
-  const cookiesRecipes = allRecipes.filter((r) => r.tags.includes("cookies"));
+  const cookiesRecipes = allRecipes
+    .filter((r) => r.tags.includes("cookies"))
+    .sort((a, b) => {
+      const ad = Date.parse(a.date ?? "");
+      const bd = Date.parse(b.date ?? "");
+      if ((bd || 0) !== (ad || 0)) return (bd || 0) - (ad || 0); // newer first
+      const at = (a.title ?? a.slug ?? "").toString();
+      const bt = (b.title ?? b.slug ?? "").toString();
+      return at.localeCompare(bt, undefined, { sensitivity: "base" }); // A→Z on tie
+    });
 
   return (
     <>
