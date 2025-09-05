@@ -5,6 +5,7 @@ import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
+import ButtonDownloadPdf from "components/ButtonDownloadPdf";
 
 type RecipeLayoutProps = {
   title: string;
@@ -186,13 +187,11 @@ export default function LayoutRecipe({
 
           {/* Download PDF button */}
           {pdf && (
-            <a
+            <ButtonDownloadPdf
               href={`/downloads/recipes/${pdf}`}
-              download
-              className="inline-block bg-[#4b816d] text-white text-lg font-semibold px-6 py-3 rounded-full hover:bg-[#3b6c5a]"
-              aria-label="Download Bold Earth recipe PDF">
-              Download Recipe (PDF)
-            </a>
+              label="Download Recipe (PDF)"
+              ariaLabel={`Download ${title} recipe PDF`}
+            />
           )}
 
           {/* MDX body content (optional) */}
