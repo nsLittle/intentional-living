@@ -26,9 +26,19 @@ export default function ContactForm() {
         body: JSON.stringify({ name, email, message, company }),
       });
 
-      const data = await res.json();
-      if (!res.ok || !data?.ok) {
-        throw new Error(data?.error || "Something went wrong.");
+      const body: unknown = await res.json();
+
+      // Narrow the unknown JSON safely (no `any`)
+      let ok = false;
+      let apiError: string | undefined;
+      if (typeof body === "object" && body !== null) {
+        const maybe = body as { ok?: unknown; error?: unknown };
+        ok = maybe.ok === true;
+        apiError = typeof maybe.error === "string" ? maybe.error : undefined;
+      }
+
+      if (!res.ok || !ok) {
+        throw new Error(apiError || "Something went wrong.");
       }
 
       setStatus("success");
@@ -36,9 +46,10 @@ export default function ContactForm() {
       setEmail("");
       setMessage("");
       setCompany("");
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unexpected error.";
       setStatus("error");
-      setError(err?.message || "Unexpected error.");
+      setError(message);
     } finally {
       setTimeout(() => {
         setStatus((s) => (s === "submitting" ? "idle" : s));
