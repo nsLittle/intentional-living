@@ -1,4 +1,3 @@
-// src/app/crafts/page.tsx
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -11,27 +10,30 @@ import Footer from "components/Footer";
 
 const CRAFTS_DIR = path.join(process.cwd(), "src", "content", "crafts");
 
-export default function CraftsIndexPage() {
+export default function knittingCraftsPage() {
   const files = globSync("**/*.mdx", { cwd: CRAFTS_DIR });
 
-  const crafts = files
-    .map((file) => {
-      const slug = file.replace(/\.mdx$/, "");
-      const filePath = path.join(CRAFTS_DIR, file);
-      const { data } = matter(fs.readFileSync(filePath, "utf8"));
+  const allCrafts = files.map((file) => {
+    const slug = file.replace(/\.mdx$/, "");
+    const filePath = path.join(CRAFTS_DIR, file);
+    const { data } = matter(fs.readFileSync(filePath, "utf8"));
 
-      return {
-        slug,
-        title: (data.title as string) ?? slug,
-        date: typeof data.date === "string" ? (data.date as string) : undefined,
-        hero: typeof data.hero === "string" ? (data.hero as string) : undefined,
-        text:
-          (typeof data.text === "string" ? (data.text as string) : undefined) ??
-          (typeof data.description === "string"
-            ? (data.description as string)
-            : undefined),
-      };
-    })
+    const tags: string[] = Array.isArray(data.tags)
+      ? data.tags.map(String)
+      : [];
+
+    return {
+      slug,
+      title: (data.title as string) ?? slug,
+      date: typeof data.date === "string" ? data.date : undefined,
+      hero: typeof data.hero === "string" ? data.hero : undefined,
+      text: (data.text as string) ?? (data.description as string) ?? undefined,
+      tags,
+    };
+  });
+
+  const knittingCrafts = allCrafts
+    .filter((c) => c.tags.includes("knitting"))
     .sort((a, b) => {
       const ad = Date.parse(a.date ?? "");
       const bd = Date.parse(b.date ?? "");
@@ -45,7 +47,7 @@ export default function CraftsIndexPage() {
     <>
       <HeaderNavBarServer />
       <Header />
-      <LayoutAllCrafts heading="All Crafts" crafts={crafts} />
+      <LayoutAllCrafts heading="Knitting Crafts" crafts={knittingCrafts} />
       <Footer />
     </>
   );

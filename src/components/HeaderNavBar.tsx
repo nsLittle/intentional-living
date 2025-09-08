@@ -9,13 +9,15 @@ import DropDownHighLightsGrid from "./DropDownPanelHighlightsGrid";
 import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
 import DropDownPanelRecentList from "./DropDownPanelRecentList";
 
-type MenuKey = "posts" | "recipes" | null;
+type MenuKey = "posts" | "recipes" | "crafts" | null;
 
 type HeaderNavBarProps = {
   postsRecent?: { title: string; href: string }[];
   postsHighlights?: { title: string; href: string; img?: string }[];
   recipesRecent?: { title: string; href: string }[];
   recipesHighlights?: { title: string; href: string; img?: string }[];
+  craftsRecent?: { title: string; href: string }[];
+  craftsHighlights?: { title: string; href: string; img?: string }[];
 };
 
 export default function HeaderNavBar(props: HeaderNavBarProps) {
@@ -71,6 +73,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               </button>
             </div>
 
+            {/* Recipes (with dropdown) */}
             <div
               className="relative"
               onMouseEnter={() => openMenu("recipes")}
@@ -85,12 +88,22 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               </button>
             </div>
 
+            {/* Crafts (now a dropdown) */}
+            <div
+              className="relative"
+              onMouseEnter={() => openMenu("crafts")}
+              onMouseLeave={scheduleClose}>
+              <button
+                className="text-[#fefcf9] text-sm hover:underline"
+                onFocus={() => openMenu("crafts")}
+                onBlur={scheduleClose}
+                aria-expanded={open === "crafts"}
+                aria-haspopup="true">
+                Crafts
+              </button>
+            </div>
+
             {/* Static links for now */}
-            <Link
-              href="/crafts"
-              className="text-[#fefcf9] text-sm hover:underline">
-              Crafts
-            </Link>
             <Link
               href="/printables"
               className="text-[#fefcf9] text-sm hover:underline">
@@ -187,19 +200,48 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             { href: "/recipes/soup-pasta", label: "Soup & Pasta in a Jar" },
           ]}
         />
-
         {/* Middle column */}
         <DropDownPanelRecentList
           className="col-span-12 md:col-span-4 md:col-start-5"
           items={props.recipesRecent}
           emptyMessage="No recipes yet."
         />
-
         {/* Right column */}
         <DropDownHighLightsGrid
           className="col-span-12 md:col-span-3 md:col-start-9"
           items={props.recipesHighlights}
           fallbackImg="/images/recipes/spice-mix/bold-earth.png"
+          emptyMessage="No highlights yet."
+          maxItems={4}
+        />
+      </DropDownPanelContainer>
+      {/* ⬇️ NEW: Dropdown panel for crafts */}
+      <DropDownPanelContainer
+        isOpen={open === "crafts"}
+        onOpen={() => openMenu("crafts")}
+        onClose={scheduleClose}>
+        <DropDownPanelCategoryGrid
+          className="col-span-12 md:col-span-4 md:col-start-1"
+          title="Crafts"
+          allHref="/crafts"
+          allLabel="All Crafts →"
+          items={[
+            { href: "/crafts/knitting", label: "Knitting" },
+            { href: "/crafts/kitchen-crafts", label: "Kitchen Crafts" },
+            { href: "/crafts/other-crafts", label: "Other Crafts" },
+          ]}
+        />
+        {/* Middle column */}
+        <DropDownPanelRecentList
+          className="col-span-12 md:col-span-4 md:col-start-5"
+          items={props.craftsRecent}
+          emptyMessage="No crafts yet."
+        />
+        {/* Right column */}
+        <DropDownHighLightsGrid
+          className="col-span-12 md:col-span-3 md:col-start-9"
+          items={props.craftsHighlights}
+          fallbackImg="/images/crafts/fairy-house.png"
           emptyMessage="No highlights yet."
           maxItems={4}
         />

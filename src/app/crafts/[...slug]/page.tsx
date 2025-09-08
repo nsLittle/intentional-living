@@ -5,7 +5,7 @@ import path from "path";
 import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { globSync } from "glob";
-import LayoutRecipe from "components/LayoutRecipe";
+import LayoutCraft from "components/LayoutCraft";
 
 const CRAFTS_DIR = path.join(process.cwd(), "src", "content", "crafts");
 
@@ -37,6 +37,9 @@ export default async function CraftPage({
 
   const { content, data } = matter(fileContent);
 
+  const pdf =
+    typeof (data as any).pdf === "string" ? (data as any).pdf : undefined;
+
   const title = (data.title as string) ?? slugParts[slugParts.length - 1];
   const date =
     typeof data.date === "string" ? (data.date as string) : undefined;
@@ -46,8 +49,10 @@ export default async function CraftPage({
     typeof data.text === "string" ? (data.text as string) : undefined;
 
   return (
-    <LayoutRecipe title={title} date={date} hero={hero} text={text}>
-      <MDXRemote source={content} />
-    </LayoutRecipe>
+    <div className="prose max-w-none px-0 py-0">
+      <LayoutCraft title={title} date={date} hero={hero} text={text} pdf={pdf}>
+        <MDXRemote source={content} />
+      </LayoutCraft>
+    </div>
   );
 }

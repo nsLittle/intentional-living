@@ -1,3 +1,4 @@
+// src/app/posts/crafts/page.tsx
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
