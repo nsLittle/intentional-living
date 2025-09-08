@@ -2,6 +2,7 @@ import HeroLatestPost from "./HeroLatestPost";
 import HeroIntro from "./HeroIntro";
 import HeroFeaturedRecipes from "./HeroFeaturedRecipes";
 import HeroLatestRecipe from "./HeroLatestRecipe";
+import HeroLatestCraft from "./HeroLatestCraft";
 
 export default function HeroContent() {
   return (
@@ -11,6 +12,9 @@ export default function HeroContent() {
 
       {/* Latest Posts */}
       <HeroLatestPost />
+
+      {/* Latest Craft */}
+      <HeroLatestCraft />
 
       {/* Latest Recipe */}
       <HeroLatestRecipe />
