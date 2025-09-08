@@ -9,6 +9,19 @@ import LayoutCraft from "components/LayoutCraft";
 
 const CRAFTS_DIR = path.join(process.cwd(), "src", "content", "crafts");
 
+type PageProps = {
+  params: { slug: string[] };
+};
+
+type CraftFrontMatter = {
+  title?: string;
+  date?: string;
+  hero?: string;
+  text?: string;
+  pdf?: string;
+  tags?: string[];
+};
+
 // Pre-build /crafts routes
 export function generateStaticParams() {
   const files = globSync("**/*.mdx", { cwd: CRAFTS_DIR });
@@ -17,13 +30,8 @@ export function generateStaticParams() {
   }));
 }
 
-export default async function CraftPage({
-  params,
-}: {
-  params: { slug: string | string[] };
-}) {
-  const { slug: slugParam } = await params;
-  const slugParts = Array.isArray(slugParam) ? slugParam : [slugParam];
+export default function CraftPage({ params }: PageProps) {
+  const slugParts = Array.isArray(params.slug) ? params.slug : [params.slug];
   if (!slugParts.length) return notFound();
 
   const filePath = path.join(CRAFTS_DIR, ...slugParts) + ".mdx";
@@ -36,17 +44,13 @@ export default async function CraftPage({
   }
 
   const { content, data } = matter(fileContent);
+  const fm = data as unknown as CraftFrontMatter;
 
-  const pdf =
-    typeof (data as any).pdf === "string" ? (data as any).pdf : undefined;
-
-  const title = (data.title as string) ?? slugParts[slugParts.length - 1];
-  const date =
-    typeof data.date === "string" ? (data.date as string) : undefined;
-  const hero =
-    typeof data.hero === "string" ? (data.hero as string) : undefined;
-  const text =
-    typeof data.text === "string" ? (data.text as string) : undefined;
+  const title = fm.title ?? slugParts[slugParts.length - 1];
+  const date = fm.date;
+  const hero = fm.hero;
+  const text = fm.text;
+  const pdf = fm.pdf;
 
   return (
     <div className="prose max-w-none px-0 py-0">

@@ -20,7 +20,7 @@ export default function HeroContent() {
       <HeroLatestRecipe />
 
       {/* Featured Recipes */}
-      <HeroFeaturedRecipes />
+      {/* <HeroFeaturedRecipes /> */}
     </div>
   );
 }
