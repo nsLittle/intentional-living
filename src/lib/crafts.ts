@@ -75,12 +75,19 @@ export function getRecentCrafts(limit = 5): CraftItem[] {
       typeof data?.date === "string" ? new Date(data.date) : undefined;
     const dateObj = parsed && !isNaN(parsed.getTime()) ? parsed : stat.mtime;
 
+    type CraftListItem = {
+      title: string;
+      href: string;
+      date: string;
+      _sort: number;
+    };
+
     return {
       title: (data?.title as string) ?? slug,
       href: `/crafts/${slug}`,
       date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-    } as any;
+    } satisfies CraftListItem;
   });
 
   return items

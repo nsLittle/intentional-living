@@ -17,9 +17,8 @@ export default async function RecipePage({
 }: {
   params: { slug: string | string[] };
 }) {
-  const { slug: slugParam } = await params;
-  const slugParts = Array.isArray(slugParam) ? slugParam : [slugParam];
-
+  const { slug } = await params;
+  const slugParts = slug;
   if (slugParts.length < 1) {
     return notFound();
   }
