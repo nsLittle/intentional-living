@@ -37,7 +37,7 @@ export default async function RecipePage({
   const { content, data } = matter(fileContent);
 
   // Normalize frontmatter keys we expect in the layout
-  const title = data.title ?? data.recipe ?? params.slug;
+  const title = data.title ?? data.recipe ?? slugParts[slugParts.length - 1];
   const date = data.date ?? undefined;
   const hero = data.hero ?? undefined;
   const text = data.text ?? undefined;
