@@ -32,9 +32,11 @@ export function useNewsletterSignup(endpoint = "/api/subscribe") {
       setEmail("");
       setWebsite("");
       setStatus(data.status === "already-subscribed" ? "exists" : "success");
-    } catch (err: any) {
+    } catch (err: unknown) {
+      let message = "Something went wrong";
+      if (err instanceof Error) message = err.message;
       setStatus("error");
-      setError(err?.message || "Unexpected error.");
+      setError(message || "Unexpected error.");
     }
   }
 

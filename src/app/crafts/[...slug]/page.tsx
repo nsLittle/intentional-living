@@ -9,9 +9,9 @@ import LayoutCraft from "components/LayoutCraft";
 
 const CRAFTS_DIR = path.join(process.cwd(), "src", "content", "crafts");
 
-type PageProps = {
-  params: { slug: string[] };
-};
+// type PageProps = {
+//   params: { slug: string[] };
+// };
 
 type CraftFrontMatter = {
   title?: string;
@@ -30,8 +30,13 @@ export function generateStaticParams() {
   }));
 }
 
-export default function CraftPage({ params }: PageProps) {
-  const slugParts = Array.isArray(params.slug) ? params.slug : [params.slug];
+export default async function CraftPage({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}) {
+  const { slug } = await params;
+  const slugParts = Array.isArray(slug) ? slug : [slug];
   if (!slugParts.length) return notFound();
 
   const filePath = path.join(CRAFTS_DIR, ...slugParts) + ".mdx";
@@ -44,17 +49,25 @@ export default function CraftPage({ params }: PageProps) {
   }
 
   const { content, data } = matter(fileContent);
-  const fm = data as unknown as CraftFrontMatter;
+  const fm = data as {
+    title?: string;
+    date?: string;
+    hero?: string;
+    text?: string;
+    pdf?: string;
+    tags?: string[];
+  };
 
   const title = fm.title ?? slugParts[slugParts.length - 1];
-  const date = fm.date;
-  const hero = fm.hero;
-  const text = fm.text;
-  const pdf = fm.pdf;
 
   return (
     <div className="prose max-w-none px-0 py-0">
-      <LayoutCraft title={title} date={date} hero={hero} text={text} pdf={pdf}>
+      <LayoutCraft
+        title={title}
+        date={fm.date}
+        hero={fm.hero}
+        text={fm.text}
+        pdf={fm.pdf}>
         <MDXRemote source={content} />
       </LayoutCraft>
     </div>

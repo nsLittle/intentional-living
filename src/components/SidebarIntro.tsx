@@ -1,20 +1,22 @@
+import Image from "next/image";
+
 export default function SidebarIntro() {
   return (
     <div className="items-center text-center">
-      <img
+      <Image
         src="/images/little/little-woods.jpeg"
         alt="Little"
         className="mx-auto items-center w-32 h-32 rounded-full object-cover mb-12 shadow-md"
       />
-      <h2 className="text-3xl font-bold">Hi, I'm Little!</h2>
+      <h2 className="text-3xl font-bold">Hi, I&#39;m Little!</h2>
       <p className="mt-4 text-lg leading-relaxed max-w-xs">
-        I'm an opportunistic forager, home cook, and creator of{" "}
+        I&#39;m an opportunistic forager, home cook, and creator of{" "}
         <span className="font-bold">Simple Intentions</span>, a quiet corner of
-        the universe inspired by the warmth of Vermont's simple living.
+        the universe inspired by the warmth of Vermont&#39;s simple living.
       </p>
       <p className="mt-4 text-lg leading-relaxed max-w-xs">
         I share recipes, seasonal foraging finds, and reflections on intentional
-        living. With my daughters and cats beside me, we savor life's small
+        living. With my daughters and cats beside me, we savor life&#39;s small
         joys.
       </p>
       <p className="mt-4 text-lg leading-relaxed max-w-xs">
