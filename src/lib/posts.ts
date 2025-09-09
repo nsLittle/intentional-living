@@ -23,6 +23,15 @@ export type PostLink = {
   date?: string;
 };
 
+type PostDetail = {
+  slug: string;
+  title: string;
+  date: Date;
+  hero?: string;
+  text?: string;
+  _sort: number;
+};
+
 export function getLatestPost() {
   const contentDir = path.join(process.cwd(), "src", "content", "posts");
   const filenames = fs
@@ -113,10 +122,11 @@ export function getPostHighlights(limit = 4): PostLink[] {
     return {
       title: (data?.title as string) ?? slug,
       href: `/posts/${slug}`,
-      img: hero, // let HighlightsGrid normalize leading slash
+      img: hero,
       date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-    } as any;
+      _sort: dateObj.getTime(),
+    } satisfies PostDetail;
   });
 
   return items

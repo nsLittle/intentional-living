@@ -9,11 +9,28 @@ export type RecipeItem = {
   date?: string;
 };
 
+type RecipeListItem = {
+  title: string;
+  href: string;
+  date: string;
+  _sort: number;
+  img?: string | null;
+};
+
 export type RecipeLink = {
   title: string;
   href: string;
   img?: string;
   date?: string;
+};
+
+type RecipeDetail = {
+  slug: string;
+  title: string;
+  date: Date;
+  hero?: string;
+  text?: string;
+  _sort: number;
 };
 
 const RECIPES_DIR = path.join(process.cwd(), "src", "content", "recipes");
@@ -80,7 +97,7 @@ export function getRecentRecipes(limit = 5): RecipeItem[] {
       href: `/recipes/${slug}`,
       date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-    } as any;
+    } satisfies RecipeListItem;
   });
 
   return items
@@ -117,7 +134,7 @@ export function getRecipeHighlights(limit = 4): RecipeLink[] {
       img: hero,
       date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-    } as any;
+    } satisfies RecipeListItem;
   });
 
   return items
@@ -149,7 +166,7 @@ export function getAllRecipes() {
       hero: typeof data?.hero === "string" ? data.hero : undefined,
       text: typeof data?.text === "string" ? data.text : undefined,
       _sort: dateObj.getTime(),
-    } as any;
+    } satisfies RecipeDetail;
   });
 
   return items
