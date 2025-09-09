@@ -57,6 +57,20 @@ export default function ContactForm() {
     }
   }
 
+  const statusLabel: Record<Status, string> = {
+    idle: "Send message",
+    submitting: "Sending your message",
+    success: "Message sent",
+    error: "There was an error",
+  };
+
+  const ariaLiveLabel: Record<Status, string> = {
+    idle: "",
+    submitting: "Sending your message",
+    success: "Message sent",
+    error: "There was an error",
+  };
+
   return (
     <section className="w-full max-w-2xl mx-auto px-6 lg:px-24 py-10">
       <h1 className="text-3xl font-semibold tracking-tight mb-2">Contact</h1>
@@ -155,17 +169,11 @@ export default function ContactForm() {
             type="submit"
             disabled={status === "submitting"}
             className="inline-flex items-center justify-center rounded-2xl border border-neutral-900 px-4 py-2 text-sm font-medium tracking-wide shadow-sm transition hover:-translate-y-0.5 hover:shadow-md disabled:opacity-50">
-            {status === "submitting" ? "Sending…" : "Send"}
+            {statusLabel[status]}
           </button>
 
           <p className="sr-only" aria-live="polite">
-            {status === "submitting"
-              ? "Sending your message"
-              : status === "success"
-              ? "Message sent"
-              : status === "error"
-              ? "There was an error"
-              : ""}
+            {ariaLiveLabel[status]}
           </p>
         </form>
       )}
