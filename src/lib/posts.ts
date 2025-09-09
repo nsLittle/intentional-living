@@ -81,7 +81,7 @@ export function getRecentPosts(limit = 5): PostItem[] {
   return items
     .sort((a, b) => b._sort - a._sort)
     .slice(0, limit)
-    .map(({ title, href, date, img }) => ({ title, href, date, img }));
+    .map(({ title, href, date }) => ({ title, href, date }));
 }
 
 export function getPostHighlights(limit = 4): PostLink[] {
