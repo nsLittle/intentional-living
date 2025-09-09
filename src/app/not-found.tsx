@@ -1,5 +1,4 @@
 // src/app/not-found.tsx
-import Link from "next/link";
 import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Footer from "components/Footer";
@@ -21,12 +20,6 @@ export default function NotFound() {
         </p>
 
         <LinkReturnHome />
-
-        {/* <Link
-          href="/"
-          className="px-6 py-3 bg-stone-800 text-white rounded-xl shadow hover:bg-stone-700 transition">
-          Back to Home
-        </Link> */}
       </main>
 
       <Footer />

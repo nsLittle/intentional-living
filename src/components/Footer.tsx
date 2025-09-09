@@ -1,7 +1,6 @@
 // src/components/Footer.tsx
 import FooterNewsletterSignup from "./FooterNewsletterSignup";
 import FooterCopyright from "./FooterCopyright";
-import FooterQuickLinks from "./FooterQuickLinks";
 
 export default function Footer() {
   return (

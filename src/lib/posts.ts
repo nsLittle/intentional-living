@@ -12,8 +12,9 @@ export type PostItem = {
 type PostListItem = {
   title: string;
   href: string;
-  date: string; // ISO
+  date: string;
   _sort: number;
+  img?: string | null;
 };
 
 export type PostLink = {
@@ -42,7 +43,7 @@ export function getLatestPost() {
   const posts = filenames.map((filename) => {
     const filePath = path.join(contentDir, filename);
     const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data, content } = matter(fileContents);
+    const { data } = matter(fileContents);
 
     return {
       slug: filename.replace(/\.mdx?$/, ""),
@@ -89,7 +90,7 @@ export function getRecentPosts(limit = 5): PostItem[] {
   return items
     .sort((a, b) => b._sort - a._sort)
     .slice(0, limit)
-    .map(({ _sort, ...rest }) => rest);
+    .map(({ _sort: _, ...rest }) => rest);
 }
 
 export function getPostHighlights(limit = 4): PostLink[] {
@@ -125,12 +126,11 @@ export function getPostHighlights(limit = 4): PostLink[] {
       img: hero,
       date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-      _sort: dateObj.getTime(),
-    } satisfies PostDetail;
+    } satisfies PostListItem;
   });
 
   return items
     .sort((a, b) => b._sort - a._sort)
     .slice(0, limit)
-    .map(({ _sort, ...rest }) => rest);
+    .map(({ _sort: _, ...rest }) => rest);
 }

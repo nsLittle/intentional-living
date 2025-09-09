@@ -1,6 +1,5 @@
 import HeroLatestPost from "./HeroLatestPost";
 import HeroIntro from "./HeroIntro";
-import HeroFeaturedRecipes from "./HeroFeaturedRecipes";
 import HeroLatestRecipe from "./HeroLatestRecipe";
 import HeroLatestCraft from "./HeroLatestCraft";
 

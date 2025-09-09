@@ -110,7 +110,7 @@ export function getRecentCrafts(limit = 5): CraftItem[] {
   return items
     .sort((a, b) => b._sort - a._sort)
     .slice(0, limit)
-    .map(({ _sort, ...rest }) => rest);
+    .map(({ _sort: _, ...rest }) => rest);
 }
 
 export function getCraftHighlights(limit = 4): CraftLink[] {
@@ -147,7 +147,7 @@ export function getCraftHighlights(limit = 4): CraftLink[] {
   return items
     .sort((a, b) => b._sort - a._sort)
     .slice(0, limit)
-    .map(({ _sort, ...rest }) => rest);
+    .map(({ _sort: _, ...rest }) => rest);
 }
 
 // For callers like generateStaticParams — newest first, same fields as above.
@@ -178,5 +178,5 @@ export function getAllCrafts() {
 
   return items
     .sort((a, b) => b._sort - a._sort)
-    .map(({ _sort, ...rest }) => rest);
+    .map(({ _sort: _, ...rest }) => rest);
 }
