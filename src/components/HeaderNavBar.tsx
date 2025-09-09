@@ -58,9 +58,15 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
           {/* Quick links */}
           <div className="flex-1 flex justify-center gap-6">
+            {/* Static links */}
+            <Link
+              href="/about"
+              className="text-[#fefcf9] text-sm hover:underline">
+              About
+            </Link>
             {/* Posts (with dropdown) */}
             <div
-              className="relative"
+              className="relative inline-flex items-center"
               onMouseEnter={() => openMenu("posts")}
               onMouseLeave={scheduleClose}>
               <button
@@ -75,7 +81,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
             {/* Recipes (with dropdown) */}
             <div
-              className="relative"
+              className="relative inline-flex items-center"
               onMouseEnter={() => openMenu("recipes")}
               onMouseLeave={scheduleClose}>
               <button
@@ -90,7 +96,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
             {/* Crafts (now a dropdown) */}
             <div
-              className="relative"
+              className="relative inline-flex items-center"
               onMouseEnter={() => openMenu("crafts")}
               onMouseLeave={scheduleClose}>
               <button
@@ -108,11 +114,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               href="/printables"
               className="text-[#fefcf9] text-sm hover:underline">
               Printables
-            </Link>
-            <Link
-              href="/about"
-              className="text-[#fefcf9] text-sm hover:underline">
-              About
             </Link>
             <Link
               href="/contact"

@@ -60,10 +60,11 @@ export default function ContactForm() {
   return (
     <section className="w-full max-w-2xl mx-auto px-6 lg:px-24 py-10">
       <h1 className="text-3xl font-semibold tracking-tight mb-2">Contact</h1>
-      <p className="text-sm text-neutral-600 mb-8">
-        Have a question about foraging posts, recipes, or the newsletter? Send
-        me a note.
+      <p className="text-sm text-neutral-600 mt-6 mb-2">
+        Have a question about foraging, posts, recipes, crafts, or the
+        newsletter? Send me a note.
       </p>
+      <p className="text-sm text-neutral-600 mb-8">Or just say hi!</p>
 
       {status === "success" ? (
         <div
@@ -102,7 +103,7 @@ export default function ContactForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="mt-1 w-full rounded-xl border border-neutral-300 bg-white px-3 py-2 text-neutral-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900"
-              placeholder="Mutsumi"
+              placeholder="Your name"
             />
           </div>
 
@@ -120,7 +121,7 @@ export default function ContactForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 w-full rounded-xl border border-neutral-300 bg-white px-3 py-2 text-neutral-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900"
-              placeholder="you@example.com"
+              placeholder="you@email.com"
             />
           </div>
 
