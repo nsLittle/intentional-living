@@ -16,6 +16,23 @@ export type CraftLink = {
   date?: string;
 };
 
+type CraftListItem = {
+  title: string;
+  href: string;
+  date: string;
+  _sort: number;
+  img?: string | null;
+};
+
+type CraftDetail = {
+  slug: string;
+  title: string;
+  date: Date;
+  hero?: string;
+  text?: string;
+  _sort: number;
+};
+
 const CRAFTS_DIR = path.join(process.cwd(), "src", "content", "crafts");
 
 // Recursively collect all .mdx files so nested folders work.
@@ -124,7 +141,7 @@ export function getCraftHighlights(limit = 4): CraftLink[] {
       img: hero,
       date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-    } as any;
+    } satisfies CraftListItem;
   });
 
   return items
@@ -156,7 +173,7 @@ export function getAllCrafts() {
       hero: typeof data?.hero === "string" ? data.hero : undefined,
       text: typeof data?.text === "string" ? data.text : undefined,
       _sort: dateObj.getTime(),
-    } as any;
+    } satisfies CraftDetail;
   });
 
   return items

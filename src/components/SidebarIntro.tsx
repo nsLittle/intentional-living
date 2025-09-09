@@ -6,6 +6,8 @@ export default function SidebarIntro() {
       <Image
         src="/images/little/little-woods.jpeg"
         alt="Little"
+        width={128}
+        height={128}
         className="mx-auto items-center w-32 h-32 rounded-full object-cover mb-12 shadow-md"
       />
       <h2 className="text-3xl font-bold">Hi, I&#39;m Little!</h2>

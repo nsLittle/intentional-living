@@ -9,6 +9,13 @@ export type PostItem = {
   date?: string;
 };
 
+type PostListItem = {
+  title: string;
+  href: string;
+  date: string; // ISO
+  _sort: number;
+};
+
 export type PostLink = {
   title: string;
   href: string;
@@ -67,7 +74,7 @@ export function getRecentPosts(limit = 5): PostItem[] {
       href: `/posts/${slug}`,
       date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-    } as any;
+    } satisfies PostListItem;
   });
 
   return items
