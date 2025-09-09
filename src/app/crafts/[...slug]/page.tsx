@@ -9,18 +9,14 @@ import LayoutCraft from "components/LayoutCraft";
 
 const CRAFTS_DIR = path.join(process.cwd(), "src", "content", "crafts");
 
-// type PageProps = {
-//   params: { slug: string[] };
+// type CraftFrontMatter = {
+//   title?: string;
+//   date?: string;
+//   hero?: string;
+//   text?: string;
+//   pdf?: string;
+//   tags?: string[];
 // };
-
-type CraftFrontMatter = {
-  title?: string;
-  date?: string;
-  hero?: string;
-  text?: string;
-  pdf?: string;
-  tags?: string[];
-};
 
 // Pre-build /crafts routes
 export function generateStaticParams() {

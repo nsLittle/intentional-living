@@ -22,6 +22,7 @@ type RecipeLayoutProps = {
   bakingIngredients?: string[];
   bakingSteps?: string[];
   pdf?: string;
+  notes?: string;
   children?: React.ReactNode;
   methodLabel?: "Baking" | "Cooking";
 };
@@ -41,6 +42,7 @@ export default function LayoutRecipe({
   bakingIngredients,
   bakingSteps,
   pdf,
+  notes,
   children,
   methodLabel,
 }: RecipeLayoutProps) {
@@ -184,6 +186,14 @@ export default function LayoutRecipe({
               </ol>
             </section>
           ) : null}
+
+          {/* Notes (optional) */}
+          {notes && (
+            <section className="mt-6">
+              <h3 className="text-lg font-semibold">Notes</h3>
+              <p className="mt-2">{notes}</p>
+            </section>
+          )}
 
           {/* Download PDF button */}
           {pdf && (
