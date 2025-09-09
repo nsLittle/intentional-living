@@ -9,7 +9,7 @@ export default function HeroFeaturedRecipes() {
       </h2>
       <p className="mt-4 text-xl mb-6 max-w-">
         Seasonal foraging finds and wild food recipes from the Vermont woods.
-        Learn to identify, harvest, and prepare nature's bounty safely and
+        Learn to identify, harvest, and prepare nature&#39;s bounty safely and
         sustainably.
       </p>
 

@@ -1,6 +1,3 @@
-import ButtonPost from "./ButtonPosts";
-import ButtonRecipes from "./ButtonRecipe";
-
 export default function HeroIntro() {
   return (
     <div>
@@ -16,7 +13,7 @@ export default function HeroIntro() {
         </p>
         <p className="mt-4 text-xl">
           This is where the warmth of woodsy treasures meet homemade goodness.
-          It's about life's simple pleasures savored with intention.
+          It&#39;s about life&#39;s simple pleasures savored with intention.
         </p>
         <p className="mt-4 text-xl">
           Join me, and create your intentional life, one walk, one recipe, one

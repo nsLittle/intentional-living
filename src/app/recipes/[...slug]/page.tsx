@@ -7,8 +7,6 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import LayoutRecipe from "components/LayoutRecipe";
 import { getAllRecipes } from "lib/recipes";
 
-const CONTENT_DIR = path.join(process.cwd(), "src", "content", "recipes");
-
 // Emit params for nested files, e.g. { slug: ["cookies","m-and-m-cookies"] }
 export async function generateStaticParams() {
   return getAllRecipes().map((r) => ({ slug: r.slug.split("/") }));

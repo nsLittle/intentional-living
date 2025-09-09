@@ -6,7 +6,6 @@ import { globSync } from "glob";
 import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import LayoutAllRecipes from "components/LayoutAllRecipes";
-import ReturnHome from "components/LinkReturnHome";
 import Footer from "components/Footer";
 
 export default function RecipesPage() {
