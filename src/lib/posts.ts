@@ -24,15 +24,6 @@ export type PostLink = {
   date?: string;
 };
 
-type PostDetail = {
-  slug: string;
-  title: string;
-  date: Date;
-  hero?: string;
-  text?: string;
-  _sort: number;
-};
-
 export function getLatestPost() {
   const contentDir = path.join(process.cwd(), "src", "content", "posts");
   const filenames = fs
@@ -90,7 +81,7 @@ export function getRecentPosts(limit = 5): PostItem[] {
   return items
     .sort((a, b) => b._sort - a._sort)
     .slice(0, limit)
-    .map(({ _sort: _, ...rest }) => rest);
+    .map(({ title, href, date, img }) => ({ title, href, date, img }));
 }
 
 export function getPostHighlights(limit = 4): PostLink[] {
@@ -132,5 +123,5 @@ export function getPostHighlights(limit = 4): PostLink[] {
   return items
     .sort((a, b) => b._sort - a._sort)
     .slice(0, limit)
-    .map(({ _sort: _, ...rest }) => rest);
+    .map(({ title, href, img, date }) => ({ title, href, img, date }));
 }
