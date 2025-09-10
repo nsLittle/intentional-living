@@ -103,7 +103,7 @@ export function getRecentRecipes(limit = 5): RecipeItem[] {
   return items
     .sort((a, b) => b._sort - a._sort)
     .slice(0, limit)
-    .map(({ _sort, ...rest }) => rest);
+    .map(({ title, href, date }) => ({ title, href, date }));
 }
 
 export function getRecipeHighlights(limit = 4): RecipeLink[] {
