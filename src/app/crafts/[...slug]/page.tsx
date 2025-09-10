@@ -9,15 +9,6 @@ import LayoutCraft from "components/LayoutCraft";
 
 const CRAFTS_DIR = path.join(process.cwd(), "src", "content", "crafts");
 
-// type CraftFrontMatter = {
-//   title?: string;
-//   date?: string;
-//   hero?: string;
-//   text?: string;
-//   pdf?: string;
-//   tags?: string[];
-// };
-
 // Pre-build /crafts routes
 export function generateStaticParams() {
   const files = globSync("**/*.mdx", { cwd: CRAFTS_DIR });
@@ -50,6 +41,10 @@ export default async function CraftPage({
     date?: string;
     hero?: string;
     text?: string;
+    size?: string;
+    materials?: string[];
+    gauge?: string;
+    instructions?: string;
     pdf?: string;
     tags?: string[];
   };
@@ -63,6 +58,10 @@ export default async function CraftPage({
         date={fm.date}
         hero={fm.hero}
         text={fm.text}
+        size={fm.size}
+        materials={fm.materials}
+        gauge={fm.gauge}
+        instructions={fm.instructions}
         pdf={fm.pdf}>
         <MDXRemote source={content} />
       </LayoutCraft>

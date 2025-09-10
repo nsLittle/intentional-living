@@ -9,17 +9,11 @@ export type DropDownPanelCategory = {
 };
 
 export type DropDownPanelCategoryGridProps = {
-  /** Column heading, e.g., "Posts" or "Recipes" */
   title: string;
-  /** Primary "All ..." link target, e.g., "/posts" */
   allHref: string;
-  /** Primary "All ..." link label, e.g., "All Posts →" */
   allLabel: string;
-  /** Category/section links shown under the "All ..." link */
   items?: DropDownPanelCategory[];
-  /** Whether to insert a gap <br /> between All link and list (kept for parity w/ current UI) */
   gap?: boolean;
-  /** Tailwind className passthrough for responsive grid placement */
   className?: string;
 };
 

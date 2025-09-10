@@ -13,6 +13,10 @@ type CraftLayoutProps = {
   hero?: string;
   tags?: string[];
   text?: string;
+  size?: string;
+  materials?: string[];
+  gauge?: string;
+  instructions?: string;
   pdf?: string;
   children?: React.ReactNode;
 };
@@ -22,6 +26,10 @@ export default function LayoutCraft({
   date,
   hero,
   text,
+  size,
+  materials,
+  gauge,
+  instructions,
   pdf,
   children,
 }: CraftLayoutProps) {
@@ -55,9 +63,10 @@ export default function LayoutCraft({
                   <Image
                     src={hero}
                     alt={title}
-                    width={600}
-                    height={400}
+                    width={800}
+                    height={533} // 3:2 like Post
                     className="w-full h-auto rounded-xl shadow object-cover"
+                    priority
                   />
                 </div>
               ) : null}

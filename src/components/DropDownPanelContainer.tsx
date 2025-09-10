@@ -4,22 +4,13 @@
 import { PropsWithChildren } from "react";
 
 export type DropDownPanelContainerProps = PropsWithChildren<{
-  /** Controls visibility/animation */
   isOpen: boolean;
-  /** Called on mouse/focus entry */
   onOpen: () => void;
-  /** Called on mouse/focus leave/blur */
   onClose: () => void;
-  /** Optional extra classes on the outer fixed panel */
   outerClassName?: string;
-  /** Optional extra classes on the inner grid wrapper */
   innerClassName?: string;
 }>;
 
-/**
- * Shell for header dropdown panels.
- * Handles hover/focus open/close, animation, and the inner max-width grid.
- */
 export default function DropDownPanelContainer({
   isOpen,
   onOpen,

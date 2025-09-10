@@ -56,7 +56,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             </div>
           </Link>
 
-          {/* Quick links */}
           <div className="flex-1 flex justify-center gap-6">
             {/* Static links */}
             <Link
@@ -64,7 +63,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               className="text-[#fefcf9] text-sm hover:underline">
               About
             </Link>
-            {/* Posts (with dropdown) */}
+            {/* Posts */}
             <div
               className="relative inline-flex items-center"
               onMouseEnter={() => openMenu("posts")}
@@ -79,7 +78,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               </button>
             </div>
 
-            {/* Recipes (with dropdown) */}
+            {/* Recipes */}
             <div
               className="relative inline-flex items-center"
               onMouseEnter={() => openMenu("recipes")}
@@ -94,7 +93,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               </button>
             </div>
 
-            {/* Crafts (now a dropdown) */}
+            {/* Crafts */}
             <div
               className="relative inline-flex items-center"
               onMouseEnter={() => openMenu("crafts")}
@@ -216,20 +215,20 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           maxItems={4}
         />
       </DropDownPanelContainer>
-      {/* ⬇️ NEW: Dropdown panel for crafts */}
+      {/* Dropdown panel for crafts */}
       <DropDownPanelContainer
         isOpen={open === "crafts"}
         onOpen={() => openMenu("crafts")}
         onClose={scheduleClose}>
         <DropDownPanelCategoryGrid
           className="col-span-12 md:col-span-4 md:col-start-1"
-          title="Crafts"
+          title="Craft Projects"
           allHref="/crafts"
-          allLabel="All Crafts →"
+          allLabel="All Craft Projects →"
           items={[
-            { href: "/crafts/knitting", label: "Knitting" },
-            { href: "/crafts/kitchen-crafts", label: "Kitchen Crafts" },
-            { href: "/crafts/other-crafts", label: "Other Crafts" },
+            { href: "/crafts/knitting", label: "Knitting Projects" },
+            { href: "/crafts/kitchen-crafts", label: "Kitchen Craft Projects" },
+            { href: "/crafts/other-crafts", label: "Other Craft Projects" },
           ]}
         />
         {/* Middle column */}
