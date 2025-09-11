@@ -54,4 +54,4 @@ Then visit: http://localhost:3000
 
 ## 🌲 Incoming Features
 
-- Black truffle post, recipe, field guide
+- Search, Comments, and Post/Recipe/Project Ratings

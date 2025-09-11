@@ -77,7 +77,8 @@ export default function LayoutRecipe({
                     src={hero}
                     alt={title}
                     width={600}
-                    height={400}
+                    height={450}
+                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
                     className="w-full h-auto rounded-xl shadow object-cover"
                   />
                 </div>
