@@ -2,6 +2,7 @@
 
 import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
+import type { Viewport } from "next/types";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,11 +19,17 @@ export const metadata: Metadata = {
   title: "Simple Intentions",
   description: "Wild food, simple living, and seasonal joy from Vermont.",
   manifest: "/site.webmanifest",
-  themeColor: "#5c5045",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0b0b" },
+  ],
 };
 
 export default function RootLayout({
