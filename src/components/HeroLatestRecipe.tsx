@@ -30,6 +30,7 @@ export default function HeroLatestRecipe() {
             alt={recipe.title}
             height={400}
             width={300}
+            priority
             className="w-[300px] h-[400px] object-cover rounded-xl shadow-md"
           />
         )}

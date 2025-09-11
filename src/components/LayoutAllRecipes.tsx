@@ -39,6 +39,7 @@ export default function LayoutAllRecipes({
                     alt={recipe.title}
                     width={800}
                     height={450}
+                    priority
                     className="w-full h-48 object-cover"
                   />
                 )}

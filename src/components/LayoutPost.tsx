@@ -56,6 +56,7 @@ export default function LayoutPost({
                     alt={title}
                     width={800}
                     height={450}
+                    priority
                     sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
                     className="w-full h-auto rounded-xl shadow object-cover"
                   />
