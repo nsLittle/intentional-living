@@ -6,12 +6,12 @@ export default function Header() {
       <Image
         src="/images/header-banner/log-garden.jpeg"
         alt="Intentional Living Banner"
-        className="absolute inset-0 w-full h-full object-cover"
-        width={200}
-        height={150}
+        fill
+        className="object-cover"
         priority
         fetchPriority="high"
         sizes="100vw"
+        quality={70}
       />
     </header>
   );
