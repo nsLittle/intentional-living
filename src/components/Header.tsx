@@ -9,6 +9,9 @@ export default function Header() {
         className="absolute inset-0 w-full h-full object-cover"
         width={200}
         height={150}
+        priority
+        fetchPriority="high"
+        sizes="100vw"
       />
     </header>
   );
