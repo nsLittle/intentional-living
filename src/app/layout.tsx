@@ -3,6 +3,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
 import type { Viewport } from "next/types";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -46,6 +47,13 @@ export default function RootLayout({
       </head>
       <body
         className={`bg-[#fefcf9] min-h-screen ${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Script id="sw-register" strategy="afterInteractive">
+          {`if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+              window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(console.error);
+              });
+            }`}
+        </Script>
         {children}
       </body>
     </html>
