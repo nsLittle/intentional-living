@@ -73,6 +73,62 @@ export default function LayoutCraft({
             </div>
           )}
 
+          {/* Pattern details */}
+          {(size ||
+            (materials && materials.length) ||
+            gauge ||
+            instructions) && (
+            <section className="mb-10 rounded-2xl border border-amber-200 bg-white/70 p-6 shadow-sm">
+              <h2 className="text-2xl font-semibold mb-4">Pattern details</h2>
+
+              <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                {size && (
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide text-gray-500">
+                      Size
+                    </dt>
+                    <dd className="text-lg">{size}</dd>
+                  </div>
+                )}
+
+                {gauge && (
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide text-gray-500">
+                      Gauge
+                    </dt>
+                    <dd className="text-lg">{gauge}</dd>
+                  </div>
+                )}
+
+                {materials && materials.length > 0 && (
+                  <div className="sm:col-span-2">
+                    <dt className="text-xs uppercase tracking-wide text-gray-500 mb-1">
+                      Materials
+                    </dt>
+                    <dd>
+                      <ul className="list-disc pl-6 space-y-1">
+                        {materials.map((m, i) => (
+                          <li key={i}>{m}</li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                )}
+              </dl>
+
+              {instructions && (
+                <div className="mt-6">
+                  <h3 className="text-xl font-semibold mb-2">Instructions</h3>
+                  {/* If instructions can contain simple newlines, this preserves them.
+                      If you expect HTML here, tell me and I’ll switch to dangerouslySetInnerHTML. */}
+                  <p className="whitespace-pre-line leading-relaxed">
+                    {instructions}
+                  </p>
+                </div>
+              )}
+            </section>
+          )}
+
           {/* Download PDF button */}
           {pdf && (
             <ButtonDownloadPdf
