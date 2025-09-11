@@ -1,6 +1,7 @@
 // src/app/layout.tsx
 
 import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,11 +14,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Simple Intentions",
   description: "Wild food, simple living, and seasonal joy from Vermont.",
+  manifest: "/site.webmanifest",
+  themeColor: "#5c5045",
   icons: {
     icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 

@@ -56,70 +56,75 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             </div>
           </Link>
 
-          <div className="flex-1 flex justify-center gap-6">
-            {/* Static links */}
-            <Link
-              href="/about"
-              className="text-[#fefcf9] text-sm hover:underline">
-              About
-            </Link>
-            {/* Posts */}
-            <div
-              className="relative inline-flex items-center"
-              onMouseEnter={() => openMenu("posts")}
-              onMouseLeave={scheduleClose}>
-              <button
-                className="text-[#fefcf9] text-sm hover:underline"
-                onFocus={() => openMenu("posts")}
-                onBlur={scheduleClose}
-                aria-expanded={open === "posts"}
-                aria-haspopup="true">
-                Posts
-              </button>
-            </div>
+          {/* center nav */}
+          <nav aria-label="Primary" className="flex-1 flex justify-center">
+            <ul className="flex gap-6 items-center">
+              <li>
+                <Link
+                  href="/about"
+                  className="text-[#fefcf9] text-sm hover:underline">
+                  About
+                </Link>
+              </li>
 
-            {/* Recipes */}
-            <div
-              className="relative inline-flex items-center"
-              onMouseEnter={() => openMenu("recipes")}
-              onMouseLeave={scheduleClose}>
-              <button
-                className="text-[#fefcf9] text-sm hover:underline"
-                onFocus={() => openMenu("recipes")}
-                onBlur={scheduleClose}
-                aria-expanded={open === "recipes"}
-                aria-haspopup="true">
-                Recipes
-              </button>
-            </div>
+              <li
+                className="relative inline-flex items-center"
+                onMouseEnter={() => openMenu("posts")}
+                onMouseLeave={scheduleClose}>
+                <button
+                  className="text-[#fefcf9] text-sm hover:underline"
+                  onFocus={() => openMenu("posts")}
+                  onBlur={scheduleClose}
+                  aria-expanded={open === "posts"}
+                  aria-haspopup="true">
+                  Posts
+                </button>
+              </li>
 
-            {/* Crafts */}
-            <div
-              className="relative inline-flex items-center"
-              onMouseEnter={() => openMenu("crafts")}
-              onMouseLeave={scheduleClose}>
-              <button
-                className="text-[#fefcf9] text-sm hover:underline"
-                onFocus={() => openMenu("crafts")}
-                onBlur={scheduleClose}
-                aria-expanded={open === "crafts"}
-                aria-haspopup="true">
-                Crafts
-              </button>
-            </div>
+              <li
+                className="relative inline-flex items-center"
+                onMouseEnter={() => openMenu("recipes")}
+                onMouseLeave={scheduleClose}>
+                <button
+                  className="text-[#fefcf9] text-sm hover:underline"
+                  onFocus={() => openMenu("recipes")}
+                  onBlur={scheduleClose}
+                  aria-expanded={open === "recipes"}
+                  aria-haspopup="true">
+                  Recipes
+                </button>
+              </li>
 
-            {/* Static links for now */}
-            <Link
-              href="/printables"
-              className="text-[#fefcf9] text-sm hover:underline">
-              Printables
-            </Link>
-            <Link
-              href="/contact"
-              className="text-[#fefcf9] text-sm hover:underline">
-              Contact
-            </Link>
-          </div>
+              <li
+                className="relative inline-flex items-center"
+                onMouseEnter={() => openMenu("crafts")}
+                onMouseLeave={scheduleClose}>
+                <button
+                  className="text-[#fefcf9] text-sm hover:underline"
+                  onFocus={() => openMenu("crafts")}
+                  onBlur={scheduleClose}
+                  aria-expanded={open === "crafts"}
+                  aria-haspopup="true">
+                  Crafts
+                </button>
+              </li>
+
+              <li>
+                <Link
+                  href="/printables"
+                  className="text-[#fefcf9] text-sm hover:underline">
+                  Printables
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-[#fefcf9] text-sm hover:underline">
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </nav>
 
           {/* Right: search + subscribe */}
           <div className="ml-auto flex items-center gap-4">
