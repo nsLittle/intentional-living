@@ -3,11 +3,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import DropDownPanelContainer from "./DropDownPanelContainer";
 import DropDownHighLightsGrid from "./DropDownPanelHighlightsGrid";
 import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
 import DropDownPanelRecentList from "./DropDownPanelRecentList";
+import Search from "./Search";
 
 type MenuKey = "posts" | "recipes" | "crafts" | null;
 
@@ -22,7 +24,18 @@ type HeaderNavBarProps = {
 
 export default function HeaderNavBar(props: HeaderNavBarProps) {
   const [open, setOpen] = useState<MenuKey>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchWrapRef = useRef<HTMLDivElement | null>(null);
+  const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   const closeTimer = useRef<NodeJS.Timeout | null>(null);
+  const router = useRouter();
+
+  function handleSearchSubmit(value: string) {
+    const q = value.trim();
+    if (!q) return;
+    setSearchOpen(false);
+    router.push(`/search?q=${encodeURIComponent(q)}`);
+  }
 
   const openMenu = (key: MenuKey) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -32,6 +45,36 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setOpen(null), 120);
   };
+
+  useEffect(() => {
+    function handleDown(e: MouseEvent) {
+      if (!searchOpen) return;
+      const el = searchWrapRef.current;
+      if (el && !el.contains(e.target as Node)) {
+        setSearchOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleDown);
+    return () => document.removeEventListener("mousedown", handleDown);
+  }, [searchOpen]);
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setSearchOpen(false);
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  const wasOpenRef = useRef(false);
+  useEffect(() => {
+    if (wasOpenRef.current && !searchOpen) {
+      searchButtonRef.current?.focus();
+    }
+    wasOpenRef.current = searchOpen;
+  }, [searchOpen]);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-black/5 bg-[#2f5d4b]/95 backdrop-blur">
@@ -128,24 +171,38 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
           {/* Right: search + subscribe */}
           <div className="ml-auto flex items-center gap-4">
-            <button
-              type="button"
-              className="text-[#fefcf9] hover:opacity-80"
-              aria-label="Search">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-5 h-5">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"
-                />
-              </svg>
-            </button>
+            {/* One wrapper for BOTH button and panel */}
+            <div className="relative" ref={searchWrapRef}>
+              <button
+                ref={searchButtonRef}
+                type="button"
+                className="text-[#fefcf9] hover:opacity-80"
+                aria-label="Search"
+                aria-expanded={searchOpen}
+                onClick={() => setSearchOpen((v) => !v)}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-5 h-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"
+                  />
+                </svg>
+              </button>
+
+              {searchOpen && (
+                <div className="absolute right-0 top-[calc(100%+0.5rem)] w-[min(90vw,40rem)] rounded-2xl border bg-white shadow-xl z-50 p-4">
+                  {/* ← Place it right here */}
+                  <Search autoFocus onSubmit={handleSearchSubmit} />
+                </div>
+              )}
+            </div>
+
             <Link
               href="/subscribe"
               className="bg-[#6ea089] text-[#fefcf9] px-3 py-1.5 rounded-md text-sm font-medium hover:opacity-90">
