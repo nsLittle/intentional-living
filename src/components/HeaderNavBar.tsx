@@ -10,6 +10,7 @@ import DropDownHighLightsGrid from "./DropDownPanelHighlightsGrid";
 import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
 import DropDownPanelRecentList from "./DropDownPanelRecentList";
 import Search from "./Search";
+import SearchResults from "./SearchResults";
 
 type MenuKey = "posts" | "recipes" | "crafts" | null;
 
@@ -25,6 +26,8 @@ type HeaderNavBarProps = {
 export default function HeaderNavBar(props: HeaderNavBarProps) {
   const [open, setOpen] = useState<MenuKey>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const searchWrapRef = useRef<HTMLDivElement | null>(null);
   const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   const closeTimer = useRef<NodeJS.Timeout | null>(null);
@@ -196,9 +199,24 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               </button>
 
               {searchOpen && (
-                <div className="absolute right-0 top-[calc(100%+0.5rem)] w-[min(90vw,40rem)] rounded-2xl border bg-white shadow-xl z-50 p-4">
-                  {/* ← Place it right here */}
-                  <Search autoFocus onSubmit={handleSearchSubmit} />
+                <div
+                  id="site-search-dropdown"
+                  role="dialog"
+                  aria-modal="false"
+                  className="fixed right-4 top-16 w-[min(90vw,40rem)] rounded-2xl border bg-white shadow-2xl z-[9999] p-4"
+                  onClick={(e) => e.stopPropagation()}>
+                  {/* Input */}
+                  <Search
+                    value={searchQuery}
+                    onChange={setSearchQuery}
+                    autoFocus
+                    className="w-full"
+                  />
+
+                  {/* Results list */}
+                  <div className="mt-3 max-h-[70vh] overflow-auto">
+                    <SearchResults query={searchQuery} />
+                  </div>
                 </div>
               )}
             </div>

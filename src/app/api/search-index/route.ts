@@ -20,6 +20,7 @@ type IndexItem = {
   summary?: string;
   tags?: string[];
   date?: string;
+  hero?: string;
 };
 
 export async function GET() {
@@ -72,6 +73,22 @@ export async function GET() {
       slug.split("/").pop()!.replace(/-/g, " ");
 
     const tags = Array.isArray(data.tags) ? (data.tags as string[]) : undefined;
+
+    const hero =
+      typeof data.hero === "string" && data.hero.trim() ? data.hero : undefined;
+
+    items.push({
+      title,
+      href,
+      kind,
+      summary:
+        (typeof data.summary === "string" && data.summary) ||
+        (typeof data.description === "string" && data.description) ||
+        plain.slice(0, 240),
+      tags,
+      date: typeof data.date === "string" ? data.date : undefined,
+      hero, // ← add this
+    });
 
     items.push({
       title,
