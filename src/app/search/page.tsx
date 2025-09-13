@@ -4,15 +4,20 @@ import Header from "components/Header";
 import Footer from "components/Footer";
 import Link from "next/link";
 import Fuse from "fuse.js";
-import { SEARCH_ITEMS, SearchItem } from "lib/searchIndex";
+import {
+  buildSearchIndex,
+  type BuiltItem as SearchItem,
+} from "lib/buildSearchIndex";
 
-type Props = { searchParams: { q?: string | string[] } };
+type Props = { searchParams: Promise<{ q?: string | string[] }> };
 
-export default function SearchPage({ searchParams }: Props) {
-  const raw = searchParams?.q;
+export default async function SearchPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const raw = sp?.q;
   const q = Array.isArray(raw) ? raw[0] : raw ?? "";
   const query = q.trim();
-  const results = query ? fuseSearch(SEARCH_ITEMS, query) : [];
+  const items: SearchItem[] = await buildSearchIndex();
+  const results = query ? fuseSearch(items, query) : [];
 
   return (
     <div className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
