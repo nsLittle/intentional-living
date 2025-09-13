@@ -1,29 +1,51 @@
 // src/app/page.tsx
-
-import HeaderNavBarServer from "components/HeaderNavBarServer";
+import Image from "next/image";
 import Header from "components/Header";
-import Sidebar from "components/Sidebar";
-import Footer from "components/Footer";
-import HeroContent from "components/HeroContent";
+import FooterPlain from "components/FooterPlain";
 
-export default function Home() {
+export default function PlaceholderHome() {
   return (
-    <main className="bg-[#fefcf9] min-h-screen text-[#5c5045] font-serif">
-      {/* Header Navigation Bar Server */}
-      <HeaderNavBarServer />
+    <main className="min-h-screen flex flex-col bg-[#fefcf9]">
+      {/* HeaderNavBar (green background, logo + title) */}
+      <header className="w-full border-b border-black/5 bg-[#2f5d4b]">
+        <div className="mx-auto max-w-6xl px-4 h-20 flex items-center gap-3">
+          <Image
+            src="/favicon.ico"
+            alt="Simple Intentions"
+            width={28}
+            height={28}
+            className="rounded-sm"
+          />
+          <div className="leading-tight">
+            <span className="block font-serif text-base text-[#fefcf9]">
+              Simple
+            </span>
+            <span className="block font-serif text-lg -mt-1 text-[#fefcf9]">
+              Intentions
+            </span>
+          </div>
+          <div className="ml-auto">
+            <span className="text-[#fefcf9]/80 text-sm">
+              Coming October 2025
+            </span>
+          </div>
+        </div>
+      </header>
 
-      {/*Header*/}
       <Header />
 
-      <div className="w-full max-w-none px-6 lg:pl-24 lg:pr-6 py-6 flex flex-col lg:flex-row-reverse">
-        {/* Sidebar */}
-        <Sidebar />
+      {/* Hero (plain white with message) */}
+      <section className="flex-1 flex items-center justify-center">
+        <div className="text-center py-50">
+          <h1 className="text-3xl md:text-5xl font-serif text-[#2f5d4b]">
+            Growing roots.{" "}
+            <span className="block md:inline">Sprouting soon.</span>
+          </h1>
+        </div>
+      </section>
 
-        {/* Hero Content */}
-        <HeroContent />
-      </div>
-
-      <Footer />
+      {/* Footer (copyright) */}
+      <FooterPlain />
     </main>
   );
 }
