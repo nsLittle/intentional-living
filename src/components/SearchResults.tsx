@@ -27,10 +27,11 @@ export default function SearchResults({ query }: { query: string }) {
       try {
         const res = await fetch("/api/search-index", { cache: "force-cache" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
+        const data: { items: IndexItem[] } = await res.json();
         if (!cancelled) setItems(Array.isArray(data.items) ? data.items : []);
-      } catch (e: any) {
-        if (!cancelled) setError(e?.message ?? "Failed to load index");
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : "Failed to load index";
+        if (!cancelled) setError(msg);
       } finally {
         if (!cancelled) setLoading(false);
       }
