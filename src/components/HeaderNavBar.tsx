@@ -88,15 +88,15 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             <Image
               src="/favicon.ico"
               alt="Simple Intentions"
-              width={28}
-              height={28}
-              className="rounded-sm"
+              width={32}
+              height={32}
+              className="rounded-sm mt-6"
             />
             <div className="leading-tight">
-              <span className="block font-serif text-base text-[#fefcf9]">
+              <span className="block font-serif text-2xl text-[#fefcf9] mt-6">
                 Simple
               </span>
-              <span className="block font-serif text-lg -mt-1 text-[#fefcf9]">
+              <span className="block font-serif text-2xl text-[#fefcf9] -mt-2">
                 Intentions
               </span>
             </div>
@@ -104,11 +104,11 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
           {/* center nav */}
           <nav aria-label="Primary" className="flex-1 flex justify-center">
-            <ul className="flex gap-6 items-center">
+            <ul className="flex gap-6 items-center mt-6">
               <li>
                 <Link
                   href="/about"
-                  className="text-[#fefcf9] text-sm hover:underline">
+                  className="text-[#fefcf9] text-base hover:underline">
                   About
                 </Link>
               </li>
@@ -117,55 +117,58 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                 className="relative inline-flex items-center"
                 onMouseEnter={() => openMenu("posts")}
                 onMouseLeave={scheduleClose}>
-                <button
-                  className="text-[#fefcf9] text-sm hover:underline"
+                <Link
+                  href="/posts"
+                  className="text-[#fefcf9] text-base hover:underline"
                   onFocus={() => openMenu("posts")}
                   onBlur={scheduleClose}
                   aria-expanded={open === "posts"}
                   aria-haspopup="true">
                   Posts
-                </button>
+                </Link>
               </li>
 
               <li
                 className="relative inline-flex items-center"
                 onMouseEnter={() => openMenu("recipes")}
                 onMouseLeave={scheduleClose}>
-                <button
-                  className="text-[#fefcf9] text-sm hover:underline"
+                <Link
+                  href="/recipes"
+                  className="text-[#fefcf9] text-base hover:underline"
                   onFocus={() => openMenu("recipes")}
                   onBlur={scheduleClose}
                   aria-expanded={open === "recipes"}
                   aria-haspopup="true">
                   Recipes
-                </button>
+                </Link>
               </li>
 
               <li
                 className="relative inline-flex items-center"
                 onMouseEnter={() => openMenu("crafts")}
                 onMouseLeave={scheduleClose}>
-                <button
-                  className="text-[#fefcf9] text-sm hover:underline"
+                <Link
+                  href="/crafts"
+                  className="text-[#fefcf9] text-base hover:underline"
                   onFocus={() => openMenu("crafts")}
                   onBlur={scheduleClose}
                   aria-expanded={open === "crafts"}
                   aria-haspopup="true">
                   Crafts
-                </button>
+                </Link>
               </li>
 
               <li>
                 <Link
                   href="/printables"
-                  className="text-[#fefcf9] text-sm hover:underline">
+                  className="text-[#fefcf9] text-base hover:underline">
                   Printables
                 </Link>
               </li>
               <li>
                 <Link
                   href="/contact"
-                  className="text-[#fefcf9] text-sm hover:underline">
+                  className="text-[#fefcf9] text-base hover:underline">
                   Contact
                 </Link>
               </li>
@@ -173,7 +176,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           </nav>
 
           {/* Right: search + subscribe */}
-          <div className="ml-auto flex items-center gap-4">
+          <div className="ml-auto flex items-center gap-4 mt-6">
             {/* One wrapper for BOTH button and panel */}
             <div className="relative" ref={searchWrapRef}>
               <button
