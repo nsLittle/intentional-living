@@ -9,7 +9,7 @@ export default function Header() {
         fill
         className="object-cover"
         priority
-        sizes="100vw"
+        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 1280px"
       />
     </header>
   );
