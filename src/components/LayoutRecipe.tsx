@@ -6,7 +6,7 @@ import Header from "components/Header";
 import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
 import ButtonDownloadPdf from "components/ButtonDownloadPdf";
-
+import PinterestShare from "./PinterestShare";
 type RecipeLayoutProps = {
   title: string;
   date: string;
@@ -57,6 +57,13 @@ export default function LayoutRecipe({
           {/* Title + date */}
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
           {date ? <p className="text-gray-500 italic mb-8">{date}</p> : null}
+
+          {hero && (
+            <PinterestShare
+              imageUrl={hero}
+              description={`${title} • Simple Intentions`}
+            />
+          )}
 
           {/* Intro text + image side-by-side (2/3 text, 1/3 image) */}
           {(text || textToo || hero) && (

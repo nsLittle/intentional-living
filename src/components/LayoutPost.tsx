@@ -5,6 +5,7 @@ import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
+import PinterestShare from "./PinterestShare";
 
 type PostLayoutProps = {
   title: string;
@@ -33,6 +34,13 @@ export default function LayoutPost({
         <article className="w-full max-w-3xl">
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
           {date && <p className="text-gray-500 italic mb-8">{date}</p>}
+
+          {hero && (
+            <PinterestShare
+              imageUrl={hero}
+              description={`${title} • Simple Intentions`}
+            />
+          )}
 
           {(text || hero) && (
             <div className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
