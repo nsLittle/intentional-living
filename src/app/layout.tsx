@@ -16,6 +16,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const shouldRegisterSW = process.env.NODE_ENV === "production";
+
 export const metadata: Metadata = {
   title: "Simple Intentions",
   description: "Wild food, simple living, and seasonal joy from Vermont.",
@@ -47,13 +49,15 @@ export default function RootLayout({
       </head>
       <body
         className={`bg-[#fefcf9] min-h-screen ${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Script id="sw-register" strategy="afterInteractive">
-          {`if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-              window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(console.error);
-              });
-            }`}
-        </Script>
+        {shouldRegisterSW && (
+          <Script id="sw-register" strategy="afterInteractive">
+            {`if ('serviceWorker' in navigator) {
+               window.addEventListener('load', () => {
+                 navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(console.error);
+               });
+             }`}
+          </Script>
+        )}
         {children}
       </body>
     </html>
