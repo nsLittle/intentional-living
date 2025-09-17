@@ -1,5 +1,4 @@
 // src/components/FooterPlain.tsx
-import FooterNewsletterSignup from "./FooterNewsletterSignup";
 import FooterCopyright from "./FooterCopyright";
 
 export default function FooterPlain() {
