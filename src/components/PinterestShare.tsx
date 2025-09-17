@@ -17,7 +17,6 @@ export default function PinterestShare({
   const pathname = usePathname();
   const pageUrl = `${SITE_URL}${pathname}`;
 
-  // Pinterest create-pin URL
   const pinHref = `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(
     pageUrl
   )}&media=${encodeURIComponent(
@@ -39,7 +38,6 @@ export default function PinterestShare({
           focus:outline-none focus:ring-2 focus:ring-[#E60023]/30 focus:ring-offset-2
           active:scale-95
         ">
-        {/* Pinterest brand mark: red circle + white P (no extra CSS circle) */}
         <svg
           width="28"
           height="28"
