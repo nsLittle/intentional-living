@@ -4,7 +4,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import DropDownPanelContainer from "./DropDownPanelContainer";
 import DropDownHighLightsGrid from "./DropDownPanelHighlightsGrid";
 import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
