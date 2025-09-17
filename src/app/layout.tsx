@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 
 const isProd = process.env.NODE_ENV === "production";
 
+const isProdMain =
+  process.env.CONTEXT === "production" && process.env.BRANCH === "main";
+
 export const metadata: Metadata = {
   title: "Simple Intentions",
   description: "Wild food, simple living, and seasonal joy from Vermont.",
@@ -45,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#fefcf9]">
       <head>
+        {!isProdMain && <meta name="robots" content="noindex, nofollow" />}
         <link rel="icon" href="/favicon.ico" />
       </head>
 
