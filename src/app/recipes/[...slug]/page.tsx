@@ -1,13 +1,84 @@
 // src/app/recipes/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import fs from "fs";
+import type { Metadata } from "next";
 import path from "path";
 import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import LayoutRecipe from "components/LayoutRecipe";
 import { getAllRecipes } from "lib/recipes";
 
-// Emit params for nested files, e.g. { slug: ["cookies","m-and-m-cookies"] }
+// === Social previews (OG/Twitter) ===
+const SITE_ORIGIN = "https://dev--simple-intentions.netlify.app"; // change at launch
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string[] };
+}): Promise<Metadata> {
+  // Build the MDX file path just like your page() does
+  const slugParts = params.slug;
+  const filePath =
+    path.join(process.cwd(), "src", "content", "recipes", ...slugParts) +
+    ".mdx";
+
+  // Read frontmatter
+  let fm: any = {};
+  try {
+    const fileContent = fs.readFileSync(filePath, "utf8");
+    const { data } = matter(fileContent);
+    fm = data ?? {};
+  } catch {
+    // If the file isn't found at build time, return minimal metadata
+    const fallbackUrl = `${SITE_ORIGIN}/recipes/${slugParts.join("/")}`;
+    return {
+      title: "Recipe | Simple Intentions",
+      alternates: { canonical: fallbackUrl },
+    };
+  }
+
+  const slugLast = slugParts[slugParts.length - 1];
+  const url = `${SITE_ORIGIN}/recipes/${slugParts.join("/")}`;
+
+  const titleBase = fm.title ?? fm.recipe ?? slugLast.replace(/-/g, " ");
+  const title = `${titleBase} | Simple Intentions`;
+
+  const description =
+    fm.description ?? fm.text ?? "Simple, seasonal recipes from Vermont.";
+
+  // Prefer an explicit share image; else fall back to your 1000×1500 pin; else hero
+  const sharePath =
+    fm.shareImage ?? `/recipes/${slugLast}/${slugLast}-pin.webp` ?? fm.hero;
+
+  // Ensure absolute URL for social cards
+  const shareUrl = sharePath?.startsWith("http")
+    ? sharePath
+    : `${SITE_ORIGIN}${sharePath ?? ""}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      siteName: "Simple Intentions",
+      title,
+      description,
+      // 1000×1500 matches your Pin asset
+      images: sharePath
+        ? [{ url: shareUrl, width: 1000, height: 1500 }]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: sharePath ? [shareUrl] : undefined,
+    },
+  };
+}
+
 export async function generateStaticParams() {
   return getAllRecipes().map((r) => ({ slug: r.slug.split("/") }));
 }

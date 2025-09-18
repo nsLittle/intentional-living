@@ -9,8 +9,8 @@ export default function Header() {
         fill
         className="object-cover"
         priority
-        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 1280px"
-        quality={60}
+        sizes="(min-width:1536px) 1536px, (min-width:1280px) 1344px, 100vw"
+        quality={80}
       />
     </header>
   );
