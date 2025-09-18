@@ -4,7 +4,7 @@ import path from "node:path";
 import React from "react";
 import matter from "gray-matter";
 import { marked } from "marked";
-import LayoutPost from "components/LayoutPost";
+import LayoutAbout from "components/LayoutAbout";
 
 export const metadata = {
   title: "About — Simple Intentions",
@@ -31,7 +31,7 @@ export default function AboutPage() {
   const html = marked.parse(markdown || "");
 
   return (
-    <LayoutPost
+    <LayoutAbout
       title={fm.title ?? "About"}
       date={fm.date}
       hero={fm.hero}
