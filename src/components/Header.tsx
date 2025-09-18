@@ -10,7 +10,7 @@ export default function Header() {
         className="object-cover"
         priority
         sizes="(min-width:1536px) 1536px, (min-width:1280px) 1344px, 100vw"
-        quality={80}
+        quality={60}
       />
     </header>
   );

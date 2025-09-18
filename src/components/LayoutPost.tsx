@@ -65,7 +65,8 @@ export default function LayoutPost({
                     width={800}
                     height={450}
                     priority
-                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                    sizes="(min-width:1280px) 128px, (min-width:768px) 40vw, 90vw"
+                    quality={60}
                     className="w-full h-auto rounded-xl shadow object-cover"
                   />
                 </div>

@@ -28,6 +28,7 @@ export default function LayoutAllPosts({ posts }: LayoutAllPostsProps) {
                 alt={post.title}
                 width={800}
                 height={450}
+                sizes="(min-width:1280px) 364px, (min-width:768px) 50vw, 100vw"
                 priority
                 className="w-full h-48 object-cover"
               />
