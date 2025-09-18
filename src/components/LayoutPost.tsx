@@ -6,6 +6,7 @@ import Header from "components/Header";
 import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
 import PinterestShare from "./PinterestShare";
+import FacebookShareButton from "./FacebookShareButton";
 
 type PostLayoutProps = {
   title: string;
@@ -36,10 +37,16 @@ export default function LayoutPost({
           {date && <p className="text-gray-500 italic mb-8">{date}</p>}
 
           {hero && (
-            <PinterestShare
-              imageUrl={hero}
-              description={`${title} • Simple Intentions`}
-            />
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <PinterestShare
+                imageUrl={hero}
+                description={`${title} • Simple Intentions`}
+              />
+              <FacebookShareButton
+                variant="icon"
+                className="relative -top-1 hover:drop-shadow hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30 focus:ring-offset-2"
+              />
+            </div>
           )}
 
           {(text || hero) && (
