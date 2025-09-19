@@ -7,6 +7,7 @@ import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import LayoutRecipe from "components/LayoutRecipe";
 import { getAllRecipes } from "lib/recipes";
+import LinkReturnPost from "components/LinkReturnPost";
 
 // === Social previews (OG/Twitter) ===
 const SITE_ORIGIN = "https://dev--simple-intentions.netlify.app"; // change at launch
@@ -111,6 +112,7 @@ export default async function RecipePage({
   const title = data.title ?? data.recipe ?? slugParts[slugParts.length - 1];
   const date = data.date ?? undefined;
   const hero = data.hero ?? undefined;
+  const parentPost = data.parentPost ?? undefined;
   const text = data.text ?? undefined;
   const recipeYield = data.yield ?? undefined;
   const prepTime = data.prepTime ?? data["prep time"] ?? undefined;
@@ -159,6 +161,7 @@ export default async function RecipePage({
       title={title}
       date={date}
       hero={hero}
+      parentPost={parentPost}
       text={text}
       yield={recipeYield}
       prepTime={prepTime}
@@ -171,7 +174,7 @@ export default async function RecipePage({
       notes={notes}
       pdf={pdf}
       methodLabel={methodLabel}>
-      <MDXRemote source={content} />
+      <MDXRemote source={content} components={{ LinkReturnPost }} />
     </LayoutRecipe>
   );
 }

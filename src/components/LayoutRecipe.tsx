@@ -5,13 +5,16 @@ import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
+import LinkReturnPost from "./LinkReturnPost";
 import ButtonDownloadPdf from "components/ButtonDownloadPdf";
 import PinterestShare from "./PinterestShare";
+import FacebookShareButton from "./FacebookShareButton";
 
 type RecipeLayoutProps = {
   title: string;
   date: string;
   hero?: string;
+  parentPost?: string;
   text?: string;
   textToo?: string;
   yield?: string;
@@ -32,6 +35,7 @@ export default function LayoutRecipe({
   title,
   date,
   hero,
+  parentPost,
   text,
   textToo,
   yield: recipeYield,
@@ -59,11 +63,22 @@ export default function LayoutRecipe({
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
           {date ? <p className="text-gray-500 italic mb-8">{date}</p> : null}
 
+          <div className="mt-10">
+            {/* ⬇️ Use parentPost if provided, else fall back to home */}
+            <LinkReturnPost href={parentPost ?? "/recipes"} />
+          </div>
+
           {hero && (
-            <PinterestShare
-              imageUrl={hero}
-              description={`${title} • Simple Intentions`}
-            />
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <PinterestShare
+                imageUrl={hero}
+                description={`${title} • Simple Intentions`}
+              />
+              <FacebookShareButton
+                variant="icon"
+                className="relative -top-1 hover:drop-shadow hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30 focus:ring-offset-2"
+              />
+            </div>
           )}
 
           {/* Intro text + image side-by-side (2/3 text, 1/3 image) */}
