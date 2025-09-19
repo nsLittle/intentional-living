@@ -7,6 +7,8 @@ import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
 import ButtonDownloadPdf from "components/ButtonDownloadPdf";
 import PinterestShare from "./PinterestShare";
+import FacebookShareButton from "./FacebookShareButton";
+import SectionCard from "./SectionCard";
 
 type CraftLayoutProps = {
   title: string;
@@ -46,10 +48,16 @@ export default function LayoutCraft({
           {date ? <p className="text-gray-500 italic mb-8">{date}</p> : null}
 
           {hero && (
-            <PinterestShare
-              imageUrl={hero}
-              description={`${title} • Simple Intentions`}
-            />
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <PinterestShare
+                imageUrl={hero}
+                description={`${title} • Simple Intentions`}
+              />
+              <FacebookShareButton
+                variant="icon"
+                className="relative -top-1 hover:drop-shadow hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30 focus:ring-offset-2"
+              />
+            </div>
           )}
 
           {/* Intro text + image (2/3 text, 1/3 image) */}
@@ -87,8 +95,8 @@ export default function LayoutCraft({
             (materials && materials.length) ||
             gauge ||
             instructions) && (
-            <section className="mb-10 rounded-2xl border border-amber-200 bg-white/70 p-6 shadow-sm">
-              <h2 className="text-2xl font-semibold mb-4">Pattern details</h2>
+            <SectionCard>
+              <h2 className="text-2xl font-semibold mb-4">Knitting Pattern</h2>
 
               <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                 {size && (
@@ -128,24 +136,24 @@ export default function LayoutCraft({
               {instructions && (
                 <div className="mt-6">
                   <h3 className="text-xl font-semibold mb-2">Instructions</h3>
-                  {/* If instructions can contain simple newlines, this preserves them.
-                      If you expect HTML here, tell me and I’ll switch to dangerouslySetInnerHTML. */}
                   <p className="whitespace-pre-line leading-relaxed">
                     {instructions}
                   </p>
                 </div>
               )}
-            </section>
+            </SectionCard>
           )}
 
           {/* Download PDF button */}
-          {pdf && (
-            <ButtonDownloadPdf
-              href={`/downloads/patterns/${pdf}`}
-              label="Download Pattern (PDF)"
-              ariaLabel={`Download ${title} pattern PDF`}
-            />
-          )}
+          <div className="mt-8">
+            {pdf && (
+              <ButtonDownloadPdf
+                href={`/downloads/patterns/${pdf}`}
+                label="Download Pattern (PDF)"
+                ariaLabel={`Download ${title} pattern PDF`}
+              />
+            )}
+          </div>
 
           {/* MDX body content */}
           <section className="prose">{children}</section>
