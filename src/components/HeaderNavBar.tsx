@@ -13,7 +13,7 @@ import Search from "./Search";
 import SearchResults from "./SearchResults";
 import HeaderNavBarNewsletterSignup from "./HeaderNavBarNewsletterSignup";
 
-type MenuKey = "posts" | "recipes" | "crafts" | null;
+type MenuKey = "posts" | "recipes" | "crafts" | "printables" | null;
 
 type HeaderNavBarProps = {
   postsRecent?: { title: string; href: string }[];
@@ -22,6 +22,8 @@ type HeaderNavBarProps = {
   recipesHighlights?: { title: string; href: string; img?: string }[];
   craftsRecent?: { title: string; href: string }[];
   craftsHighlights?: { title: string; href: string; img?: string }[];
+  printablesRecent?: { title: string; href: string }[];
+  printablesHighlights?: { title: string; href: string; img?: string }[];
 };
 
 export default function HeaderNavBar(props: HeaderNavBarProps) {
@@ -171,13 +173,21 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                 </Link>
               </li>
 
-              <li>
+              <li
+                className="relative inline-flex items-center"
+                onMouseEnter={() => openMenu("printables")}
+                onMouseLeave={scheduleClose}>
                 <Link
                   href="/printables"
-                  className="text-[#fefcf9] text-base hover:underline">
+                  className="text-[#fefcf9] text-base hover:underline"
+                  onFocus={() => openMenu("printables")}
+                  onBlur={scheduleClose}
+                  aria-expanded={open === "printables"}
+                  aria-haspopup="true">
                   Printables
                 </Link>
               </li>
+
               <li>
                 <Link
                   href="/contact"
@@ -366,6 +376,38 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           className="col-span-12 md:col-span-3 md:col-start-9"
           items={props.craftsHighlights}
           fallbackImg="/images/crafts/fairy-house.png"
+          emptyMessage="No highlights yet."
+          maxItems={4}
+        />
+      </DropDownPanelContainer>
+      {/* Dropdown panel for printables */}
+      <DropDownPanelContainer
+        isOpen={open === "printables"}
+        onOpen={() => openMenu("printables")}
+        onClose={scheduleClose}>
+        {/* Left column: section nav */}
+        <DropDownPanelCategoryGrid
+          className="col-span-12 md:col-span-3 md:col-start-1"
+          title="Printables"
+          allHref="/printables"
+          allLabel="All Printables →"
+          items={[
+            { href: "/printables/recipes", label: "Recipes" },
+            { href: "/printables/projects", label: "Projects" },
+            { href: "/printables/tags", label: "Tags" },
+          ]}
+        />
+
+        {/* Middle column: recent printables */}
+        <DropDownPanelRecentList
+          className="col-span-12 md:col-span-4 md:col-start-5"
+          items={props.printablesRecent}
+          emptyMessage="No printables yet."
+        />
+        <DropDownHighLightsGrid
+          className="col-span-12 md:col-span-3 md:col-start-9"
+          items={props.printablesHighlights}
+          fallbackImg="/images/printables/fallback.png"
           emptyMessage="No highlights yet."
           maxItems={4}
         />
