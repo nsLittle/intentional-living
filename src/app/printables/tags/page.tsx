@@ -21,8 +21,6 @@ export default function PrintablesTagsPage() {
     a.title.localeCompare(b.title, undefined, { sensitivity: "base" })
   );
 
-  const thumb = thumbFromPdf(p.href);
-
   return (
     <>
       <HeaderNavBarServer />
@@ -43,6 +41,8 @@ export default function PrintablesTagsPage() {
         {items.length ? (
           <ul className="grid gap-4 sm:grid-cols-2">
             {items.map((p) => {
+              const thumb = thumbFromPdf(p.href);
+
               return (
                 <li
                   key={p.href}
