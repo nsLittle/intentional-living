@@ -15,7 +15,7 @@ type CraftLayoutProps = {
   title: string;
   date?: string;
   hero?: string;
-  parentPost;
+  parentPost?: string;
   tags?: string[];
   text?: string;
   size?: string;
