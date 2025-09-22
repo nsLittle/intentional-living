@@ -5,6 +5,16 @@ import Footer from "components/Footer";
 import Image from "next/image";
 import { getAllPrintables } from "lib/printables";
 
+// /downloads/<category>/<name>.pdf -> /downloads/thumbnails/<category>/<name>.webp
+function thumbFromPdf(pdf?: string) {
+  if (!pdf) return undefined;
+  const withoutPrefix = pdf.replace(/^\/downloads\//, "");
+  const [category, rest] = withoutPrefix.split("/", 2);
+  if (!category || !rest) return undefined;
+  const base = rest.replace(/\.pdf$/i, "");
+  return `/downloads/thumbnails/${category}/${base}.webp`;
+}
+
 export default function PrintablesTagsPage() {
   const all = getAllPrintables().filter((p) => p.category === "tags");
   const items = [...all].sort((a, b) =>
