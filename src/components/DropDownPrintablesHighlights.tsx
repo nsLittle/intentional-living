@@ -1,9 +1,6 @@
 // src/components/DropDownPrintablesHighlights.tsx
 // Server component that gathers Printables and renders the client grid.
 
-import DropDownHighLightsGrid, {
-  DropDownHighLightsGridItem,
-} from "./DropDownHighLightsGrid";
 import { getAllPrintables } from "lib/printables";
 
 // /downloads/<category>/<name>.pdf -> /downloads/thumbnails/<category>/<name>.webp
@@ -17,17 +14,12 @@ function thumbFromPdf(pdf?: string) {
 }
 
 type Props = {
-  /** "recipes" | "projects" | "tags" | "all" (default "all") */
   category?: "recipes" | "projects" | "tags" | "all";
-  /** Max tiles to show, default 6 */
   maxItems?: number;
-  /** Optional custom empty message */
   emptyMessage?: string;
-  /** Optional extra classes for grid container */
   className?: string;
 };
 
-// Tiny beige SVG as a safe built-in fallback for next/image
 const FALLBACK_DATA_URL =
   "data:image/svg+xml;utf8," +
   encodeURIComponent(
