@@ -21,6 +21,8 @@ export default function PrintablesTagsPage() {
     a.title.localeCompare(b.title, undefined, { sensitivity: "base" })
   );
 
+  const thumb = thumbFromPdf(p.href);
+
   return (
     <>
       <HeaderNavBarServer />
