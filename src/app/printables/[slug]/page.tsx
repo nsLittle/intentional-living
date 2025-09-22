@@ -23,16 +23,15 @@ function thumbFromPdf(pdf?: string) {
   return `/downloads/thumbnails/${category}/${base}.webp`;
 }
 
-type Params = { params: { slug: string } };
-
-export default function PrintableDetailPage({
+export default async function PrintableDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const slug = params.slug;
+  const { slug } = await params;
+
   const all = getAllPrintables();
-  const match = all.find((p) => baseFromHref(p.href) === params.slug);
+  const match = all.find((p) => baseFromHref(p.href) === slug);
   if (!match) return notFound();
 
   const thumb = thumbFromPdf(match.href);
