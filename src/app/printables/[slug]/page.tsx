@@ -25,7 +25,12 @@ function thumbFromPdf(pdf?: string) {
 
 type Params = { params: { slug: string } };
 
-export default function PrintableDetailPage({ params }: Params) {
+export default function PrintableDetailPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const slug = params.slug;
   const all = getAllPrintables();
   const match = all.find((p) => baseFromHref(p.href) === params.slug);
   if (!match) return notFound();

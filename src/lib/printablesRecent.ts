@@ -3,20 +3,16 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-/**
- * 1) Map each printable PDF (by its base name) to the MDX it’s associated with.
- *    - key = PDF file name WITHOUT .pdf (e.g., "ballband-patterns")
- *    - value = { section, slug } where `section` is one of "posts" | "recipes" | "crafts"
- *      and `slug` is the mdx file name WITHOUT .mdx (e.g., "ballband-kitchen-clothes")
- *
- *    👉 Fill this out for your current printables.
- */
+type CoreFrontmatter = {
+  title?: string;
+  date?: string;
+  hero?: string;
+};
+
 const PRINTABLE_TO_SOURCE: Record<
   string,
   { section: "posts" | "recipes" | "crafts"; slug: string }
 > = {
-  // EXAMPLES — replace with your real mappings
-  // "pdf-base-name": { section: "crafts", slug: "ballband-kitchen-clothes" },
   "ballband-pattern": { section: "crafts", slug: "ballband-kitchen-clothes" },
   "bold-earth": { section: "recipes", slug: "bold-earth-spice-mix" },
   "ultimate-brownies": { section: "recipes", slug: "ultimate-brownies" },
@@ -29,8 +25,6 @@ function mdxPathFor(section: "posts" | "recipes" | "crafts", slug: string) {
 
 function parseDateLoose(input: unknown): number | null {
   if (typeof input !== "string" || input.trim().length === 0) return null;
-  // support "07-25-2025" (MM-DD-YYYY) and ISO-like strings
-  // normalize MM-DD-YYYY -> YYYY-MM-DD for reliable parsing
   const mmddyyyy = /^(\d{2})-(\d{2})-(\d{4})$/;
   if (mmddyyyy.test(input)) {
     const [, mm, dd, yyyy] = input.match(mmddyyyy)!;
@@ -81,7 +75,7 @@ export function resolvePrintableToRecent(p: PrintableInput): RecentPrintable {
     const mdxPath = mdxPathFor(mapping.section, mapping.slug);
     if (fs.existsSync(mdxPath)) {
       const raw = fs.readFileSync(mdxPath, "utf8");
-      const { data } = matter(raw);
+      const { data } = matter(raw) as { data: CoreFrontmatter };
       // Prefer MDX title if present
       if (data?.title && typeof data.title === "string") {
         recentTitle = data.title;
@@ -103,17 +97,12 @@ export function resolvePrintableToRecent(p: PrintableInput): RecentPrintable {
   };
 }
 
-/**
- * Given your full list from getAllPrintables(), compute N most recent.
- */
 export function computeRecentPrintables(
   all: PrintableInput[],
-  limit = 6
-): Array<{ title: string; href: string }> {
+  limit = 4
+): Array<{ title: string; href: string; img?: string }> {
   const enriched = all.map(resolvePrintableToRecent);
-  // Newest first
   enriched.sort((a, b) => (b.sortKey || 0) - (a.sortKey || 0));
-  // Fallback: if both sortKey=0, fall back to title A→Z to keep stable
   for (let i = 1; i < enriched.length; i++) {
     if (enriched[i].sortKey === 0 && enriched[i - 1].sortKey === 0) {
       enriched.sort((a, b) => a.title.localeCompare(b.title));

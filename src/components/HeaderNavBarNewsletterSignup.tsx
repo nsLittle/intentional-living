@@ -12,16 +12,8 @@ export default function HeaderNavBarNewsletterSignup({
   endpoint = "/api/subscribe",
   className = "",
 }: Props) {
-  const {
-    email,
-    setEmail,
-    website,
-    setWebsite,
-    status,
-    error,
-    onSubmit,
-    reset,
-  } = useNewsletterSignup(endpoint);
+  const { email, setEmail, website, setWebsite, status, error, onSubmit } =
+    useNewsletterSignup(endpoint);
 
   const emailId = useId();
   const hpId = useId();

@@ -5,7 +5,6 @@ import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
-import PinterestShare from "./PinterestShare";
 
 type AboutLayoutProps = {
   title: string;
