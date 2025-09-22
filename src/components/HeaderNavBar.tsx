@@ -50,8 +50,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
     closeTimer.current = setTimeout(() => setOpen(null), 120);
   };
 
-  const wasOpenRef = useRef(false);
-
   useEffect(() => {
     function handleDown(e: MouseEvent) {
       // existing search dropdown logic…
