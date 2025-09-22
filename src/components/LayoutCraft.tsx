@@ -10,6 +10,7 @@ import ButtonDownloadPdf from "components/ButtonDownloadPdf";
 import PinterestShare from "./PinterestShare";
 import FacebookShareButton from "./FacebookShareButton";
 import SectionCard from "./SectionCard";
+import { Suspense } from "react";
 
 type CraftLayoutProps = {
   title: string;
@@ -61,10 +62,12 @@ export default function LayoutCraft({
                 imageUrl={hero}
                 description={`${title} • Simple Intentions`}
               />
-              <FacebookShareButton
-                variant="icon"
-                className="relative -top-1 hover:drop-shadow hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30 focus:ring-offset-2"
-              />
+              <Suspense fallback={null}>
+                <FacebookShareButton
+                  variant="icon"
+                  className="relative -top-1 hover:drop-shadow hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30 focus:ring-offset-2"
+                />
+              </Suspense>
             </div>
           )}
 
