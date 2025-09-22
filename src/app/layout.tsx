@@ -45,8 +45,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#fefcf9]">
       <head>
+        {!shouldRegisterSW && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
         <link rel="icon" href="/favicon.ico" />
       </head>
+
       <body
         className={`bg-[#fefcf9] min-h-screen ${geistSans.variable} ${geistMono.variable} antialiased`}>
         {shouldRegisterSW && (

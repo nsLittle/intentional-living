@@ -1,25 +1,25 @@
 export default function HeroIntro() {
   return (
-    <div>
+    <section aria-label="Intro" className="max-w-2xl">
       <h1 className="text-4xl font-bold text-black leading-tight">
-        Wild Crafting, Recipes,
-        <br /> Guides & More
+        Simple Intentions,
+        <br />
+        Vermont Made
       </h1>
-      <div className="mb-8 mt-">
-        <p className="mt-4 text-xl">
-          Come discover the art of simple intentions, the joys of wild crafting,
-          slowing down for seasonal coooking, and opportunistic foraging from
-          Vermont.
+      <div className="mb-8">
+        <p className="mt-4 text-xl leading-relaxed">
+          Seasonal cooking, small crafts, and opportunistic foraging. Slow,
+          kind, and pantry-first.
         </p>
-        <p className="mt-4 text-xl">
-          This is where the warmth of woodsy treasures meet homemade goodness.
-          It&#39;s about life&#39;s simple pleasures savored with intention.
+        <p className="mt-4 text-xl leading-relaxed">
+          Where woodsy treasures meet homemade goodness. Simple pleasures
+          savored with intention.
         </p>
-        <p className="mt-4 text-xl">
-          Join me, and create your intentional life, one walk, one recipe, one
+        <p className="mt-4 text-xl leading-relaxed">
+          Join me in creating an intentional life. One walk, one recipe, one
           project at a time.
         </p>
       </div>
-    </div>
+    </section>
   );
 }

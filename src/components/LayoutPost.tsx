@@ -5,6 +5,9 @@ import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
+import PinterestShare from "./PinterestShare";
+import FacebookShareButton from "./FacebookShareButton";
+import { Suspense } from "react";
 
 type PostLayoutProps = {
   title: string;
@@ -34,6 +37,21 @@ export default function LayoutPost({
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
           {date && <p className="text-gray-500 italic mb-8">{date}</p>}
 
+          {hero && (
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <PinterestShare
+                imageUrl={hero}
+                description={`${title} • Simple Intentions`}
+              />
+              <Suspense fallback={null}>
+                <FacebookShareButton
+                  variant="icon"
+                  className="relative -top-1 hover:drop-shadow hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30 focus:ring-offset-2"
+                />
+              </Suspense>
+            </div>
+          )}
+
           {(text || hero) && (
             <div className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
               {/* Text column (2/3) */}
@@ -57,7 +75,8 @@ export default function LayoutPost({
                     width={800}
                     height={450}
                     priority
-                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                    sizes="(min-width:1280px) 128px, (min-width:768px) 40vw, 90vw"
+                    quality={60}
                     className="w-full h-auto rounded-xl shadow object-cover"
                   />
                 </div>

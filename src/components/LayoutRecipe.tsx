@@ -5,12 +5,18 @@ import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
+import LinkReturnPost from "./LinkReturnPost";
 import ButtonDownloadPdf from "components/ButtonDownloadPdf";
+import PinterestShare from "./PinterestShare";
+import FacebookShareButton from "./FacebookShareButton";
+import SectionCard from "components/SectionCard";
+import { Suspense } from "react";
 
 type RecipeLayoutProps = {
   title: string;
   date: string;
   hero?: string;
+  parentPost?: string;
   text?: string;
   textToo?: string;
   yield?: string;
@@ -31,6 +37,7 @@ export default function LayoutRecipe({
   title,
   date,
   hero,
+  parentPost,
   text,
   textToo,
   yield: recipeYield,
@@ -57,6 +64,26 @@ export default function LayoutRecipe({
           {/* Title + date */}
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
           {date ? <p className="text-gray-500 italic mb-8">{date}</p> : null}
+
+          <div className="mt-10">
+            {/* ⬇️ Use parentPost if provided, else fall back to home */}
+            <LinkReturnPost href={parentPost ?? "/recipes"} />
+          </div>
+
+          {hero && (
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <PinterestShare
+                imageUrl={hero}
+                description={`${title} • Simple Intentions`}
+              />
+              <Suspense fallback={null}>
+                <FacebookShareButton
+                  variant="icon"
+                  className="relative -top-1 hover:drop-shadow hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30 focus:ring-offset-2"
+                />
+              </Suspense>
+            </div>
+          )}
 
           {/* Intro text + image side-by-side (2/3 text, 1/3 image) */}
           {(text || textToo || hero) && (
@@ -87,107 +114,104 @@ export default function LayoutRecipe({
             </div>
           )}
 
-          <h2 className="text-3xl font-semibold mb-10 my-20">
-            Jarring Instructions
-          </h2>
-          {/* Jarring Section */}
-          {/* Meta row (yield / prep time) */}
-          {(recipeYield || prepTime) && (
-            <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {recipeYield && (
-                <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
-                  <div className="text-sm uppercase tracking-wide text-gray-500">
-                    Yield
+          <SectionCard>
+            <h2 className="text-3xl font-semibold mb-6 mt-4">
+              Jarring Instructions
+            </h2>
+            {(recipeYield || prepTime) && (
+              <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {recipeYield && (
+                  <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
+                    <div className="text-sm uppercase tracking-wide text-gray-500">
+                      Yield
+                    </div>
+                    <div className="text-lg">{recipeYield}</div>
                   </div>
-                  <div className="text-lg">{recipeYield}</div>
-                </div>
-              )}
-              {prepTime && (
-                <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
-                  <div className="text-sm uppercase tracking-wide text-gray-500">
-                    Prep Time
+                )}
+                {prepTime && (
+                  <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
+                    <div className="text-sm uppercase tracking-wide text-gray-500">
+                      Prep Time
+                    </div>
+                    <div className="text-lg">{prepTime}</div>
                   </div>
-                  <div className="text-lg">{prepTime}</div>
-                </div>
-              )}
-            </div>
-          )}
+                )}
+              </div>
+            )}
 
-          {/* Ingredients */}
-          {ingredients?.length ? (
-            <section className="mb-10">
-              <h2 className="text-2xl font-semibold mb-4">Ingredients</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                {ingredients.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
+            {ingredients?.length ? (
+              <section className="mb-8">
+                <h3 className="text-xl font-semibold mb-4">Ingredients</h3>
+                <ul className="list-disc pl-6 space-y-2">
+                  {ingredients.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
-          {/* Steps */}
-          {steps?.length ? (
-            <section className="mb-10">
-              <h2 className="text-2xl font-semibold mb-4">Steps</h2>
-              <ol className="list-decimal pl-6 space-y-3">
-                {steps.map((step, idx) => (
-                  <li key={idx}>{step}</li>
-                ))}
-              </ol>
-            </section>
-          ) : null}
+            {steps?.length ? (
+              <section>
+                <h3 className="text-xl font-semibold mb-4">Steps</h3>
+                <ol className="list-decimal pl-6 space-y-3">
+                  {steps.map((step, idx) => (
+                    <li key={idx}>{step}</li>
+                  ))}
+                </ol>
+              </section>
+            ) : null}
+          </SectionCard>
 
-          <h2 className="text-3xl font-semibold mb-10 my-20">
-            {method} Instructions
-          </h2>
-          {/* Baking section */}
-          {/* Meta row (yield / prep time) */}
-          {(bakingPrepTime || bakingTime) && (
-            <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {bakingPrepTime && (
-                <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
-                  <div className="text-sm uppercase tracking-wide text-gray-500">
-                    {method} Prep Time
+          <SectionCard className="mt-16 mb-16">
+            <h2 className="text-3xl font-semibold mb-6">
+              {method} Instructions
+            </h2>
+
+            {(bakingPrepTime || bakingTime) && (
+              <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {bakingPrepTime && (
+                  <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
+                    <div className="text-sm uppercase tracking-wide text-gray-500">
+                      {method} Prep Time
+                    </div>
+                    <div className="text-lg">{bakingPrepTime}</div>
                   </div>
-                  <div className="text-lg">{bakingPrepTime}</div>
-                </div>
-              )}
-              {bakingTime && (
-                <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
-                  <div className="text-sm uppercase tracking-wide text-gray-500">
-                    {method} Time
+                )}
+                {bakingTime && (
+                  <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
+                    <div className="text-sm uppercase tracking-wide text-gray-500">
+                      {method} Time
+                    </div>
+                    <div className="text-lg">{bakingTime}</div>
                   </div>
-                  <div className="text-lg">{bakingTime}</div>
-                </div>
-              )}
-            </div>
-          )}
+                )}
+              </div>
+            )}
 
-          {/* Ingredients */}
-          {bakingIngredients?.length ? (
-            <section className="mb-10">
-              <h2 className="text-2xl font-semibold mb-4">
-                {method} Ingredients
-              </h2>
-              <ul className="list-disc pl-6 space-y-2">
-                {bakingIngredients.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
+            {bakingIngredients?.length ? (
+              <section className="mb-10">
+                <h3 className="text-xl font-semibold mb-4">
+                  {method} Ingredients
+                </h3>
+                <ul className="list-disc pl-6 space-y-2">
+                  {bakingIngredients.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
-          {/* Steps */}
-          {bakingSteps?.length ? (
-            <section className="mb-10">
-              <h2 className="text-2xl font-semibold mb-4"> {method} Steps</h2>
-              <ol className="list-decimal pl-6 space-y-3">
-                {bakingSteps.map((step, idx) => (
-                  <li key={idx}>{step}</li>
-                ))}
-              </ol>
-            </section>
-          ) : null}
+            {bakingSteps?.length ? (
+              <section className="mb-2">
+                <h3 className="text-xl font-semibold mb-4">{method} Steps</h3>
+                <ol className="list-decimal pl-6 space-y-3">
+                  {bakingSteps.map((step, idx) => (
+                    <li key={idx}>{step}</li>
+                  ))}
+                </ol>
+              </section>
+            ) : null}
+          </SectionCard>
 
           {/* Notes (optional) */}
           {notes && (

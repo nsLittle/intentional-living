@@ -10,8 +10,9 @@ import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
 import DropDownPanelRecentList from "./DropDownPanelRecentList";
 import Search from "./Search";
 import SearchResults from "./SearchResults";
+import HeaderNavBarNewsletterSignup from "./HeaderNavBarNewsletterSignup";
 
-type MenuKey = "posts" | "recipes" | "crafts" | null;
+type MenuKey = "posts" | "recipes" | "crafts" | "printables" | null;
 
 type HeaderNavBarProps = {
   postsRecent?: { title: string; href: string }[];
@@ -20,12 +21,19 @@ type HeaderNavBarProps = {
   recipesHighlights?: { title: string; href: string; img?: string }[];
   craftsRecent?: { title: string; href: string }[];
   craftsHighlights?: { title: string; href: string; img?: string }[];
+  printablesRecent?: { title: string; href: string }[];
+  printablesHighlights?: { title: string; href: string; img?: string }[];
 };
 
 export default function HeaderNavBar(props: HeaderNavBarProps) {
   const [open, setOpen] = useState<MenuKey>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [subscribeOpen, setSubscribeOpen] = useState(false);
+  const subscribeWrapRef = useRef<HTMLDivElement | null>(null);
+  const subscribeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const subWasOpenRef = useRef(false);
 
   const searchWrapRef = useRef<HTMLDivElement | null>(null);
   const searchButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -42,33 +50,38 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
   useEffect(() => {
     function handleDown(e: MouseEvent) {
-      if (!searchOpen) return;
-      const el = searchWrapRef.current;
-      if (el && !el.contains(e.target as Node)) {
-        setSearchOpen(false);
+      // existing search dropdown logic…
+      if (searchOpen) {
+        const el = searchWrapRef.current;
+        if (el && !el.contains(e.target as Node)) setSearchOpen(false);
+      }
+      // subscribe dropdown logic
+      if (subscribeOpen) {
+        const el = subscribeWrapRef.current;
+        if (el && !el.contains(e.target as Node)) setSubscribeOpen(false);
       }
     }
     document.addEventListener("mousedown", handleDown);
     return () => document.removeEventListener("mousedown", handleDown);
-  }, [searchOpen]);
+  }, [searchOpen, subscribeOpen]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setSearchOpen(false);
+        setSubscribeOpen(false);
       }
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  const wasOpenRef = useRef(false);
   useEffect(() => {
-    if (wasOpenRef.current && !searchOpen) {
-      searchButtonRef.current?.focus();
+    if (subWasOpenRef.current && !subscribeOpen) {
+      subscribeButtonRef.current?.focus();
     }
-    wasOpenRef.current = searchOpen;
-  }, [searchOpen]);
+    subWasOpenRef.current = subscribeOpen;
+  }, [subscribeOpen]);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-black/5 bg-[#2f5d4b]/95 backdrop-blur">
@@ -149,13 +162,21 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                 </Link>
               </li>
 
-              <li>
+              <li
+                className="relative inline-flex items-center"
+                onMouseEnter={() => openMenu("printables")}
+                onMouseLeave={scheduleClose}>
                 <Link
                   href="/printables"
-                  className="text-[#fefcf9] text-base hover:underline">
+                  className="text-[#fefcf9] text-base hover:underline"
+                  onFocus={() => openMenu("printables")}
+                  onBlur={scheduleClose}
+                  aria-expanded={open === "printables"}
+                  aria-haspopup="true">
                   Printables
                 </Link>
               </li>
+
               <li>
                 <Link
                   href="/contact"
@@ -215,11 +236,39 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               )}
             </div>
 
-            <Link
-              href="/subscribe"
-              className="bg-[#6ea089] text-[#fefcf9] px-3 py-1.5 rounded-md text-sm font-medium hover:opacity-90">
-              Subscribe
-            </Link>
+            <div className="relative" ref={subscribeWrapRef}>
+              <button
+                ref={subscribeButtonRef}
+                type="button"
+                className="bg-[#6ea089] text-[#fefcf9] px-3 py-1.5 rounded-md text-sm font-medium hover:opacity-90"
+                aria-haspopup="dialog"
+                aria-expanded={subscribeOpen}
+                aria-controls="subscribe-dropdown"
+                onClick={() => {
+                  setSubscribeOpen((v) => !v);
+                  setSearchOpen(false); // don’t overlap with search
+                }}>
+                Subscribe
+              </button>
+
+              {subscribeOpen && (
+                <div
+                  id="subscribe-dropdown"
+                  role="dialog"
+                  aria-modal="false"
+                  className="absolute right-0 top-10 w-[min(90vw,22rem)] rounded-xl border bg-white shadow-2xl z-[9999] p-4
+               flex flex-col items-center justify-center text-center"
+                  onClick={(e) => e.stopPropagation()}>
+                  {/* Center the form */}
+                  <HeaderNavBarNewsletterSignup className="flex items-center justify-center" />
+
+                  {/* Smaller, centered helper text */}
+                  <p className="mt-2 text-[11px] leading-snug text-gray-600">
+                    We’ll never share your email.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -316,6 +365,38 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           className="col-span-12 md:col-span-3 md:col-start-9"
           items={props.craftsHighlights}
           fallbackImg="/images/crafts/fairy-house.png"
+          emptyMessage="No highlights yet."
+          maxItems={4}
+        />
+      </DropDownPanelContainer>
+      {/* Dropdown panel for printables */}
+      <DropDownPanelContainer
+        isOpen={open === "printables"}
+        onOpen={() => openMenu("printables")}
+        onClose={scheduleClose}>
+        {/* Left column: section nav */}
+        <DropDownPanelCategoryGrid
+          className="col-span-12 md:col-span-3 md:col-start-1"
+          title="Printables"
+          allHref="/printables"
+          allLabel="All Printables →"
+          items={[
+            { href: "/printables/recipes", label: "Recipes" },
+            { href: "/printables/projects", label: "Projects" },
+            { href: "/printables/tags", label: "Tags" },
+          ]}
+        />
+
+        {/* Middle column: recent printables */}
+        <DropDownPanelRecentList
+          className="col-span-12 md:col-span-4 md:col-start-5"
+          items={props.printablesRecent}
+          emptyMessage="No printables yet."
+        />
+        <DropDownHighLightsGrid
+          className="col-span-12 md:col-span-3 md:col-start-9"
+          items={props.printablesHighlights}
+          fallbackImg="/images/printables/fallback.png"
           emptyMessage="No highlights yet."
           maxItems={4}
         />
