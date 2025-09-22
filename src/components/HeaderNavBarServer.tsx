@@ -3,6 +3,11 @@ import HeaderNavBar from "./HeaderNavBar";
 import { getAllRecipes } from "../lib/recipes";
 import { getRecentPosts, getPostHighlights } from "../lib/posts";
 import { getAllCrafts } from "../lib/crafts";
+import { getAllPrintables } from "lib/printables";
+import {
+  computeRecentPrintables,
+  computePrintableHighlights,
+} from "lib/printablesRecent";
 
 export default async function HeaderNavBarServer() {
   const postsRecent = getRecentPosts(5);
@@ -35,6 +40,13 @@ export default async function HeaderNavBarServer() {
     img: c.hero,
   }));
 
+  const printablesRecent = computeRecentPrintables(getAllPrintables(), 6);
+
+  const printablesHighlights = computePrintableHighlights(
+    getAllPrintables(),
+    4
+  );
+
   return (
     <HeaderNavBar
       postsRecent={postsRecent}
@@ -43,6 +55,8 @@ export default async function HeaderNavBarServer() {
       recipesHighlights={recipesHighlights}
       craftsRecent={craftsRecent}
       craftsHighlights={craftsHighlights}
+      printablesRecent={printablesRecent}
+      printablesHighlights={printablesHighlights}
     />
   );
 }
