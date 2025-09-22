@@ -27,8 +27,8 @@ function mdxPathFor(section: "posts" | "recipes" | "crafts", slug: string) {
   return path.join(process.cwd(), "src", "content", section, `${slug}.mdx`);
 }
 
-function parseDateLoose(input: any): number | null {
-  if (!input || typeof input !== "string") return null;
+function parseDateLoose(input: unknown): number | null {
+  if (typeof input !== "string" || input.trim().length === 0) return null;
   // support "07-25-2025" (MM-DD-YYYY) and ISO-like strings
   // normalize MM-DD-YYYY -> YYYY-MM-DD for reliable parsing
   const mmddyyyy = /^(\d{2})-(\d{2})-(\d{4})$/;
@@ -55,8 +55,8 @@ function slugFromHref(href: string) {
 type PrintableInput = {
   title: string;
   href: string; // e.g., /downloads/recipes/bold-earth.pdf
-  filename: string; // optional, if you have it; not required
-  category: string; // "recipes" | "projects" | "tags" (not strictly needed here)
+  filename?: string; // optional, if you have it; not required
+  category?: string; // "recipes" | "projects" | "tags" (not strictly needed here)
 };
 
 export type RecentPrintable = {
@@ -138,12 +138,11 @@ export function computePrintableHighlights(
   all: Array<{ title: string; href: string }>,
   limit = 4
 ): Array<{ title: string; href: string; img?: string }> {
-  // Reuse date resolution via resolvePrintableToRecent
   const enriched = all.map((p) => {
-    const rec = resolvePrintableToRecent(p as any);
+    const rec = resolvePrintableToRecent(p as PrintableInput); // ✅ typed, no any
     return {
       title: rec.title,
-      href: rec.href, // detail page: /printables/[slug]
+      href: rec.href,
       img: thumbFromPdf(p.href),
       sortKey: rec.sortKey ?? 0,
     };
