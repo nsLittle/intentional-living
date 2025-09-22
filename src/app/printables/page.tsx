@@ -67,7 +67,6 @@ export default function PrintablesPage() {
           </h2>
           <ul className="grid gap-4 sm:grid-cols-2">
             {grouped.recipes.map((p) => {
-              const thumb = thumbFromPdf(p.href);
               return (
                 <li
                   key={p.href}
