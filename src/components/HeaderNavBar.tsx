@@ -41,13 +41,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
   const closeTimer = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
-  function handleSearchSubmit(value: string) {
-    const q = value.trim();
-    if (!q) return;
-    setSearchOpen(false);
-    router.push(`/search?q=${encodeURIComponent(q)}`);
-  }
-
   const openMenu = (key: MenuKey) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpen(key);
