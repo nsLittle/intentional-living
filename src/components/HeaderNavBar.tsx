@@ -4,7 +4,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import DropDownPanelContainer from "./DropDownPanelContainer";
 import DropDownHighLightsGrid from "./DropDownPanelHighlightsGrid";
 import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
@@ -39,7 +38,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
   const searchWrapRef = useRef<HTMLDivElement | null>(null);
   const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   const closeTimer = useRef<NodeJS.Timeout | null>(null);
-  const router = useRouter();
 
   const openMenu = (key: MenuKey) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);

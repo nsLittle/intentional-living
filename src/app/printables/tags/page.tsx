@@ -41,7 +41,6 @@ export default function PrintablesTagsPage() {
         {items.length ? (
           <ul className="grid gap-4 sm:grid-cols-2">
             {items.map((p) => {
-              const thumb = thumbFromPdf(p.href);
               return (
                 <li
                   key={p.href}
