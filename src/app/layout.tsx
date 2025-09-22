@@ -16,10 +16,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const isProd = process.env.NODE_ENV === "production";
-
-const isProdMain =
-  process.env.CONTEXT === "production" && process.env.BRANCH === "main";
+const shouldRegisterSW = process.env.NODE_ENV === "production";
 
 export const metadata: Metadata = {
   title: "Simple Intentions",
@@ -48,23 +45,23 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#fefcf9]">
       <head>
-        {!isProdMain && <meta name="robots" content="noindex, nofollow" />}
+        {!shouldRegisterSW && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
         <link rel="icon" href="/favicon.ico" />
       </head>
 
       <body
         className={`bg-[#fefcf9] min-h-screen ${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Script id="sw-register" strategy="afterInteractive">
-          {isProd
-            ? `
-              if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(console.error);
-                });
-              }
-            `
-            : ""}
-        </Script>
+        {shouldRegisterSW && (
+          <Script id="sw-register" strategy="afterInteractive">
+            {`if ('serviceWorker' in navigator) {
+               window.addEventListener('load', () => {
+                 navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(console.error);
+               });
+             }`}
+          </Script>
+        )}
         {children}
       </body>
     </html>
