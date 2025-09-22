@@ -2,10 +2,21 @@
 import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Footer from "components/Footer";
+import Image from "next/image";
 import Link from "next/link";
 import { getAllPrintables } from "lib/printables";
 
 type Grouped = Record<string, ReturnType<typeof getAllPrintables>>;
+
+// /downloads/<category>/<name>.pdf -> /downloads/thumbnails/<category>/<name>.webp
+function thumbFromPdf(pdf?: string) {
+  if (!pdf) return undefined;
+  const withoutPrefix = pdf.replace(/^\/downloads\//, ""); // "recipes/bold-earth.pdf"
+  const [category, rest] = withoutPrefix.split("/", 2);
+  if (!category || !rest) return undefined;
+  const base = rest.replace(/\.pdf$/i, "");
+  return `/downloads/thumbnails/${category}/${base}.webp`;
+}
 
 function groupByCategory() {
   const grouped: Grouped = {};
@@ -48,34 +59,52 @@ export default function PrintablesPage() {
             Recipes{" "}
             {grouped.recipes?.length ? `(${grouped.recipes.length})` : ""}
           </h2>
-          {grouped.recipes?.length ? (
-            <ul className="grid gap-4 sm:grid-cols-2">
-              {grouped.recipes.map((p) => (
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {grouped.recipes.map((p) => {
+              const thumb = thumbFromPdf(p.href);
+              return (
                 <li
                   key={p.href}
-                  className="rounded-xl border bg-[#fefcf9] p-4 shadow-sm">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="font-medium">{p.title}</p>
+                  className="rounded-xl border bg-white shadow-sm overflow-hidden">
+                  <div className="flex items-center gap-4 p-4">
+                    {/* Left thumbnail */}
+                    {thumb ? (
+                      <Image
+                        src={thumb}
+                        alt={p.title}
+                        width={96}
+                        height={96}
+                        className="w-24 h-24 object-cover rounded-md border"
+                        priority
+                      />
+                    ) : (
+                      <div className="w-24 h-24 rounded-md border bg-[linear-gradient(135deg,#f6efe7,#fff)]" />
+                    )}
+
+                    {/* Middle text */}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-serif text-lg text-[#5c5045] font-bold truncate">
+                        {p.title}
+                      </p>
                       <p className="text-sm text-gray-600 break-all">
                         {p.filename}
                       </p>
                     </div>
+
+                    {/* Right button */}
                     <a
                       href={p.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center rounded-md bg-[#6ea089] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
+                      className="shrink-0 inline-flex items-center rounded-md bg-[#6ea089] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
                       download>
                       Download
                     </a>
                   </div>
                 </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-600">No recipe printables yet.</p>
-          )}
+              );
+            })}
+          </ul>
         </section>
 
         {/* Projects (patterns) */}
@@ -86,28 +115,50 @@ export default function PrintablesPage() {
           </h2>
           {grouped.projects?.length ? (
             <ul className="grid gap-4 sm:grid-cols-2">
-              {grouped.projects.map((p) => (
-                <li
-                  key={p.href}
-                  className="rounded-xl border bg-[#fefcf9] p-4 shadow-sm">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="font-medium">{p.title}</p>
-                      <p className="text-sm text-gray-600 break-all">
-                        {p.filename}
-                      </p>
+              {grouped.projects.map((p) => {
+                const thumb = thumbFromPdf(p.href);
+                return (
+                  <li
+                    key={p.href}
+                    className="rounded-xl border bg-white shadow-sm overflow-hidden">
+                    <div className="flex items-center gap-4 p-4">
+                      {/* Left thumbnail */}
+                      {thumb ? (
+                        <Image
+                          src={thumb}
+                          alt={p.title}
+                          width={96}
+                          height={96}
+                          className="w-24 h-24 object-cover rounded-md border"
+                          priority
+                        />
+                      ) : (
+                        <div className="w-24 h-24 rounded-md border bg-[linear-gradient(135deg,#f6efe7,#fff)]" />
+                      )}
+
+                      {/* Middle text */}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-serif text-lg text-[#5c5045] font-bold truncate">
+                          {p.title}
+                        </p>
+                        <p className="text-sm text-gray-600 break-all">
+                          {p.filename}
+                        </p>
+                      </div>
+
+                      {/* Right button */}
+                      <a
+                        href={p.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="shrink-0 inline-flex items-center rounded-md bg-[#6ea089] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
+                        download>
+                        Download
+                      </a>
                     </div>
-                    <a
-                      href={p.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center rounded-md bg-[#6ea089] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
-                      download>
-                      Download
-                    </a>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <p className="text-gray-600">No project printables yet.</p>
@@ -121,28 +172,50 @@ export default function PrintablesPage() {
           </h2>
           {grouped.tags?.length ? (
             <ul className="grid gap-4 sm:grid-cols-2">
-              {grouped.tags.map((p) => (
-                <li
-                  key={p.href}
-                  className="rounded-xl border bg-[#fefcf9] p-4 shadow-sm">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="font-medium">{p.title}</p>
-                      <p className="text-sm text-gray-600 break-all">
-                        {p.filename}
-                      </p>
+              {grouped.tags.map((p) => {
+                const thumb = thumbFromPdf(p.href);
+                return (
+                  <li
+                    key={p.href}
+                    className="rounded-xl border bg-white shadow-sm overflow-hidden">
+                    <div className="flex items-center gap-4 p-4">
+                      {/* Left thumbnail */}
+                      {thumb ? (
+                        <Image
+                          src={thumb}
+                          alt={p.title}
+                          width={96}
+                          height={96}
+                          className="w-24 h-24 object-cover rounded-md border"
+                          priority
+                        />
+                      ) : (
+                        <div className="w-24 h-24 rounded-md border bg-[linear-gradient(135deg,#f6efe7,#fff)]" />
+                      )}
+
+                      {/* Middle text */}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-serif text-lg text-[#5c5045] font-bold truncate">
+                          {p.title}
+                        </p>
+                        <p className="text-sm text-gray-600 break-all">
+                          {p.filename}
+                        </p>
+                      </div>
+
+                      {/* Right button */}
+                      <a
+                        href={p.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="shrink-0 inline-flex items-center rounded-md bg-[#6ea089] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
+                        download>
+                        Download
+                      </a>
                     </div>
-                    <a
-                      href={p.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center rounded-md bg-[#6ea089] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
-                      download>
-                      Download
-                    </a>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <p className="text-gray-600">No tag printables yet.</p>
