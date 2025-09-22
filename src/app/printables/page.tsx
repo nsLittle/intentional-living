@@ -8,6 +8,12 @@ import { getAllPrintables } from "lib/printables";
 
 type Grouped = Record<string, ReturnType<typeof getAllPrintables>>;
 
+// "/downloads/recipes/bold-earth.pdf" -> "bold-earth"
+function slugFromHref(href: string) {
+  const name = href.split("/").pop() ?? "";
+  return name.replace(/\.pdf$/i, "");
+}
+
 // /downloads/<category>/<name>.pdf -> /downloads/thumbnails/<category>/<name>.webp
 function thumbFromPdf(pdf?: string) {
   if (!pdf) return undefined;
@@ -67,39 +73,59 @@ export default function PrintablesPage() {
                   key={p.href}
                   className="rounded-xl border bg-white shadow-sm overflow-hidden">
                   <div className="flex items-center gap-4 p-4">
-                    {/* Left thumbnail */}
-                    {thumb ? (
-                      <Image
-                        src={thumb}
-                        alt={p.title}
-                        width={96}
-                        height={96}
-                        className="w-24 h-24 object-cover rounded-md border"
-                        priority
-                      />
-                    ) : (
-                      <div className="w-24 h-24 rounded-md border bg-[linear-gradient(135deg,#f6efe7,#fff)]" />
-                    )}
+                    {(() => {
+                      const slug = slugFromHref(p.href);
+                      const thumb = thumbFromPdf(p.href);
+                      return (
+                        <>
+                          {/* Left thumbnail -> detail page */}
+                          {thumb ? (
+                            <Link
+                              href={`/printables/${slug}`}
+                              className="shrink-0">
+                              <Image
+                                src={thumb}
+                                alt={p.title}
+                                width={96}
+                                height={96}
+                                className="w-24 h-24 object-cover rounded-md border transition hover:opacity-90"
+                                priority
+                              />
+                            </Link>
+                          ) : (
+                            <Link
+                              href={`/printables/${slug}`}
+                              className="shrink-0">
+                              <div className="w-24 h-24 rounded-md border bg-[linear-gradient(135deg,#f6efe7,#fff)] transition hover:opacity-90" />
+                            </Link>
+                          )}
 
-                    {/* Middle text */}
-                    <div className="flex-1 min-w-0">
-                      <p className="font-serif text-lg text-[#5c5045] font-bold truncate">
-                        {p.title}
-                      </p>
-                      <p className="text-sm text-gray-600 break-all">
-                        {p.filename}
-                      </p>
-                    </div>
+                          {/* Middle text -> title links to detail page */}
+                          <div className="flex-1 min-w-0">
+                            <p className="font-serif text-lg text-[#5c5045] font-bold truncate">
+                              <Link
+                                href={`/printables/${slug}`}
+                                className="hover:underline">
+                                {p.title}
+                              </Link>
+                            </p>
+                            <p className="text-sm text-gray-600 break-all">
+                              {p.filename}
+                            </p>
+                          </div>
 
-                    {/* Right button */}
-                    <a
-                      href={p.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="shrink-0 inline-flex items-center rounded-md bg-[#6ea089] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
-                      download>
-                      Download
-                    </a>
+                          {/* Right button -> direct PDF download */}
+                          <a
+                            href={p.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="shrink-0 inline-flex items-center rounded-md bg-[#6ea089] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
+                            download>
+                            Download
+                          </a>
+                        </>
+                      );
+                    })()}
                   </div>
                 </li>
               );
@@ -113,40 +139,50 @@ export default function PrintablesPage() {
             Projects{" "}
             {grouped.projects?.length ? `(${grouped.projects.length})` : ""}
           </h2>
+
           {grouped.projects?.length ? (
             <ul className="grid gap-4 sm:grid-cols-2">
               {grouped.projects.map((p) => {
+                const slug = slugFromHref(p.href);
                 const thumb = thumbFromPdf(p.href);
                 return (
                   <li
                     key={p.href}
                     className="rounded-xl border bg-white shadow-sm overflow-hidden">
                     <div className="flex items-center gap-4 p-4">
-                      {/* Left thumbnail */}
+                      {/* Left thumbnail -> detail page */}
                       {thumb ? (
-                        <Image
-                          src={thumb}
-                          alt={p.title}
-                          width={96}
-                          height={96}
-                          className="w-24 h-24 object-cover rounded-md border"
-                          priority
-                        />
+                        <Link href={`/printables/${slug}`} className="shrink-0">
+                          <Image
+                            src={thumb}
+                            alt={p.title}
+                            width={96}
+                            height={96}
+                            className="w-24 h-24 object-cover rounded-md border transition hover:opacity-90"
+                            priority
+                          />
+                        </Link>
                       ) : (
-                        <div className="w-24 h-24 rounded-md border bg-[linear-gradient(135deg,#f6efe7,#fff)]" />
+                        <Link href={`/printables/${slug}`} className="shrink-0">
+                          <div className="w-24 h-24 rounded-md border bg-[linear-gradient(135deg,#f6efe7,#fff)] transition hover:opacity-90" />
+                        </Link>
                       )}
 
-                      {/* Middle text */}
+                      {/* Middle text -> title links to detail page */}
                       <div className="flex-1 min-w-0">
                         <p className="font-serif text-lg text-[#5c5045] font-bold truncate">
-                          {p.title}
+                          <Link
+                            href={`/printables/${slug}`}
+                            className="hover:underline">
+                            {p.title}
+                          </Link>
                         </p>
                         <p className="text-sm text-gray-600 break-all">
                           {p.filename}
                         </p>
                       </div>
 
-                      {/* Right button */}
+                      {/* Right button -> direct PDF download */}
                       <a
                         href={p.href}
                         target="_blank"
@@ -170,40 +206,50 @@ export default function PrintablesPage() {
           <h2 className="font-serif text-2xl text-[#5c5045] mb-4">
             Tags {grouped.tags?.length ? `(${grouped.tags.length})` : ""}
           </h2>
+
           {grouped.tags?.length ? (
             <ul className="grid gap-4 sm:grid-cols-2">
               {grouped.tags.map((p) => {
+                const slug = slugFromHref(p.href);
                 const thumb = thumbFromPdf(p.href);
                 return (
                   <li
                     key={p.href}
                     className="rounded-xl border bg-white shadow-sm overflow-hidden">
                     <div className="flex items-center gap-4 p-4">
-                      {/* Left thumbnail */}
+                      {/* Left thumbnail -> detail page */}
                       {thumb ? (
-                        <Image
-                          src={thumb}
-                          alt={p.title}
-                          width={96}
-                          height={96}
-                          className="w-24 h-24 object-cover rounded-md border"
-                          priority
-                        />
+                        <Link href={`/printables/${slug}`} className="shrink-0">
+                          <Image
+                            src={thumb}
+                            alt={p.title}
+                            width={96}
+                            height={96}
+                            className="w-24 h-24 object-cover rounded-md border transition hover:opacity-90"
+                            priority
+                          />
+                        </Link>
                       ) : (
-                        <div className="w-24 h-24 rounded-md border bg-[linear-gradient(135deg,#f6efe7,#fff)]" />
+                        <Link href={`/printables/${slug}`} className="shrink-0">
+                          <div className="w-24 h-24 rounded-md border bg-[linear-gradient(135deg,#f6efe7,#fff)] transition hover:opacity-90" />
+                        </Link>
                       )}
 
-                      {/* Middle text */}
+                      {/* Middle text -> title links to detail page */}
                       <div className="flex-1 min-w-0">
                         <p className="font-serif text-lg text-[#5c5045] font-bold truncate">
-                          {p.title}
+                          <Link
+                            href={`/printables/${slug}`}
+                            className="hover:underline">
+                            {p.title}
+                          </Link>
                         </p>
                         <p className="text-sm text-gray-600 break-all">
                           {p.filename}
                         </p>
                       </div>
 
-                      {/* Right button */}
+                      {/* Right button -> direct PDF download */}
                       <a
                         href={p.href}
                         target="_blank"
