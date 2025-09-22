@@ -2,6 +2,8 @@
 // Server component that gathers Printables and renders the client grid.
 
 import { getAllPrintables } from "lib/printables";
+import DropDownHighLightsGrid from "./DropDownPanelHighlightsGrid";
+import type { DropDownHighLightsGridItem } from "./DropDownPanelHighlightsGrid";
 
 // /downloads/<category>/<name>.pdf -> /downloads/thumbnails/<category>/<name>.webp
 function thumbFromPdf(pdf?: string) {
