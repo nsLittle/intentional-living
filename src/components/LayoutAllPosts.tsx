@@ -43,9 +43,10 @@ export default function LayoutAllPosts({ posts }: LayoutAllPostsProps) {
                 <p className="text-gray-500 italic mb-4">{post.date}</p>
               )}
               {post.text && (
-                <p className="text-lg leading-relaxed line-clamp-3">
-                  {post.text}
-                </p>
+                <div
+                  className="text-lg leading-relaxed line-clamp-3 [&_a]:underline [&_a]:text-[#2f5d4b]"
+                  dangerouslySetInnerHTML={{ __html: post.text }}
+                />
               )}
             </div>
           </div>

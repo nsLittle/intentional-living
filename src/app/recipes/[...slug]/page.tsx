@@ -12,6 +12,30 @@ import LinkReturnPost from "components/LinkReturnPost";
 // === Social previews (OG/Twitter) ===
 const SITE_ORIGIN = "https://dev--simple-intentions.netlify.app"; // change at launch
 
+type RecipeFrontmatter = {
+  title?: string;
+  recipe?: string;
+  description?: string;
+  text?: string;
+  hero?: string;
+  shareImage?: string;
+  date?: string;
+  parentPost?: string;
+  yield?: string;
+  prepTime?: string;
+  "prep time"?: string;
+  bakingPrepTime?: string;
+  bakingTime?: string;
+  cookingPrepTime?: string;
+  cookingTime?: string;
+  bakingIngredients?: string[];
+  cookingIngredients?: string[];
+  bakingSteps?: string[];
+  cookingSteps?: string[];
+  notes?: string;
+  pdf?: string;
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -24,7 +48,7 @@ export async function generateMetadata({
     ".mdx";
 
   // Read frontmatter
-  let fm: any = {};
+  let fm: Partial<RecipeFrontmatter> = {};
   try {
     const fileContent = fs.readFileSync(filePath, "utf8");
     const { data } = matter(fileContent);

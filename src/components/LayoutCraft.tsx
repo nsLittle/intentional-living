@@ -5,6 +5,7 @@ import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
+import LinkReturnPost from "./LinkReturnPost";
 import ButtonDownloadPdf from "components/ButtonDownloadPdf";
 import PinterestShare from "./PinterestShare";
 import FacebookShareButton from "./FacebookShareButton";
@@ -14,6 +15,7 @@ type CraftLayoutProps = {
   title: string;
   date?: string;
   hero?: string;
+  parentPost;
   tags?: string[];
   text?: string;
   size?: string;
@@ -28,6 +30,7 @@ export default function LayoutCraft({
   title,
   date,
   hero,
+  parentPost,
   text,
   size,
   materials,
@@ -46,6 +49,11 @@ export default function LayoutCraft({
           {/* Title + date */}
           <h1 className="text-4xl font-bold mb-2">{title}</h1>
           {date ? <p className="text-gray-500 italic mb-8">{date}</p> : null}
+
+          <div className="mt-10">
+            {/* ⬇️ Use parentPost if provided, else fall back to home */}
+            <LinkReturnPost href={parentPost ?? "/recipes"} />
+          </div>
 
           {hero && (
             <div className="mt-6 flex flex-wrap items-center gap-3">
