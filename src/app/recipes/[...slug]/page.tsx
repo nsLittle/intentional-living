@@ -1,4 +1,4 @@
-// src/app/recipes/[slug]/page.tsx
+// src/app/recipes/[...slug]/page.tsx
 import { notFound } from "next/navigation";
 import fs from "fs";
 import type { Metadata } from "next";
@@ -39,10 +39,9 @@ type RecipeFrontmatter = {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>;
 }): Promise<Metadata> {
-  // Build the MDX file path just like your page() does
-  const slugParts = params.slug;
+  const { slug: slugParts } = await params;
   const filePath =
     path.join(process.cwd(), "src", "content", "recipes", ...slugParts) +
     ".mdx";
