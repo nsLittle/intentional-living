@@ -72,7 +72,7 @@ export async function generateMetadata({
 
   // Prefer an explicit share image; else fall back to your 1000×1500 pin; else hero
   const sharePath =
-    fm.shareImage ?? `/recipes/${slugLast}/${slugLast}-pin.webp` ?? fm.hero;
+    fm.shareImage ?? fm.hero ?? `/recipes/${slugLast}/${slugLast}-pin.webp`;
 
   // Ensure absolute URL for social cards
   const shareUrl = sharePath?.startsWith("http")
