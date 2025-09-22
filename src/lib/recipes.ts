@@ -3,25 +3,11 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-export type RecipeItem = {
-  title: string;
-  href: string;
-  date?: string;
-};
-
 type RecipeListItem = {
   title: string;
   href: string;
   date: string;
-  _sort: number;
   img?: string | null;
-};
-
-export type RecipeLink = {
-  title: string;
-  href: string;
-  img?: string;
-  date?: string;
 };
 
 type RecipeDetail = {
@@ -30,7 +16,19 @@ type RecipeDetail = {
   date: Date;
   hero?: string;
   text?: string;
-  _sort: number;
+};
+
+export type RecipeItem = {
+  title: string;
+  href: string;
+  date?: string;
+};
+
+export type RecipeLink = {
+  title: string;
+  href: string;
+  img?: string;
+  date?: string;
 };
 
 const RECIPES_DIR = path.join(process.cwd(), "src", "content", "recipes");
@@ -96,12 +94,11 @@ export function getRecentRecipes(limit = 5): RecipeItem[] {
       title: data?.title ?? slug,
       href: `/recipes/${slug}`,
       date: dateObj.toISOString(),
-      _sort: dateObj.getTime(),
     } satisfies RecipeListItem;
   });
 
   return items
-    .sort((a, b) => b._sort - a._sort)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, limit)
     .map(({ title, href, date }) => ({ title, href, date }));
 }
@@ -133,14 +130,12 @@ export function getRecipeHighlights(limit = 4): RecipeLink[] {
       href: `/recipes/${slug}`,
       img: hero,
       date: dateObj.toISOString(),
-      _sort: dateObj.getTime(),
     } satisfies RecipeListItem;
   });
 
   return items
-    .sort((a, b) => b._sort - a._sort)
-    .slice(0, limit)
-    .map(({ _sort, ...rest }) => rest);
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, limit);
 }
 
 // For callers like generateStaticParams — newest first, same fields as above.
@@ -165,11 +160,8 @@ export function getAllRecipes() {
       date: dateObj,
       hero: typeof data?.hero === "string" ? data.hero : undefined,
       text: typeof data?.text === "string" ? data.text : undefined,
-      _sort: dateObj.getTime(),
     } satisfies RecipeDetail;
   });
 
-  return items
-    .sort((a, b) => b._sort - a._sort)
-    .map(({ _sort, ...rest }) => rest);
+  return items.sort((a, b) => b.date.getTime() - a.date.getTime());
 }

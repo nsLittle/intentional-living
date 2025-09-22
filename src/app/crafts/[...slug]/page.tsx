@@ -39,6 +39,7 @@ export default async function CraftPage({
   const fm = data as {
     title?: string;
     date?: string;
+    parentPost?: string;
     hero?: string;
     text?: string;
     size?: string;
@@ -56,6 +57,7 @@ export default async function CraftPage({
       <LayoutCraft
         title={title}
         date={fm.date}
+        parentPost={fm.parentPost}
         hero={fm.hero}
         text={fm.text}
         size={fm.size}
