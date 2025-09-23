@@ -1,6 +1,5 @@
 "use client";
 
-import { useNewsletterSignup } from "hooks/newsletterSignup"; // same path as Footer uses
 import { useId } from "react";
 
 type Props = {
@@ -12,9 +11,6 @@ export default function HeaderNavBarNewsletterSignup({
   endpoint = "/api/subscribe",
   className = "",
 }: Props) {
-  const { email, setEmail, website, setWebsite, status, error, onSubmit } =
-    useNewsletterSignup(endpoint);
-
   const emailId = useId();
   const hpId = useId();
 

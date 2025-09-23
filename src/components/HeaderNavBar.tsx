@@ -4,12 +4,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import DropDownPanelContainer from "./DropDownPanelContainer";
-import DropDownHighLightsGrid from "./DropDownPanelHighlightsGrid";
-import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
-import DropDownPanelRecentList from "./DropDownPanelRecentList";
-import Search from "./Search";
-import SearchResults from "./SearchResults";
 import HeaderNavBarNewsletterSignup from "./HeaderNavBarNewsletterSignup";
 
 type MenuKey = "posts" | "recipes" | "crafts" | "printables" | null;
