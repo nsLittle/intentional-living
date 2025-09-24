@@ -1,6 +1,6 @@
 export default function HeroIntro() {
   return (
-    <section aria-label="Intro" className="max-w-2xl">
+    <section aria-label="Intro" className="max-w-2xl mt-8 mb-8">
       <h1 className="text-4xl font-bold text-black leading-tight">
         Simple Intentions,
         <br />

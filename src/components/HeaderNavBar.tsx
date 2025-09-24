@@ -181,7 +181,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                 <Link
                   href="/reframer"
                   className="text-[#fefcf9] text-base hover:underline">
-                  Reframer
+                  Realignment
                 </Link>
               </li>
 

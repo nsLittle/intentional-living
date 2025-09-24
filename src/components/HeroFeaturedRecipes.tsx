@@ -3,14 +3,11 @@ import Image from "next/image";
 
 export default function HeroFeaturedRecipes() {
   return (
-    <div>
-      <h2 className="text-3xl font-bold text-black">
-        Featured Recipes & Guides
-      </h2>
+    <div className="mt-16">
+      <h2 className="text-4xl font-bold mb-6">Featured Recipes & Guides</h2>
       <p className="mt-4 text-xl mb-6 max-w-">
-        Seasonal foraging finds and wild food recipes from the Vermont woods.
-        Learn to identify, harvest, and prepare nature&#39;s bounty safely and
-        sustainably.
+        Seasonal foraging finds, recipes and wild crafting from Vermont. Meader
+        through our woodsy pages for inspiration and simple intentions.
       </p>
 
       <Image
@@ -23,24 +20,24 @@ export default function HeroFeaturedRecipes() {
 
       <div className="mt-8 flex gap-4 mb-14">
         <button className="px-8 py-5 rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
-          Wild Crafting
+          <a href="/recipes">Explore Recipes</a>
         </button>
         <button className="px-8 py-5 rounded-full font-semibold text-white bg-[#3d6f5f] shadow-md">
-          Explore Recipes
+          <a href="/crafts">Explore Crafts</a>
         </button>
         <button className="px-8 py-5 rounded-full font-semibold text-white bg-[#4b816d] shadow-md">
-          Foraging Guides
+          <a href="/printables">Explore Printables</a>
         </button>
       </div>
       <div className="mt-8 flex gap-4 mb-14">
         <button className="px-8 py-5 rounded-full font-semibold text-white bg-[#6ea38d] shadow-md">
-          Seasonal Cooking
+          To Be Determined
         </button>
         <button className="px-8 py-5 rounded-full font-semibold text-[#3c3027] bg-[#9ec5b6] shadow-md">
-          Wildcrafting Tips
+          To Be Determined
         </button>
         <button className="px-8 py-5 rounded-full font-semibold text-[#3c3027] bg-[#f5f0e7] shadow-md">
-          Simple Intentions
+          <a href="/reframer">Simple Reframer</a>
         </button>
       </div>
     </div>

@@ -61,8 +61,8 @@ export default function Reframer() {
         <button
           type="submit"
           disabled={loading}
-          className="block mx-auto rounded-md px-5 py-2 border border-gray-400 font-medium disabled:opacity-60 hover:bg-gray-50 transition">
-          {loading ? "Reframing…" : "Reframe it"}
+          className="mx-auto block px-8 py-5 rounded-full font-semibold text-white bg-[#6ea38d] shadow-md hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f5d50] disabled:opacity-60">
+          {loading ? "Reframing…" : "Realign"}
         </button>
       </form>
 
