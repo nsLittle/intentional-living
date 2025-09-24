@@ -48,7 +48,10 @@ export default function HeroLatestCraft() {
               day: "numeric",
             })}
           </p>
-          <p className="text-lg text-gray-700 mb-8">{craft.text}</p>
+          <div
+            className="text-lg text-gray-700 mb-8 [&_a]:underline [&_a]:text-green-700"
+            dangerouslySetInnerHTML={{ __html: craft.text ?? "" }}
+          />
           <Link
             href={`/Crafts/${craft.slug}`}
             className="text-green-700 font-semibold hover:underline">

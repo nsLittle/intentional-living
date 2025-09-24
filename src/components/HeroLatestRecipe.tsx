@@ -48,7 +48,10 @@ export default function HeroLatestRecipe() {
               day: "numeric",
             })}
           </p>
-          <p className="text-lg text-gray-700 mb-8">{recipe.text}</p>
+          <div
+            className="text-lg text-gray-700 mb-8 [&_a]:underline [&_a]:text-green-700"
+            dangerouslySetInnerHTML={{ __html: recipe.text ?? "" }}
+          />
           <Link
             href={`/recipes/${recipe.slug}`}
             className="text-green-700 font-semibold hover:underline">

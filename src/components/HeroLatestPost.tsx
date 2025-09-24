@@ -36,7 +36,10 @@ export default function HeroLatestPost() {
               day: "numeric",
             })}
           </p>
-          <p className="text-lg text-gray-700 mb-8">{post.text}</p>
+          <div
+            className="text-lg text-gray-700 mb-8 [&_a]:underline [&_a]:text-green-700"
+            dangerouslySetInnerHTML={{ __html: post.text ?? "" }}
+          />
           <Link
             href={`/posts/${post.slug}`}
             className="text-green-700 font-semibold hover:underline">
