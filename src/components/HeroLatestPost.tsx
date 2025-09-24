@@ -9,7 +9,7 @@ export default function HeroLatestPost() {
   if (!post) return null;
 
   return (
-    <section className="my-2">
+    <section className="my-2 mt-8">
       <h2 className="text-4xl font-bold mb-6">My Latest Prattling…</h2>
       <div className="flex flex-col md:flex-row items-start gap-6">
         {post.hero && (

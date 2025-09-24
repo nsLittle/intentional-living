@@ -6,7 +6,7 @@ export default function HeroIntro() {
         <br />
         Vermont Made
       </h1>
-      <div className="mb-8">
+      <div className="mb-4">
         <p className="mt-4 text-xl leading-relaxed">
           Seasonal cooking, small crafts, and opportunistic foraging. Slow,
           kind, and pantry-first.
