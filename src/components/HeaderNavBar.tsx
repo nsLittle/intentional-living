@@ -179,8 +179,16 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
               <li>
                 <Link
-                  href="/contact"
+                  href="/reframer"
                   className="text-[#fefcf9] text-base hover:underline">
+                  Reframer
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-[#fefcf9] tex`t-base hover:underline">
                   Contact
                 </Link>
               </li>
