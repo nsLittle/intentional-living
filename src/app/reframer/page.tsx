@@ -12,12 +12,12 @@ export default function ReframerPage() {
       <div className="bg-white text-black">
         <div className="max-w-5xl mx-auto px-6 py-12">
           <h1 className="font-serif text-[#5c5045] text-4xl font-bold text-center">
-            Simple Realignment
+            Simple Alignment
           </h1>
           <p className="mt-4 font-serif text-[#5c5045] text-lg text-center max-w-2xl mx-auto">
             Live your values through Intentional Alignment.
             <br />
-            Reframe your thoughts to reflect your true intentions.
+            Frame your thoughts to reflect your true intentions.
           </p>
         </div>
       </div>

@@ -186,7 +186,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                   <Link
                     href="/reframer"
                     className="text-[#fefcf9] text-base hover:underline">
-                    Realignment
+                    Alignment
                   </Link>
                 </li>
 
@@ -334,6 +334,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               { href: "/recipes/spice-mix", label: "Spice Mix" },
               { href: "/recipes/cookies", label: "Cookies in a Jar" },
               { href: "/recipes/soup-pasta", label: "Soup & Pasta in a Jar" },
+              { href: "/recipes/sides", label: "Sides" },
             ]}
           />
           {/* Middle column */}
