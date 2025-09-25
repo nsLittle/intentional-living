@@ -114,14 +114,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               aria-label="Primary"
               className="order-2 md:order-none w-full md:flex-1 min-w-0 flex justify-center">
               <ul className="flex flex-wrap justify-center gap-4 md:gap-6 items-center">
-                <li>
-                  <Link
-                    href="/about"
-                    className="text-[#fefcf9] text-base hover:underline">
-                    About
-                  </Link>
-                </li>
-
                 <li
                   className="relative inline-flex items-center"
                   onMouseEnter={() => openMenu("posts")}
@@ -187,6 +179,14 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                     href="/reframer"
                     className="text-[#fefcf9] text-base hover:underline">
                     Alignment
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/about"
+                    className="text-[#fefcf9] text-base hover:underline">
+                    About
                   </Link>
                 </li>
 
