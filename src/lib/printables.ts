@@ -2,7 +2,7 @@
 import fs from "fs";
 import path from "path";
 
-export type PrintableCategory = "recipes" | "projects" | "tags";
+export type PrintableCategory = "recipes" | "projects" | "field-notes" | "tags";
 export type PrintableItem = {
   filename: string; // e.g., "bold-earth-cards.pdf"
   title: string; // e.g., "Bold Earth Cards"
@@ -12,7 +12,8 @@ export type PrintableItem = {
 
 const CATEGORY_DIRS: Record<PrintableCategory, string> = {
   recipes: "recipes",
-  projects: "patterns", // maps to /public/downloads/patterns
+  projects: "patterns",
+  "field-notes": "field-notes",
   tags: "tags",
 };
 

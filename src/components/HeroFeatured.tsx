@@ -1,5 +1,6 @@
 // src/components/HeroFeatured.tsx
 import Image from "next/image";
+import Link from "next/link";
 
 export default function HeroFeatured() {
   return (
@@ -22,24 +23,40 @@ export default function HeroFeatured() {
         <button
           className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
  rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
-          <a href="/recipes">Recipes</a>
+          <Link
+            href="/recipes"
+            className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
+            Recipes
+          </Link>
         </button>
         <button
           className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
  rounded-full font-semibold text-white bg-[#3d6f5f] shadow-md">
-          <a href="/crafts">Crafts</a>
+          <Link
+            href="/crafts"
+            className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
+            Crafts
+          </Link>
         </button>
         <button
           className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
  rounded-full font-semibold text-white bg-[#4b816d] shadow-md">
-          <a href="/printables">Printables</a>
+          <Link
+            href="/printables"
+            className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
+            Printables
+          </Link>
         </button>
       </div>
       <div className="mt-8 flex gap-4 mb-14">
         <button
           className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
  rounded-full font-semibold text-white bg-[#6ea38d] shadow-md">
-          <a href="/posts">Posts</a>
+          <Link
+            href="/posts"
+            className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
+            Posts
+          </Link>
         </button>
         <button
           className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
@@ -49,7 +66,11 @@ export default function HeroFeatured() {
         <button
           className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
  rounded-full font-semibold text-[#3c3027] bg-[#f5f0e7] shadow-md">
-          <a href="/reframer">Realignment</a>
+          <Link
+            href="/reframer"
+            className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
+            Alignment
+          </Link>
         </button>
       </div>
     </div>

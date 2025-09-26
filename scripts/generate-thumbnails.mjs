@@ -9,6 +9,7 @@ import { spawnSync } from "node:child_process";
 const SOURCE_DIRS = [
   "public/downloads/patterns",
   "public/downloads/recipes",
+  "public/downloads/field-notes",
   "public/downloads/tags",
 ];
 

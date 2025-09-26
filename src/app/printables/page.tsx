@@ -200,6 +200,80 @@ export default function PrintablesPage() {
           )}
         </section>
 
+        {/* Field Notes */}
+        <section className="mb-12">
+          <h2 className="font-serif text-2xl text-[#5c5045] mb-4">
+            Field Notes{" "}
+            {grouped["field-notes"]?.length
+              ? `(${grouped["field-notes"].length})`
+              : ""}
+          </h2>
+
+          {grouped["field-notes"]?.length ? (
+            <ul className="grid gap-4 sm:grid-cols-2">
+              {(grouped["field-notes"] ?? []).map((p) => {
+                const slug = slugFromHref(p.href);
+                const thumb = thumbFromPdf(p.href);
+                return (
+                  <li
+                    key={p.href}
+                    className="rounded-xl border bg-white shadow-sm overflow-hidden">
+                    <div className="flex items-center gap-4 p-4">
+                      {/* Left thumbnail -> detail page */}
+                      {thumb ? (
+                        <Link
+                          href={`/field-notes/${slug}`}
+                          className="shrink-0">
+                          <Image
+                            src={thumb}
+                            alt={p.title}
+                            width={96}
+                            height={96}
+                            className="w-24 h-24 object-cover rounded-md border transition hover:opacity-90"
+                            priority
+                          />
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`/field-notes/${slug}`}
+                          className="shrink-0">
+                          <div className="w-24 h-24 rounded-md border bg-[linear-gradient(135deg,#f6efe7,#fff)] transition hover:opacity-90" />
+                        </Link>
+                      )}
+
+                      {/* Middle text -> title links to detail page */}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-serif text-lg text-[#5c5045] font-bold truncate">
+                          <Link
+                            href={`/field-notes/${slug}`}
+                            className="hover:underline">
+                            {p.title}
+                          </Link>
+                        </p>
+                        <p className="text-sm text-gray-600 break-all">
+                          {p.filename}
+                        </p>
+                      </div>
+
+                      {/* Right button -> direct PDF download */}
+                      <a
+                        href={p.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="shrink-0 inline-flex items-center rounded-md bg-[#6ea089] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
+                        download>
+                        Download
+                      </a>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p className="text-gray-600">No field notes printables yet.</p>
+          )}
+        </section>
+
         {/* Tags */}
         <section>
           <h2 className="font-serif text-2xl text-[#5c5045] mb-4">

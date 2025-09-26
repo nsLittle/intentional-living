@@ -12,7 +12,13 @@ import Search from "./Search";
 import SearchResults from "./SearchResults";
 import HeaderNavBarNewsletterSignup from "./HeaderNavBarNewsletterSignup";
 
-type MenuKey = "posts" | "recipes" | "crafts" | "printables" | null;
+type MenuKey =
+  | "posts"
+  | "recipes"
+  | "crafts"
+  | "fieldnotes"
+  | "printables"
+  | null;
 
 type HeaderNavBarProps = {
   postsRecent?: { title: string; href: string }[];
@@ -21,6 +27,8 @@ type HeaderNavBarProps = {
   recipesHighlights?: { title: string; href: string; img?: string }[];
   craftsRecent?: { title: string; href: string }[];
   craftsHighlights?: { title: string; href: string; img?: string }[];
+  fieldNotesRecent?: { title: string; href: string }[];
+  fieldNotesHighlights?: { title: string; href: string; img?: string }[];
   printablesRecent?: { title: string; href: string }[];
   printablesHighlights?: { title: string; href: string; img?: string }[];
 };
@@ -161,6 +169,21 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
                 <li
                   className="relative inline-flex items-center"
+                  onMouseEnter={() => openMenu("fieldnotes")}
+                  onMouseLeave={scheduleClose}>
+                  <Link
+                    href="/field-notes"
+                    className="text-[#fefcf9] text-base hover:underline"
+                    onFocus={() => openMenu("fieldnotes")}
+                    onBlur={scheduleClose}
+                    aria-expanded={open === "fieldnotes"}
+                    aria-haspopup="true">
+                    Field Notes
+                  </Link>
+                </li>
+
+                <li
+                  className="relative inline-flex items-center"
                   onMouseEnter={() => openMenu("printables")}
                   onMouseLeave={scheduleClose}>
                   <Link
@@ -259,7 +282,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                   aria-controls="subscribe-dropdown"
                   onClick={() => {
                     setSubscribeOpen((v) => !v);
-                    setSearchOpen(false); // don’t overlap with search
+                    setSearchOpen(false);
                   }}>
                   Subscribe
                 </button>
@@ -386,6 +409,37 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             maxItems={4}
           />
         </DropDownPanelContainer>
+        {/* Dropdown panel for field notes */}
+        <DropDownPanelContainer
+          isOpen={open === "fieldnotes"}
+          onOpen={() => openMenu("fieldnotes")}
+          onClose={scheduleClose}>
+          {/* Left column */}
+          <DropDownPanelCategoryGrid
+            className="col-span-12 md:col-span-3 md:col-start-1"
+            title="Field Notes"
+            allHref="/field-notes"
+            allLabel="All Field Notes →"
+            items={[
+              { href: "/field-notes/crafts", label: "Woodland Crafts" },
+              { href: "/recipes/foraged", label: "Woodland Recipes" },
+            ]}
+          />
+          {/* Middle column */}
+          <DropDownPanelRecentList
+            className="col-span-12 md:col-span-4 md:col-start-5"
+            items={props.fieldNotesRecent}
+            emptyMessage="No field notes yet."
+          />
+          {/* Right column */}
+          <DropDownHighLightsGrid
+            className="col-span-12 md:col-span-3 md:col-start-9"
+            items={props.fieldNotesHighlights}
+            fallbackImg="/images/posts/witches-butter.jpeg"
+            emptyMessage="No highlights yet."
+            maxItems={4}
+          />
+        </DropDownPanelContainer>
         {/* Dropdown panel for printables */}
         <DropDownPanelContainer
           isOpen={open === "printables"}
@@ -399,10 +453,49 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             allLabel="All Printables →"
             items={[
               { href: "/printables/recipes", label: "Recipes" },
-              { href: "/printables/projects", label: "Projects" },
+              { href: "/printables/projects", label: "Craft Projects" },
+              { href: "/printables/field-notes", label: "Field Notes" },
               { href: "/printables/tags", label: "Tags" },
             ]}
           />
+
+          {/* Dropdown panel for Field Notes */}
+          <DropDownPanelContainer
+            isOpen={open === "fieldnotes"}
+            onOpen={() => openMenu("fieldnotes")}
+            onClose={scheduleClose}>
+            <DropDownPanelCategoryGrid
+              className="col-span-12 md:col-span-4 md:col-start-1"
+              title="Field Notes"
+              allHref="/field-notes"
+              allLabel="All Field Notes →"
+              items={[
+                { href: "/field-notes", label: "All Field Notes" },
+                // TODO: confirm these two URLs are the ones you want:
+                {
+                  href: "/recipes?category=woodland",
+                  label: "Woodland Recipes",
+                },
+                { href: "/crafts?category=woodland", label: "Woodland Crafts" },
+              ]}
+            />
+
+            {/* Middle column: recent field notes (optional — using printablesRecent for now) */}
+            <DropDownPanelRecentList
+              className="col-span-12 md:col-span-4 md:col-start-5"
+              items={props.printablesRecent}
+              emptyMessage="No field notes yet."
+            />
+
+            {/* Right column: highlights (optional — using printablesHighlights as a placeholder) */}
+            <DropDownHighLightsGrid
+              className="col-span-12 md:col-span-3 md:col-start-9"
+              items={props.printablesHighlights}
+              fallbackImg="/images/header-banner/log-garden.jpeg"
+              emptyMessage="No highlights yet."
+              maxItems={4}
+            />
+          </DropDownPanelContainer>
 
           {/* Middle column: recent printables */}
           <DropDownPanelRecentList
