@@ -44,7 +44,7 @@ export default function FieldNotesIndexPage() {
       <div className="bg-white text-black">
         <div className="max-w-5xl mx-auto px-6 py-12">
           <h1 className="font-serif text-[#5c5045] text-4xl font-bold text-center">
-            All Field Notes
+            Field Notes
           </h1>
         </div>
       </div>

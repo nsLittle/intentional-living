@@ -8,6 +8,7 @@ type FieldNotes = {
   date?: string;
   hero?: string;
   text?: string;
+  href?: string;
 };
 
 type LayoutAllFieldNotesProps = {
@@ -37,7 +38,9 @@ export default function LayoutAllFieldNotes({
             )}
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-2">
-                <Link href={`/posts/${note.slug}`} className="hover:underline">
+                <Link
+                  href={note.href ?? `/field-notes/${note.slug}`}
+                  className="hover:underline">
                   {note.title}
                 </Link>
               </h2>

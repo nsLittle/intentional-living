@@ -20,7 +20,7 @@ export default function SidebarIntro() {
 
       <p className="mt-4 text-lg leading-relaxed max-w-xs mx-auto">
         I share pantry-first recipes, gentle crafts, and respectful foraging
-        notes. With my daughters and our cats beside me, we savor life&#39;s
+        notes. With my daughters and our cats besides us, we savor life&#39;s
         small joys.
       </p>
 

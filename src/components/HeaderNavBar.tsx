@@ -178,7 +178,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                     onBlur={scheduleClose}
                     aria-expanded={open === "fieldnotes"}
                     aria-haspopup="true">
-                    Field Notes
+                    Nature Notes
                   </Link>
                 </li>
 
@@ -417,12 +417,22 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           {/* Left column */}
           <DropDownPanelCategoryGrid
             className="col-span-12 md:col-span-3 md:col-start-1"
-            title="Field Notes"
+            title="Nature Notes"
             allHref="/field-notes"
-            allLabel="All Field Notes →"
+            allLabel="All Nature Notes →"
             items={[
-              { href: "/field-notes/crafts", label: "Woodland Crafts" },
-              { href: "/recipes/foraged", label: "Woodland Recipes" },
+              {
+                href: "/field-notes",
+                label: "Field Notes",
+              },
+              {
+                href: "/field-notes/woodland-crafts",
+                label: "Woodland Crafts",
+              },
+              {
+                href: "/field-notes/foraged-recipes",
+                label: "Foraged Recipes",
+              },
             ]}
           />
           {/* Middle column */}
@@ -458,47 +468,8 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               { href: "/printables/tags", label: "Tags" },
             ]}
           />
-
-          {/* Dropdown panel for Field Notes */}
-          <DropDownPanelContainer
-            isOpen={open === "fieldnotes"}
-            onOpen={() => openMenu("fieldnotes")}
-            onClose={scheduleClose}>
-            <DropDownPanelCategoryGrid
-              className="col-span-12 md:col-span-4 md:col-start-1"
-              title="Field Notes"
-              allHref="/field-notes"
-              allLabel="All Field Notes →"
-              items={[
-                { href: "/field-notes", label: "All Field Notes" },
-                // TODO: confirm these two URLs are the ones you want:
-                {
-                  href: "/recipes?category=woodland",
-                  label: "Woodland Recipes",
-                },
-                { href: "/crafts?category=woodland", label: "Woodland Crafts" },
-              ]}
-            />
-
-            {/* Middle column: recent field notes (optional — using printablesRecent for now) */}
-            <DropDownPanelRecentList
-              className="col-span-12 md:col-span-4 md:col-start-5"
-              items={props.printablesRecent}
-              emptyMessage="No field notes yet."
-            />
-
-            {/* Right column: highlights (optional — using printablesHighlights as a placeholder) */}
-            <DropDownHighLightsGrid
-              className="col-span-12 md:col-span-3 md:col-start-9"
-              items={props.printablesHighlights}
-              fallbackImg="/images/header-banner/log-garden.jpeg"
-              emptyMessage="No highlights yet."
-              maxItems={4}
-            />
-          </DropDownPanelContainer>
-
           {/* Middle column: recent printables */}
-          <DropDownPanelRecentList
+          {/* <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
             items={props.printablesRecent}
             emptyMessage="No printables yet."
@@ -509,7 +480,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             fallbackImg="/images/printables/fallback.png"
             emptyMessage="No highlights yet."
             maxItems={4}
-          />
+          /> */}
         </DropDownPanelContainer>
         ;
       </nav>

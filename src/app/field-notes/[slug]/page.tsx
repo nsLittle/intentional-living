@@ -3,9 +3,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import LayoutFieldNotes from "components/LayoutFieldNotes";
 
-type PageProps = { params: { slug: string } };
-
-export default function FieldNoteSlugPage({ params }: PageProps) {
+export default function FieldNoteSlugPage({ params }: any) {
   const filePath = path.join(
     process.cwd(),
     "src",
