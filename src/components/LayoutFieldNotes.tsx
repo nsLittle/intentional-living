@@ -9,7 +9,6 @@ import LinkReturnPost from "./LinkReturnPost";
 import ButtonDownloadPdf from "components/ButtonDownloadPdf";
 import PinterestShare from "./PinterestShare";
 import FacebookShareButton from "./FacebookShareButton";
-import SectionCard from "./SectionCard";
 import { Suspense } from "react";
 
 type FieldNotesLayoutProps = {

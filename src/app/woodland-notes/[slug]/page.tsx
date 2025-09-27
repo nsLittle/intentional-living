@@ -3,13 +3,19 @@ import fs from "fs";
 import matter from "gray-matter";
 import LayoutFieldNotes from "components/LayoutFieldNotes";
 
-export default function FieldNoteSlugPage({ params }: any) {
+export default async function FieldNoteSlugPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+
   const filePath = path.join(
     process.cwd(),
     "src",
     "content",
     "field-notes",
-    `${params.slug}.mdx`
+    `${slug}.mdx`
   );
 
   if (!fs.existsSync(filePath)) {

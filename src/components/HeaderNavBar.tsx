@@ -32,6 +32,12 @@ type HeaderNavBarProps = {
   printablesRecent?: { title: string; href: string }[];
   printablesHighlights?: { title: string; href: string; img?: string }[];
 };
+// src/app/layout.tsx
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export default function HeaderNavBar(props: HeaderNavBarProps) {
   const [open, setOpen] = useState<MenuKey>(null);
@@ -172,13 +178,13 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                   onMouseEnter={() => openMenu("fieldnotes")}
                   onMouseLeave={scheduleClose}>
                   <Link
-                    href="/field-notes"
+                    href="/woodland-notes"
                     className="text-[#fefcf9] text-base hover:underline"
                     onFocus={() => openMenu("fieldnotes")}
                     onBlur={scheduleClose}
                     aria-expanded={open === "fieldnotes"}
                     aria-haspopup="true">
-                    Nature Notes
+                    Woodlands
                   </Link>
                 </li>
 
@@ -417,13 +423,13 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           {/* Left column */}
           <DropDownPanelCategoryGrid
             className="col-span-12 md:col-span-3 md:col-start-1"
-            title="Nature Notes"
-            allHref="/field-notes"
-            allLabel="All Nature Notes →"
+            title="All Woodland Notes"
+            allHref="/woodland-notes"
+            allLabel="All Woodland Notes →"
             items={[
               {
                 href: "/field-notes",
-                label: "Field Notes",
+                label: "Woodland Notes",
               },
               {
                 href: "/field-notes/woodland-crafts",
@@ -431,7 +437,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               },
               {
                 href: "/field-notes/foraged-recipes",
-                label: "Foraged Recipes",
+                label: "Woodland Recipes",
               },
             ]}
           />
