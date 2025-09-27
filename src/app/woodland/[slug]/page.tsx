@@ -1,3 +1,4 @@
+// src/app/woodland/[slug]/page.tsx
 import path from "path";
 import fs from "fs";
 import matter from "gray-matter";
@@ -6,9 +7,9 @@ import LayoutFieldNotes from "components/LayoutFieldNotes";
 export default async function FieldNoteSlugPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const filePath = path.join(
     process.cwd(),
@@ -19,17 +20,14 @@ export default async function FieldNoteSlugPage({
   );
 
   if (!fs.existsSync(filePath)) {
-    // Let Next render your 404
-    // (you already have app/not-found.tsx)
-    return null;
+    return null; // lets app/not-found.tsx handle it
   }
 
   const raw = fs.readFileSync(filePath, "utf8");
   const { data /*, content*/ } = matter(raw);
 
-  // Front-matter props (all optional except title)
   const {
-    title = params.slug,
+    title = slug,
     date,
     hero,
     parentPost,
@@ -54,8 +52,7 @@ export default async function FieldNoteSlugPage({
       parentPost={parentPost}
       text={text}
       materials={materials}
-      pdf={pdf}>
-      {/* We'll wire the MDX body (`content`) next. */}
-    </LayoutFieldNotes>
+      pdf={pdf}
+    />
   );
 }

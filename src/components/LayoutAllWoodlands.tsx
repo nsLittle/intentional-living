@@ -1,3 +1,4 @@
+// src/components/LayoutAllWoodlands.tsx
 import Link from "next/link";
 import Image from "next/image";
 import LinkReturnHome from "./LinkReturnHome";
