@@ -6,7 +6,7 @@ import LayoutFieldNotes from "components/LayoutFieldNotes";
 export default async function FieldNoteSlugPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
   const { slug } = await params;
 
