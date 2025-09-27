@@ -8,7 +8,7 @@ export default async function FieldNoteSlugPage({
 }: {
   params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params;
 
   const filePath = path.join(
     process.cwd(),
