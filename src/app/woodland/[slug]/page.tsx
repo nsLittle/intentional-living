@@ -20,7 +20,7 @@ export default async function FieldNoteSlugPage({
   );
 
   if (!fs.existsSync(filePath)) {
-    return null; // lets app/not-found.tsx handle it
+    return null;
   }
 
   const raw = fs.readFileSync(filePath, "utf8");
@@ -32,8 +32,8 @@ export default async function FieldNoteSlugPage({
     hero,
     parentPost,
     text,
-    materials,
-    pdf,
+    // materials, // ⟵ remove for now
+    // pdf,       // ⟵ remove for now
   } = data as {
     title?: string;
     date?: string;
@@ -51,8 +51,8 @@ export default async function FieldNoteSlugPage({
       hero={hero}
       parentPost={parentPost}
       text={text}
-      materials={materials}
-      pdf={pdf}
+      // materials={materials} // ⟵ remove for now
+      // pdf={pdf}             // ⟵ remove for now
     />
   );
 }
