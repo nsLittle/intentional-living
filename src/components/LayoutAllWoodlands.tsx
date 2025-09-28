@@ -13,7 +13,7 @@ type Woodlands = {
 };
 
 type LayoutAllWoodlandsProps = {
-  notes: FieldNotes[];
+  notes: Woodlands[];
 };
 
 export default function LayoutAllWoodlands({ notes }: LayoutAllWoodlandsProps) {
