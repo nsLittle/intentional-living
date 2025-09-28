@@ -32,7 +32,7 @@ type HeaderNavBarProps = {
   printablesRecent?: { title: string; href: string }[];
   printablesHighlights?: { title: string; href: string; img?: string }[];
 };
-// src/app/layout.tsx
+
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -64,7 +64,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
   useEffect(() => {
     function handleDown(e: MouseEvent) {
-      // existing search dropdown logic…
+      // search dropdown logic…
       if (searchOpen) {
         const el = searchWrapRef.current;
         if (el && !el.contains(e.target as Node)) setSearchOpen(false);
@@ -474,19 +474,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               { href: "/printables/tags", label: "Tags" },
             ]}
           />
-          {/* Middle column: recent printables */}
-          {/* <DropDownPanelRecentList
-            className="col-span-12 md:col-span-4 md:col-start-5"
-            items={props.printablesRecent}
-            emptyMessage="No printables yet."
-          />
-          <DropDownHighLightsGrid
-            className="col-span-12 md:col-span-3 md:col-start-9"
-            items={props.printablesHighlights}
-            fallbackImg="/images/printables/fallback.png"
-            emptyMessage="No highlights yet."
-            maxItems={4}
-          /> */}
         </DropDownPanelContainer>
         ;
       </nav>
