@@ -12,6 +12,7 @@ import {
   computeRecentPrintables,
   computePrintableHighlights,
 } from "lib/printablesRecent";
+import { getWoodlandHighlights } from "lib/woodland";
 
 type RecentLink = { title: string; href: string };
 
@@ -144,7 +145,11 @@ export default async function HeaderNavBarServer() {
     "woodland-crafts"
   );
 
-  const fieldNotesRecent = readMdxAsRecent(fieldNotesDir, "/woodland", 6);
+  const fieldNotesRecent = readMdxAsRecent(
+    fieldNotesDir,
+    "/woodland/field-notes",
+    6
+  );
 
   const woodlandCraftsRecent = readMdxAsRecent(
     woodlandCraftsDir,
@@ -157,10 +162,9 @@ export default async function HeaderNavBarServer() {
     ...fieldNotesRecent,
     ...woodlandCraftsRecent,
     ...foragedRecipesRecent,
-  ]
-    // sort newest-first by trying to infer from the slug arrays we built above (we already sorted inside each group)
-    // keep it simple: just take first 6 after concatenation and intra-group sort, or resort by title as a tie-breaker
-    .slice(0, 6);
+  ].slice(0, 6);
+
+  const woodlandHighlights = getWoodlandHighlights(4);
 
   return (
     <HeaderNavBar
@@ -171,6 +175,7 @@ export default async function HeaderNavBarServer() {
       craftsRecent={craftsRecent}
       craftsHighlights={craftsHighlights}
       woodlandRecent={woodlandRecent}
+      woodlandHighlights={woodlandHighlights}
       printablesRecent={printablesRecent}
       printablesHighlights={printablesHighlights}
     />

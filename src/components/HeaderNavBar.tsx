@@ -1,4 +1,3 @@
-// src/components/HeaderNavBar.tsx
 "use client";
 
 import Link from "next/link";
@@ -10,7 +9,6 @@ import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
 import DropDownPanelRecentList from "./DropDownPanelRecentList";
 import Search from "./Search";
 import SearchResults from "./SearchResults";
-import HeaderNavBarNewsletterSignup from "./HeaderNavBarNewsletterSignup";
 
 type MenuKey =
   | "posts"
@@ -44,11 +42,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [subscribeOpen, setSubscribeOpen] = useState(false);
-  const subscribeWrapRef = useRef<HTMLDivElement | null>(null);
-  const subscribeButtonRef = useRef<HTMLButtonElement | null>(null);
-  const subWasOpenRef = useRef(false);
-
   const searchWrapRef = useRef<HTMLDivElement | null>(null);
   const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   const closeTimer = useRef<NodeJS.Timeout | null>(null);
@@ -57,6 +50,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpen(key);
   };
+
   const scheduleClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setOpen(null), 120);
@@ -64,50 +58,46 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
   useEffect(() => {
     function handleDown(e: MouseEvent) {
-      // search dropdown logic…
       if (searchOpen) {
         const el = searchWrapRef.current;
         if (el && !el.contains(e.target as Node)) setSearchOpen(false);
       }
-      // subscribe dropdown logic
-      if (subscribeOpen) {
-        const el = subscribeWrapRef.current;
-        if (el && !el.contains(e.target as Node)) setSubscribeOpen(false);
-      }
     }
     document.addEventListener("mousedown", handleDown);
     return () => document.removeEventListener("mousedown", handleDown);
-  }, [searchOpen, subscribeOpen]);
+  }, [searchOpen]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setSearchOpen(false);
-        setSubscribeOpen(false);
       }
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  useEffect(() => {
-    if (subWasOpenRef.current && !subscribeOpen) {
-      subscribeButtonRef.current?.focus();
-    }
-    subWasOpenRef.current = subscribeOpen;
-  }, [subscribeOpen]);
-
-  console.log(
-    "[HeaderNavBar] woodlandRecent len:",
-    props.woodlandRecent?.length,
-    props.woodlandRecent?.slice(0, 3)
-  );
+  const woodlandHighlightsEffective =
+    (props.woodlandHighlights?.length ?? 0) > 0
+      ? props.woodlandHighlights
+      : [
+          {
+            title: "Witches’ Butter",
+            href: "/woodland/field-notes/witches-butter",
+            img: "/images/posts/witches-butter.jpeg",
+          },
+          {
+            title: "Ghost Pipe Craft",
+            href: "/woodland/woodland-crafts/ghost-pipe",
+            img: "/images/crafts/ghost-pipe.png",
+          },
+        ];
 
   return (
     <div className="min-w-0">
       <nav className="sticky top-0 z-50 border-b border-black/5 bg-[#2f5d4b]/95 backdrop-blur">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="flex flex-col gap-3 md:h-14 md:flex-row md:items-center md:justify-between min-w-0">
+          <div className="flex flex-col gap-3 md:h-22 md:flex-row md:items-center md:justify-between min-w-0">
             {/* Brand */}
             <Link
               href="/"
@@ -117,10 +107,10 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                 alt="Simple Intentions"
                 width={32}
                 height={32}
-                className="rounded-sm mt-6"
+                className="rounded-sm mt-2"
               />
               <div className="leading-tight">
-                <span className="block font-serif text-2xl text-[#fefcf9] mt-6">
+                <span className="block font-serif text-2xl text-[#fefcf9] mt-2">
                   Simple
                 </span>
                 <span className="block font-serif text-2xl text-[#fefcf9] -mt-2">
@@ -129,7 +119,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               </div>
             </Link>
 
-            {/* center nav */}
+            {/* Center nav */}
             <nav
               aria-label="Primary"
               className="order-2 md:order-none w-full md:flex-1 min-w-0 flex justify-center">
@@ -228,16 +218,15 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                 <li>
                   <Link
                     href="/contact"
-                    className="text-[#fefcf9] tex`t-base hover:underline">
+                    className="text-[#fefcf9] text-base hover:underline">
                     Contact
                   </Link>
                 </li>
               </ul>
             </nav>
 
-            {/* Right: search + subscribe */}
-            <div className="ml-auto flex items-center gap-4 mt-6">
-              {/* One wrapper for BOTH button and panel */}
+            {/* Right: search (button + panel) */}
+            <div className="ml-auto flex items-center mt-2">
               <div className="relative" ref={searchWrapRef}>
                 <button
                   ref={searchButtonRef}
@@ -268,64 +257,27 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
                     aria-modal="false"
                     className="fixed right-4 top-16 w-[min(90vw,40rem)] rounded-2xl border bg-white shadow-2xl z-[9999] p-4"
                     onClick={(e) => e.stopPropagation()}>
-                    {/* Input */}
                     <Search
                       value={searchQuery}
                       onChange={setSearchQuery}
                       autoFocus
                       className="w-full"
                     />
-
-                    {/* Results list */}
                     <div className="mt-3 max-h-[70vh] overflow-auto">
                       <SearchResults query={searchQuery} />
                     </div>
                   </div>
                 )}
               </div>
-
-              <div className="relative" ref={subscribeWrapRef}>
-                <button
-                  ref={subscribeButtonRef}
-                  type="button"
-                  className="bg-[#6ea089] text-[#fefcf9] px-3 py-1.5 rounded-md text-sm font-medium hover:opacity-90"
-                  aria-haspopup="dialog"
-                  aria-expanded={subscribeOpen}
-                  aria-controls="subscribe-dropdown"
-                  onClick={() => {
-                    setSubscribeOpen((v) => !v);
-                    setSearchOpen(false);
-                  }}>
-                  Subscribe
-                </button>
-
-                {subscribeOpen && (
-                  <div
-                    id="subscribe-dropdown"
-                    role="dialog"
-                    aria-modal="false"
-                    className="absolute right-0 top-10 w-[min(90vw,22rem)] rounded-xl border bg-white shadow-2xl z-[9999] p-4
-               flex flex-col items-center justify-center text-center"
-                    onClick={(e) => e.stopPropagation()}>
-                    {/* Center the form */}
-                    <HeaderNavBarNewsletterSignup className="flex items-center justify-center" />
-
-                    {/* Smaller, centered helper text */}
-                    <p className="mt-2 text-[11px] leading-snug text-gray-600">
-                      We’ll never share your email.
-                    </p>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </div>
-        {/*Dropdown panel for posts*/}
+
+        {/* Dropdown panel for posts */}
         <DropDownPanelContainer
           isOpen={open === "posts"}
           onOpen={() => openMenu("posts")}
           onClose={scheduleClose}>
-          {/* Left column: section nav */}
           <DropDownPanelCategoryGrid
             className="col-span-12 md:col-span-3 md:col-start-1"
             title="Posts"
@@ -337,15 +289,11 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               { href: "/posts/crafts", label: "Crafty Creations" },
             ]}
           />
-
-          {/* Middle column: recent posts */}
           <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
             items={props.postsRecent}
             emptyMessage="No posts yet."
           />
-
-          {/* Right column: post highlights */}
           <DropDownHighLightsGrid
             className="col-span-12 md:col-span-3 md:col-start-9"
             items={props.postsHighlights}
@@ -354,12 +302,12 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             maxItems={4}
           />
         </DropDownPanelContainer>
+
         {/* Dropdown panel for recipes */}
         <DropDownPanelContainer
           isOpen={open === "recipes"}
           onOpen={() => openMenu("recipes")}
           onClose={scheduleClose}>
-          {/* Left column */}
           <DropDownPanelCategoryGrid
             className="col-span-12 md:col-span-3 md:col-start-1"
             title="Recipes"
@@ -372,13 +320,11 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               { href: "/recipes/sides", label: "Sides" },
             ]}
           />
-          {/* Middle column */}
           <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
             items={props.recipesRecent}
             emptyMessage="No recipes yet."
           />
-          {/* Right column */}
           <DropDownHighLightsGrid
             className="col-span-12 md:col-span-3 md:col-start-9"
             items={props.recipesHighlights}
@@ -387,6 +333,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             maxItems={4}
           />
         </DropDownPanelContainer>
+
         {/* Dropdown panel for crafts */}
         <DropDownPanelContainer
           isOpen={open === "crafts"}
@@ -406,13 +353,11 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               { href: "/crafts/other-crafts", label: "Other Craft Projects" },
             ]}
           />
-          {/* Middle column */}
           <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
             items={props.craftsRecent}
             emptyMessage="No crafts yet."
           />
-          {/* Right column */}
           <DropDownHighLightsGrid
             className="col-span-12 md:col-span-3 md:col-start-9"
             items={props.craftsHighlights}
@@ -421,12 +366,12 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             maxItems={4}
           />
         </DropDownPanelContainer>
+
         {/* Dropdown panel for woodlands */}
         <DropDownPanelContainer
           isOpen={open === "woodlands"}
           onOpen={() => openMenu("woodlands")}
           onClose={scheduleClose}>
-          {/* Left column */}
           <DropDownPanelCategoryGrid
             className="col-span-12 md:col-span-3 md:col-start-1"
             title="All Woodland Notes"
@@ -438,29 +383,25 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               { href: "/woodland/foraged-recipes", label: "Foraged Recipes" },
             ]}
           />
-
-          {/* Middle column: unified recent list across all woodland */}
           <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
             items={props.woodlandRecent}
             emptyMessage="No woodland notes yet."
           />
-
-          {/* Right column: optional unified highlights */}
           <DropDownHighLightsGrid
             className="col-span-12 md:col-span-3 md:col-start-9"
-            items={props.woodlandHighlights}
-            fallbackImg="/images/posts/witches-butter.jpeg"
+            items={woodlandHighlightsEffective}
+            fallbackImg="/images/header-banner/log-garden.jpeg" // same fallback as Posts for parity
             emptyMessage="No highlights yet."
             maxItems={4}
           />
         </DropDownPanelContainer>
+
         {/* Dropdown panel for printables */}
         <DropDownPanelContainer
           isOpen={open === "printables"}
           onOpen={() => openMenu("printables")}
           onClose={scheduleClose}>
-          {/* Left column: section nav */}
           <DropDownPanelCategoryGrid
             className="col-span-12 md:col-span-3 md:col-start-1"
             title="Printables"
@@ -474,7 +415,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             ]}
           />
         </DropDownPanelContainer>
-        ;
       </nav>
     </div>
   );
