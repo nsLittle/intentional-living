@@ -7,6 +7,7 @@ import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import LayoutAllRecipes from "components/LayoutAllRecipes";
 import Footer from "components/Footer";
+import PrintPDFButton from "components/PrintPDFButton";
 
 export default function RecipesPage() {
   const dir = path.join(process.cwd(), "src", "content", "recipes");

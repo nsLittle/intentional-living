@@ -16,7 +16,7 @@ type MenuKey =
   | "posts"
   | "recipes"
   | "crafts"
-  | "fieldnotes"
+  | "woodlands"
   | "printables"
   | null;
 
@@ -175,14 +175,14 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
                 <li
                   className="relative inline-flex items-center"
-                  onMouseEnter={() => openMenu("fieldnotes")}
+                  onMouseEnter={() => openMenu("woodlands")}
                   onMouseLeave={scheduleClose}>
                   <Link
-                    href="/woodland-notes"
+                    href="/woodland"
                     className="text-[#fefcf9] text-base hover:underline"
-                    onFocus={() => openMenu("fieldnotes")}
+                    onFocus={() => openMenu("woodlands")}
                     onBlur={scheduleClose}
-                    aria-expanded={open === "fieldnotes"}
+                    aria-expanded={open === "woodlands"}
                     aria-haspopup="true">
                     Woodlands
                   </Link>
@@ -417,26 +417,26 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
         </DropDownPanelContainer>
         {/* Dropdown panel for field notes */}
         <DropDownPanelContainer
-          isOpen={open === "fieldnotes"}
-          onOpen={() => openMenu("fieldnotes")}
+          isOpen={open === "woodlands"}
+          onOpen={() => openMenu("woodlands")}
           onClose={scheduleClose}>
           {/* Left column */}
           <DropDownPanelCategoryGrid
             className="col-span-12 md:col-span-3 md:col-start-1"
             title="All Woodland Notes"
-            allHref="/woodland-notes"
+            allHref="/woodland"
             allLabel="All Woodland Notes →"
             items={[
               {
-                href: "/field-notes",
-                label: "Woodland Notes",
+                href: "/woodland/field-notes",
+                label: "Woodland Field Notes",
               },
               {
-                href: "/field-notes/woodland-crafts",
+                href: "/woodland/woodland-crafts",
                 label: "Woodland Crafts",
               },
               {
-                href: "/field-notes/foraged-recipes",
+                href: "/woodland/foraged-recipes",
                 label: "Woodland Recipes",
               },
             ]}
