@@ -1,58 +1,98 @@
-// src/app/woodland/[slug]/page.tsx
-import path from "path";
 import fs from "fs";
+import path from "path";
 import matter from "gray-matter";
-import LayoutFieldNotes from "components/LayoutFieldNotes";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import HeaderNavBarServer from "components/HeaderNavBarServer";
+import Header from "components/Header";
+import Footer from "components/Footer";
 
-export default async function FieldNoteSlugPage({
+type Craft = {
+  slug: string;
+  title: string;
+  date?: string;
+  hero?: string;
+  text?: string;
+  pdf?: string;
+};
+
+function getWoodlandCraft(slug: string): Craft | null {
+  const dir = path.join(process.cwd(), "src", "content", "woodland-crafts");
+  const filePath = path.join(dir, `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) return null;
+
+  const { data } = matter(fs.readFileSync(filePath, "utf8"));
+  return {
+    slug,
+    title: (data.title as string) ?? slug,
+    date: (data.date as string) ?? undefined,
+    hero: (data.hero as string) ?? undefined,
+    text: (data.text as string) ?? undefined,
+    pdf: (data.pdf as string) ?? `${slug}.pdf`,
+  };
+}
+
+// NOTE: Next.js 15 passes `params` as a Promise in dynamic routes.
+//       We must `await` it before using its properties.
+export default async function WoodlandCraftPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
 
-  const filePath = path.join(
-    process.cwd(),
-    "src",
-    "content",
-    "field-notes",
-    `${slug}.mdx`
-  );
-
-  if (!fs.existsSync(filePath)) {
-    return null;
-  }
-
-  const raw = fs.readFileSync(filePath, "utf8");
-  const { data /*, content*/ } = matter(raw);
-
-  const {
-    title = slug,
-    date,
-    hero,
-    parentPost,
-    text,
-    // materials, // ⟵ remove for now
-    // pdf,       // ⟵ remove for now
-  } = data as {
-    title?: string;
-    date?: string;
-    hero?: string;
-    parentPost?: string;
-    text?: string;
-    materials?: string[];
-    pdf?: string;
-  };
+  const craft = getWoodlandCraft(slug);
+  if (!craft) notFound();
 
   return (
-    <LayoutFieldNotes
-      title={title}
-      date={date}
-      hero={hero}
-      parentPost={parentPost}
-      text={text}
-      // materials={materials} // ⟵ remove for now
-      // pdf={pdf}             // ⟵ remove for now
-    />
+    <>
+      <HeaderNavBarServer />
+      <Header />
+
+      <main className="bg-white text-black">
+        <article className="max-w-3xl mx-auto px-6 py-12">
+          <h1 className="font-serif text-[#5c5045] text-4xl font-bold">
+            {craft.title}
+          </h1>
+
+          {craft.date && (
+            <p className="mt-2 text-sm text-gray-600">
+              {new Date(craft.date).toLocaleDateString()}
+            </p>
+          )}
+
+          {craft.hero && (
+            <div className="mt-6">
+              <Image
+                src={craft.hero}
+                alt=""
+                width={1200}
+                height={630}
+                className="w-full h-auto rounded-lg"
+                priority
+              />
+            </div>
+          )}
+
+          {craft.text && (
+            <p className="mt-6 leading-relaxed text-[#3b342d] whitespace-pre-line">
+              {craft.text}
+            </p>
+          )}
+
+          {craft.pdf && (
+            <div className="mt-8">
+              <a
+                href={`/pdf/${craft.pdf}`}
+                className="underline text-[#2f5d4b]">
+                View PDF
+              </a>
+            </div>
+          )}
+        </article>
+      </main>
+
+      <Footer />
+    </>
   );
 }

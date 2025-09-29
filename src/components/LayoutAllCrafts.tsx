@@ -30,9 +30,12 @@ export default function LayoutAllCrafts({
           {crafts.map((craft) => (
             <Link
               key={craft.slug}
-              href={`/crafts/${craft.slug}`}
-              className="block group">
-              <div className="rounded-xl overflow-hidden shadow-md bg-white hover:shadow-lg transition-shadow">
+              href={`/woodland/woodland-crafts/${craft.slug}`}
+              className="block group h-full" // ← NEW: let each card fill equal height
+            >
+              <div className="rounded-xl overflow-hidden shadow-md bg-white hover:shadow-lg transition-shadow flex h-full flex-col">
+                {" "}
+                {/* ← NEW */}
                 {craft.hero && (
                   <Image
                     src={craft.hero}
@@ -43,16 +46,21 @@ export default function LayoutAllCrafts({
                     className="w-full h-48 object-cover"
                   />
                 )}
-                <div className="p-6">
-                  <h2 className="text-2xl font-bold text-black mb-2 group-hover:underline">
+                <div className="p-6 flex flex-col flex-1">
+                  {" "}
+                  {/* ← NEW */}
+                  <h2 className="text-2xl font-bold text-black mb-2 group-hover:underline line-clamp-2 min-h-[3.25rem]">
+                    {/* ↑ NEW: clamp title to 2 lines and reserve space */}
                     {craft.title}
                   </h2>
-                  {craft.date && (
+                  {/* Reserve a single-line slot for date, even if missing */}
+                  {craft.date ? (
                     <p className="text-sm text-gray-500 mb-4">{craft.date}</p>
+                  ) : (
+                    <p className="mb-4 h-5" /> // ← NEW: keeps heights aligned
                   )}
-                  {craft.text && (
-                    <p className="text-lg line-clamp-3">{craft.text}</p>
-                  )}
+                  <p className="text-lg line-clamp-3 flex-1">{craft.text}</p>{" "}
+                  {/* ← NEW: let text fill remaining */}
                 </div>
               </div>
             </Link>

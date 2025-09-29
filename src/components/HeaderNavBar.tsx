@@ -27,8 +27,8 @@ type HeaderNavBarProps = {
   recipesHighlights?: { title: string; href: string; img?: string }[];
   craftsRecent?: { title: string; href: string }[];
   craftsHighlights?: { title: string; href: string; img?: string }[];
-  fieldNotesRecent?: { title: string; href: string }[];
-  fieldNotesHighlights?: { title: string; href: string; img?: string }[];
+  woodlandRecent?: { title: string; href: string }[];
+  woodlandHighlights?: { title: string; href: string; img?: string }[];
   printablesRecent?: { title: string; href: string }[];
   printablesHighlights?: { title: string; href: string; img?: string }[];
 };
@@ -96,6 +96,12 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
     }
     subWasOpenRef.current = subscribeOpen;
   }, [subscribeOpen]);
+
+  console.log(
+    "[HeaderNavBar] woodlandRecent len:",
+    props.woodlandRecent?.length,
+    props.woodlandRecent?.slice(0, 3)
+  );
 
   return (
     <div className="min-w-0">
@@ -415,7 +421,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             maxItems={4}
           />
         </DropDownPanelContainer>
-        {/* Dropdown panel for field notes */}
+        {/* Dropdown panel for woodlands */}
         <DropDownPanelContainer
           isOpen={open === "woodlands"}
           onOpen={() => openMenu("woodlands")}
@@ -427,30 +433,23 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             allHref="/woodland"
             allLabel="All Woodland Notes →"
             items={[
-              {
-                href: "/woodland/field-notes",
-                label: "Woodland Field Notes",
-              },
-              {
-                href: "/woodland/woodland-crafts",
-                label: "Woodland Crafts",
-              },
-              {
-                href: "/woodland/foraged-recipes",
-                label: "Woodland Recipes",
-              },
+              { href: "/woodland/field-notes", label: "Field Notes" },
+              { href: "/woodland/woodland-crafts", label: "Woodland Crafts" },
+              { href: "/woodland/foraged-recipes", label: "Foraged Recipes" },
             ]}
           />
-          {/* Middle column */}
+
+          {/* Middle column: unified recent list across all woodland */}
           <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
-            items={props.fieldNotesRecent}
-            emptyMessage="No field notes yet."
+            items={props.woodlandRecent}
+            emptyMessage="No woodland notes yet."
           />
-          {/* Right column */}
+
+          {/* Right column: optional unified highlights */}
           <DropDownHighLightsGrid
             className="col-span-12 md:col-span-3 md:col-start-9"
-            items={props.fieldNotesHighlights}
+            items={props.woodlandHighlights}
             fallbackImg="/images/posts/witches-butter.jpeg"
             emptyMessage="No highlights yet."
             maxItems={4}

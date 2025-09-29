@@ -1,3 +1,4 @@
+// src/app/woodland/foraged-recipes/page.tsx
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -18,7 +19,7 @@ type NoteCard = {
 
 function readTaggedNotes(
   dirAbs: string,
-  baseHref: "/field-notes" | "/recipes"
+  baseHref: "/woodland/field-notes" | "/recipes"
 ) {
   if (!fs.existsSync(dirAbs)) return [] as NoteCard[];
   const files = fs.readdirSync(dirAbs).filter((f) => f.endsWith(".mdx"));
@@ -39,7 +40,9 @@ function readTaggedNotes(
         hero: (data.hero as string) ?? undefined,
         text: (data.text as string) ?? undefined,
         href:
-          baseHref === "/recipes" ? (`/recipes/${slug}` as const) : undefined,
+          baseHref === "/recipes"
+            ? `/recipes/${slug}`
+            : `/woodland/field-notes/${slug}`,
       };
       return card;
     })
