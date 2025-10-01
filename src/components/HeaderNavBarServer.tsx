@@ -166,6 +166,16 @@ export default async function HeaderNavBarServer() {
 
   const woodlandHighlights = getWoodlandHighlights(4);
 
+  // TEMP DEBUG (right before the return)
+  console.log(
+    "[HeaderNavBarServer] postsRecent =>",
+    JSON.stringify(
+      postsRecent.map((p) => ({ title: p.title, date: p.date })),
+      null,
+      2
+    )
+  );
+
   return (
     <HeaderNavBar
       postsRecent={postsRecent}

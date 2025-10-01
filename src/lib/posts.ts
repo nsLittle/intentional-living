@@ -128,24 +128,27 @@ export function getPostHighlights(limit = 4): PostLink[] {
     const dateObj = parsed && !isNaN(parsed.getTime()) ? parsed : stat.mtime;
 
     const slug = filename.replace(/\.mdx?$/, "");
-
-    // hero comes from frontmatter; can be relative or absolute
     const hero =
       typeof data?.hero === "string" && data.hero.trim().length > 0
         ? data.hero.trim()
         : undefined;
 
     return {
+      data, // keep for isPublished
       title: (data?.title as string) ?? slug,
       href: `/posts/${slug}`,
       img: hero,
       date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-    } satisfies PostListItem;
+    } as PostListItem & { data: any };
   });
 
   return items
-    .sort((a, b) => b._sort - a._sort)
+    .filter((it) => isPublished(it.data)) // ✅ boolean-only gate
+    .sort((a, b) => {
+      if (b._sort !== a._sort) return b._sort - a._sort; // newest → oldest
+      return a.title.localeCompare(b.title, "en", { sensitivity: "base" }); // A→Z
+    })
     .slice(0, limit)
     .map(({ title, href, img, date }) => ({ title, href, img, date }));
 }

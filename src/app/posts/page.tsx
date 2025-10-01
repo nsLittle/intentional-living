@@ -6,33 +6,43 @@ import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import LayoutAllPosts from "components/LayoutAllPosts";
 import Footer from "components/Footer";
+import { isPublished } from "lib/publish";
 
 export default function PostsPage() {
   const dir = path.join(process.cwd(), "src", "content", "posts");
   const files = fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"));
+
+  type FM = {
+    title?: string;
+    date?: string;
+    hero?: string;
+    text?: string;
+    published?: boolean;
+  };
 
   const posts = files
     .map((file) => {
       const slug = file.replace(/\.mdx$/, "");
       const filePath = path.join(dir, file);
       const { data } = matter(fs.readFileSync(filePath, "utf8"));
-
-      return {
-        slug,
-        title: data.title ?? slug,
-        date: data.date ?? undefined,
-        hero: data.hero ?? undefined,
-        text: data.text ?? undefined,
-      };
+      return { slug, data: data as FM };
     })
+    .filter((p) => isPublished(p.data))
     .sort((a, b) => {
-      const ad = Date.parse(a.date ?? "");
-      const bd = Date.parse(b.date ?? "");
-      if ((bd || 0) !== (ad || 0)) return (bd || 0) - (ad || 0); // newer first
-      const at = (a.title ?? a.slug ?? "").toString();
-      const bt = (b.title ?? b.slug ?? "").toString();
-      return at.localeCompare(bt, undefined, { sensitivity: "base" }); // A→Z
-    });
+      const ad = Date.parse(a.data?.date ?? "");
+      const bd = Date.parse(b.data?.date ?? "");
+      if (bd !== ad) return bd - ad;
+      const at = String(a.data?.title ?? a.slug);
+      const bt = String(b.data?.title ?? b.slug);
+      return at.localeCompare(bt, undefined, { sensitivity: "base" });
+    })
+    .map((p) => ({
+      slug: p.slug,
+      title: p.data.title ?? p.slug,
+      date: p.data.date ?? undefined,
+      hero: p.data.hero ?? undefined,
+      text: p.data.text ?? undefined,
+    }));
 
   return (
     <>

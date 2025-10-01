@@ -1,4 +1,5 @@
 // src/lib/publish.ts
+
 type Frontmatter = {
   published?: boolean;
   date?: string | Date; // optional, but NOT used for gating

@@ -28,16 +28,16 @@ type HighlightItem = {
 };
 
 type HeaderNavBarProps = {
-  postsRecent?: RecentItem[];
-  postsHighlights?: HighlightItem[];
-  recipesRecent?: RecentItem[];
-  recipesHighlights?: HighlightItem[];
-  craftsRecent?: RecentItem[];
-  craftsHighlights?: HighlightItem[];
-  woodlandRecent?: RecentItem[];
-  woodlandHighlights?: HighlightItem[];
-  printablesRecent?: RecentItem[];
-  printablesHighlights?: HighlightItem[];
+  postsRecent?: { title: string; href: string }[];
+  postsHighlights?: { title: string; href: string; img?: string }[];
+  recipesRecent?: { title: string; href: string }[];
+  recipesHighlights?: { title: string; href: string; img?: string }[];
+  craftsRecent?: { title: string; href: string }[];
+  craftsHighlights?: { title: string; href: string; img?: string }[];
+  woodlandRecent?: { title: string; href: string }[];
+  woodlandHighlights?: { title: string; href: string; img?: string }[];
+  printablesRecent?: { title: string; href: string }[];
+  printablesHighlights?: { title: string; href: string; img?: string }[];
 };
 
 export const viewport = {
@@ -81,6 +81,9 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
   };
 
   const postsRecentSorted = [...(props.postsRecent ?? [])].sort(sortRecent);
+  const postsHighlightsSorted = [...(props.postsHighlights ?? [])].sort(
+    sortRecent
+  );
   const recipesRecentSorted = [...(props.recipesRecent ?? [])].sort(sortRecent);
   const craftsRecentSorted = [...(props.craftsRecent ?? [])].sort(sortRecent);
   const woodlandRecentSorted = [...(props.woodlandRecent ?? [])].sort(
@@ -321,7 +324,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           />
           <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
-            items={postsRecentSorted}
+            items={postsHighlightsSorted}
             emptyMessage="No posts yet."
           />
           <DropDownHighLightsGrid
