@@ -32,7 +32,7 @@ export default function DropDownPanelContainer({
       className={`${base} ${isOpen ? openCls : closedCls} ${outerClassName}`}>
       <div className="bg-[#fefcf9] border-t border-black/10 shadow-lg">
         <div
-          className={`mx-auto max-w-6xl px-4 sm:px-6 py-6 grid grid-cols-12 gap-6 ${innerClassName}`}>
+          className={`mx-auto max-w-6xl px-4 sm:px-6 py-6 grid grid-cols-12 gap-6 min-h-[20rem] ${innerClassName}`}>
           {children}
         </div>
       </div>

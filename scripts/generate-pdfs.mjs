@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Usage:
-//   node scripts/generate-pdf.mjs --base=http://localhost:3000 --slugs=bold-earth,sweet-harmony
+//   node scripts/generate-pdfs.mjs --base=http://localhost:3000 --slugs=bold-earth,sweet-harmony
 // Optional:
 //   --out=public/downloads/recipes   (default)
 // Environment alternative:

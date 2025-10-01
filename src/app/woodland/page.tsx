@@ -2,11 +2,11 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-
 import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import LayoutAllWoodlands from "components/LayoutAllWoodlands";
 import Footer from "components/Footer";
+import { isPublished } from "lib/publish";
 
 type NoteItem = {
   slug: string;
@@ -28,22 +28,25 @@ function readDir(
 
   const files = fs.readdirSync(absDir).filter((f) => f.endsWith(".mdx"));
 
-  return files.map((file) => {
-    const slug = file.replace(/\.mdx$/, "");
-    const filePath = path.join(absDir, file);
-    const { data } = matter(fs.readFileSync(filePath, "utf8"));
+  return files
+    .map((file) => {
+      const slug = file.replace(/\.mdx$/, "");
+      const filePath = path.join(absDir, file);
+      const { data } = matter(fs.readFileSync(filePath, "utf8"));
 
-    return {
-      slug,
-      title: (data.title as string) ?? slug,
-      date: (data.date as string) ?? undefined, // prefer YYYY-MM-DD
-      hero: (data.hero as string) ?? undefined,
-      text: (data.text as string) ?? undefined,
-      pdf: (data.pdf as string) ?? `${slug}.pdf`,
-      href: `${baseRoute}/${slug}`,
-      source,
-    };
-  });
+      return {
+        slug,
+        title: (data.title as string) ?? slug,
+        date: (data.date as string) ?? undefined,
+        hero: (data.hero as string) ?? undefined,
+        text: (data.text as string) ?? undefined,
+        pdf: (data.pdf as string) ?? `${slug}.pdf`,
+        href: `${baseRoute}/${slug}`,
+        source,
+        data, // keep for publish check
+      };
+    })
+    .filter((p) => isPublished(p.data));
 }
 
 function readForagedFromRecipes(recipesDirAbs: string): NoteItem[] {
@@ -60,6 +63,7 @@ function readForagedFromRecipes(recipesDirAbs: string): NoteItem[] {
     const tags = Array.isArray(data.tags) ? (data.tags as string[]) : [];
 
     if (!tags.includes("foraged-recipes")) continue;
+    if (!isPublished(data)) continue;
 
     items.push({
       slug,

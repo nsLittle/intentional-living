@@ -31,6 +31,7 @@ type CraftDetail = {
   hero?: string;
   text?: string;
   _sort: number;
+  published?: boolean;
 };
 
 const CRAFTS_DIR = path.join(process.cwd(), "src", "content", "crafts");
@@ -173,16 +174,19 @@ export function getAllCrafts() {
       hero: typeof data?.hero === "string" ? data.hero : undefined,
       text: typeof data?.text === "string" ? data.text : undefined,
       _sort: dateObj.getTime(),
+      published:
+        typeof data?.published === "boolean" ? data.published : undefined,
     } satisfies CraftDetail;
   });
 
   return items
     .sort((a, b) => b._sort - a._sort)
-    .map(({ slug, title, date, hero, text }) => ({
+    .map(({ slug, title, date, hero, text, published }) => ({
       slug,
       title,
       date,
       hero,
       text,
+      published,
     }));
 }

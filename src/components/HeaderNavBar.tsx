@@ -9,6 +9,7 @@ import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
 import DropDownPanelRecentList from "./DropDownPanelRecentList";
 import Search from "./Search";
 import SearchResults from "./SearchResults";
+import { isPublished } from "lib/publish";
 
 type MenuKey =
   | "posts"
@@ -30,7 +31,7 @@ type HighlightItem = {
 type HeaderNavBarProps = {
   postsRecent?: { title: string; href: string }[];
   postsHighlights?: { title: string; href: string; img?: string }[];
-  recipesRecent?: { title: string; href: string }[];
+  recipesRecent?: RecentItem[];
   recipesHighlights?: { title: string; href: string; img?: string }[];
   craftsRecent?: { title: string; href: string }[];
   craftsHighlights?: { title: string; href: string; img?: string }[];
@@ -322,14 +323,16 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               { href: "/posts/crafts", label: "Crafty Creations" },
             ]}
           />
+          {/* ✅ Use postsRecentSorted for the middle column */}
           <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
-            items={postsHighlightsSorted}
+            items={postsRecentSorted}
             emptyMessage="No posts yet."
           />
+          {/* Keep highlights on the right; you can keep your sorted highlights too */}
           <DropDownHighLightsGrid
             className="col-span-12 md:col-span-3 md:col-start-9"
-            items={props.postsHighlights}
+            items={postsHighlightsSorted ?? props.postsHighlights}
             fallbackImg="/images/header-banner/log-garden.jpeg"
             emptyMessage="No highlights yet."
             maxItems={4}
