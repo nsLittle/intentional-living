@@ -477,18 +477,18 @@ export default async function HeaderNavBarServer() {
     ...foragedRecipesRecent,
   ].slice(0, 6);
 
-  // const woodlandHighlights = [
-  //   ...readMdxHighlightsPublished(fieldNotesDir, "/woodland/field-notes", 8),
-  //   ...readMdxHighlightsPublished(
-  //     woodlandCraftsDir,
-  //     "/woodland/woodland-crafts",
-  //     8
-  //   ),
-  //   ...readForagedRecipesHighlightsPublished(recipesDirAbs, 8),
-  // ]
-  //   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  //   .slice(0, 4)
-  //   .map(({ title, href, img }) => ({ title, href, img }));
+  const woodlandHighlights = [
+    ...readMdxHighlightsPublished(fieldNotesDir, "/woodland/field-notes", 8),
+    ...readMdxHighlightsPublished(
+      woodlandCraftsDir,
+      "/woodland/woodland-crafts",
+      8
+    ),
+    ...readForagedRecipesHighlightsPublished(recipesDirAbs, 8),
+  ]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 4)
+    .map(({ title, href, img }) => ({ title, href, img }));
 
   return (
     <HeaderNavBar

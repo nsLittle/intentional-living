@@ -78,7 +78,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
     sortRecent
   );
   const recipesRecentSorted = [...(props.recipesRecent ?? [])].sort(sortRecent);
-  const craftsRecentSorted = [...(props.craftsRecent ?? [])].sort(sortRecent);
   const woodlandRecentSorted = [...(props.woodlandRecent ?? [])].sort(
     sortRecent
   );
