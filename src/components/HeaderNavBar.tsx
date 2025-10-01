@@ -9,7 +9,6 @@ import DropDownPanelCategoryGrid from "./DropDownPanelCategoryGrid";
 import DropDownPanelRecentList from "./DropDownPanelRecentList";
 import Search from "./Search";
 import SearchResults from "./SearchResults";
-import { isPublished } from "lib/publish";
 
 type MenuKey =
   | "posts"

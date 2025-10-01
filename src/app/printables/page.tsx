@@ -340,14 +340,6 @@ export default function PrintablesPage() {
             <p className="text-gray-600">No tag printables yet.</p>
           )}
         </section>
-
-        <div className="mt-12 text-center">
-          <Link
-            href="/printables/categories"
-            className="text-[#2f5d4b] hover:underline">
-            Browse by category →
-          </Link>
-        </div>
       </main>
 
       <Footer />
