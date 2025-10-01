@@ -8,6 +8,7 @@ export type DropDownHighLightsGridItem = {
   title: string;
   href: string;
   img?: string;
+  published?: boolean;
 };
 
 export type DropDownHighLightsGridsGridProps = {
@@ -30,7 +31,8 @@ export default function DropDownHighLightsGrid({
   className,
   maxItems,
 }: DropDownHighLightsGridsGridProps) {
-  const list = maxItems ? items.slice(0, maxItems) : items;
+  const visible = items.filter((i) => i.published !== false);
+  const list = maxItems ? visible.slice(0, maxItems) : visible;
   const hasItems = list.length > 0;
 
   return (

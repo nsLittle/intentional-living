@@ -136,7 +136,7 @@ export default function LayoutCraft({
                     <dd>
                       <ul className="list-disc pl-6 space-y-1">
                         {materials.map((m, i) => (
-                          <li key={i}>{m}</li>
+                          <li key={i} dangerouslySetInnerHTML={{ __html: m }} />
                         ))}
                       </ul>
                     </dd>

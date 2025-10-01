@@ -6,81 +6,56 @@ import matter from "gray-matter";
 import HeaderNavBarServer from "components/HeaderNavBarServer";
 import Header from "components/Header";
 import LayoutAllFieldNotes from "components/LayoutAllFieldNotes";
+
 import Footer from "components/Footer";
 
-type NoteCard = {
+type RecipeSummary = {
   slug: string;
   title: string;
   date?: string;
   hero?: string;
   text?: string;
-  href?: string; // when coming from /recipes
 };
 
-function readTaggedNotes(
-  dirAbs: string,
-  baseHref: "/woodland/field-notes" | "/recipes"
-) {
-  if (!fs.existsSync(dirAbs)) return [] as NoteCard[];
-  const files = fs.readdirSync(dirAbs).filter((f) => f.endsWith(".mdx"));
+function readRecipes(): RecipeSummary[] {
+  const dir = path.join(process.cwd(), "src", "content", "foraged-recipes");
+  if (!fs.existsSync(dir)) return [];
 
-  return files
-    .map((file) => {
-      const slug = file.replace(/\.mdx$/, "");
-      const filePath = path.join(dirAbs, file);
-      const { data } = matter(fs.readFileSync(filePath, "utf8"));
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"));
 
-      const tags = Array.isArray(data.tags) ? (data.tags as string[]) : [];
-      if (!tags.includes("foraged-recipes")) return null;
+  const recipes = files.map((file) => {
+    const slug = file.replace(/\.mdx$/, "");
+    const filePath = path.join(dir, file);
+    const { data } = matter(fs.readFileSync(filePath, "utf8"));
 
-      const card: NoteCard = {
-        slug,
-        title: (data.title as string) ?? slug,
-        date: (data.date as string) ?? undefined,
-        hero: (data.hero as string) ?? undefined,
-        text: (data.text as string) ?? undefined,
-        href:
-          baseHref === "/recipes"
-            ? `/recipes/${slug}`
-            : `/woodland/field-notes/${slug}`,
-      };
-      return card;
-    })
-    .filter(Boolean) as NoteCard[];
-}
+    return {
+      slug,
+      title: (data.title as string) ?? slug,
+      date: (data.date as string) ?? undefined,
+      hero: (data.hero as string) ?? undefined,
+      text: (data.text as string) ?? undefined,
+    };
+  });
 
-export default function FieldNotesForagedRecipesPage() {
-  const fieldNotesDir = path.join(
-    process.cwd(),
-    "src",
-    "content",
-    "field-notes"
-  );
-  const recipesDir = path.join(process.cwd(), "src", "content", "recipes");
-
-  // Gather both sources, filtered by tag
-  const fromFieldNotes = readTaggedNotes(fieldNotesDir, "/field-notes");
-  const fromRecipes = readTaggedNotes(recipesDir, "/recipes");
-
-  const notes = [...fromFieldNotes, ...fromRecipes].sort((a, b) => {
+  // newest date first, then title A→Z
+  return recipes.sort((a, b) => {
     const ad = Date.parse(a.date ?? "");
     const bd = Date.parse(b.date ?? "");
-    if ((bd || 0) !== (ad || 0)) return (bd || 0) - (ad || 0); // newer first
-    return a.title.localeCompare(b.title, undefined, { sensitivity: "base" });
+    if ((bd || 0) !== (ad || 0)) return (bd || 0) - (ad || 0);
+    return (a.title ?? a.slug).localeCompare(b.title ?? b.slug, undefined, {
+      sensitivity: "base",
+    });
   });
+}
+
+export default function ForagedRecipesIndexPage() {
+  const recipes = readRecipes();
 
   return (
     <>
       <HeaderNavBarServer />
       <Header />
-      <div className="bg-white text-black">
-        <div className="max-w-5xl mx-auto px-6 py-12">
-          <h1 className="font-serif text-[#5c5045] text-4xl font-bold text-center">
-            Foraged Recipes
-          </h1>
-        </div>
-      </div>
-      <LayoutAllFieldNotes notes={notes} />
+      <LayoutAllFieldNotes notes={recipes} heading="Foraged Recipes" />
       <Footer />
     </>
   );

@@ -48,7 +48,10 @@ export default async function CraftPage({
     instructions?: string;
     pdf?: string;
     tags?: string[];
+    published?: boolean;
   };
+
+  if (fm.published === false) return notFound();
 
   const title = fm.title ?? slugParts[slugParts.length - 1];
 

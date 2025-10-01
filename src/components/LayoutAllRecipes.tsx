@@ -26,13 +26,14 @@ export default function LayoutAllRecipes({
         <h1 className="text-4xl font-bold mb-8 text-center">
           {heading ?? "All Recipes"}
         </h1>
-        <div className="grid gap-8 md:grid-cols-2 mb-12">
+        <div className="grid gap-8 md:grid-cols-2 items-stretch mb-12">
           {recipes.map((recipe) => (
             <Link
               key={recipe.slug}
               href={`/recipes/${recipe.slug}`}
-              className="block group">
-              <div className="rounded-xl overflow-hidden shadow-md bg-white hover:shadow-lg transition-shadow">
+              className="block h-full group">
+              <div className="h-full flex flex-col rounded-xl overflow-hidden shadow-md bg-white hover:shadow-lg transition-shadow">
+                {" "}
                 {recipe.hero && (
                   <Image
                     src={recipe.hero}
@@ -43,7 +44,7 @@ export default function LayoutAllRecipes({
                     className="w-full h-48 object-cover"
                   />
                 )}
-                <div className="p-6">
+                <div className="p-6 flex-1 flex flex-col">
                   <h2 className="text-2xl font-bold text-black mb-2 group-hover:underline">
                     {recipe.title}
                   </h2>

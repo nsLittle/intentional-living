@@ -7,11 +7,13 @@ import Footer from "components/Footer";
 import LinkReturnHome from "components/LinkReturnHome";
 import LinkReturnPost from "./LinkReturnPost";
 import ButtonDownloadPdf from "components/ButtonDownloadPdf";
+import ButtonPrintPDF from "components/ButtonPrintPDF";
+import ButtonDownloadTag from "components/ButtonDownloadTag";
+import ButtonPrintTag from "components/ButtonPrintTag";
 import PinterestShare from "./PinterestShare";
 import FacebookShareButton from "./FacebookShareButton";
 import SectionCard from "components/SectionCard";
 import { Suspense } from "react";
-import PrintPDFButton from "./PrintPDFButton";
 
 type RecipeLayoutProps = {
   title: string;
@@ -230,20 +232,40 @@ export default function LayoutRecipe({
             </section>
           )}
 
-          {/* Download PDF button */}
-          <div className="no-print">
+          {/* Download + Print — Recipe PDF & Tag (2×2 grid) */}
+          <div className="no-print mt-4 grid grid-cols-2 gap-y-3">
             {pdf && (
-              <ButtonDownloadPdf
-                href={`/downloads/recipes/${pdf}`}
-                label="Download Recipe (PDF)"
-                ariaLabel={`Download ${title} recipe PDF`}
-              />
-            )}
-          </div>
+              <>
+                {/* Green */}
+                <ButtonDownloadPdf
+                  href={`/downloads/recipes/${pdf}`}
+                  label="Download Recipe"
+                  ariaLabel={`Download ${title} recipe PDF`}
+                  className="inline-flex h-12 w-3/4 items-center justify-center"
+                />
 
-          {/* Print PDF button */}
-          <div className="no-print">
-            <PrintPDFButton className="mt-2 no-print" />
+                {/* Light Green 2 */}
+                <ButtonDownloadTag
+                  href={`/downloads/tags/${pdf.replace(".pdf", "-tag.pdf")}`}
+                  label="Download Tag"
+                  className="inline-flex h-12 w-3/4 items-center justify-center"
+                />
+
+                {/* Light Green 1 */}
+                <ButtonPrintPDF
+                  href={`/downloads/recipes/${pdf}`}
+                  label="Print Recipe"
+                  className="inline-flex h-12 w-3/4 items-center justify-center bg-[#6DA58D] hover:opacity-95 focus:ring-[#6DA58D]/30"
+                />
+
+                {/* Cream */}
+                <ButtonPrintTag
+                  href={`/downloads/tags/${pdf.replace(".pdf", "-tag.pdf")}`}
+                  label="Print Tag"
+                  className="inline-flex h-12 w-3/4 items-center justify-center"
+                />
+              </>
+            )}
           </div>
 
           {/* MDX body content (optional) */}

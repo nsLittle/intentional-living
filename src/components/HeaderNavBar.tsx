@@ -18,17 +18,26 @@ type MenuKey =
   | "printables"
   | null;
 
+type RecentItem = { title: string; href: string; date?: string };
+
+type HighlightItem = {
+  title: string;
+  href: string;
+  img?: string;
+  date?: string;
+};
+
 type HeaderNavBarProps = {
-  postsRecent?: { title: string; href: string }[];
-  postsHighlights?: { title: string; href: string; img?: string }[];
-  recipesRecent?: { title: string; href: string }[];
-  recipesHighlights?: { title: string; href: string; img?: string }[];
-  craftsRecent?: { title: string; href: string }[];
-  craftsHighlights?: { title: string; href: string; img?: string }[];
-  woodlandRecent?: { title: string; href: string }[];
-  woodlandHighlights?: { title: string; href: string; img?: string }[];
-  printablesRecent?: { title: string; href: string }[];
-  printablesHighlights?: { title: string; href: string; img?: string }[];
+  postsRecent?: RecentItem[];
+  postsHighlights?: HighlightItem[];
+  recipesRecent?: RecentItem[];
+  recipesHighlights?: HighlightItem[];
+  craftsRecent?: RecentItem[];
+  craftsHighlights?: HighlightItem[];
+  woodlandRecent?: RecentItem[];
+  woodlandHighlights?: HighlightItem[];
+  printablesRecent?: RecentItem[];
+  printablesHighlights?: HighlightItem[];
 };
 
 export const viewport = {
@@ -55,6 +64,28 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setOpen(null), 120);
   };
+
+  const sortRecent = (a: RecentItem, b: RecentItem) => {
+    const ta = Number.isFinite(Date.parse(a.date ?? ""))
+      ? Date.parse(a.date!)
+      : -Infinity;
+    const tb = Number.isFinite(Date.parse(b.date ?? ""))
+      ? Date.parse(b.date!)
+      : -Infinity;
+
+    if (tb !== ta) return tb - ta;
+
+    return (a.title || "").localeCompare(b.title || "", undefined, {
+      sensitivity: "base",
+    });
+  };
+
+  const postsRecentSorted = [...(props.postsRecent ?? [])].sort(sortRecent);
+  const recipesRecentSorted = [...(props.recipesRecent ?? [])].sort(sortRecent);
+  const craftsRecentSorted = [...(props.craftsRecent ?? [])].sort(sortRecent);
+  const woodlandRecentSorted = [...(props.woodlandRecent ?? [])].sort(
+    sortRecent
+  );
 
   useEffect(() => {
     function handleDown(e: MouseEvent) {
@@ -92,7 +123,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
             img: "/images/crafts/ghost-pipe.png",
           },
         ];
-
   return (
     <div className="min-w-0">
       <nav className="sticky top-0 z-50 border-b border-black/5 bg-[#2f5d4b]/95 backdrop-blur">
@@ -291,7 +321,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           />
           <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
-            items={props.postsRecent}
+            items={postsRecentSorted}
             emptyMessage="No posts yet."
           />
           <DropDownHighLightsGrid
@@ -322,7 +352,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           />
           <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
-            items={props.recipesRecent}
+            items={recipesRecentSorted}
             emptyMessage="No recipes yet."
           />
           <DropDownHighLightsGrid
@@ -385,7 +415,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           />
           <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
-            items={props.woodlandRecent}
+            items={woodlandRecentSorted}
             emptyMessage="No woodland notes yet."
           />
           <DropDownHighLightsGrid
@@ -414,6 +444,11 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               { href: "/printables/tags", label: "Tags" },
             ]}
           />
+          {/* <DropDownPanelRecentList
+            className="col-span-12 md:col-span-4 md:col-start-5"
+            items={printablesRecentSorted}
+            emptyMessage="No printables yet."
+          /> */}
         </DropDownPanelContainer>
       </nav>
     </div>

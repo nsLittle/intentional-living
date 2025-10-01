@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import LayoutPost from "components/LayoutPost";
+import { isPublished } from "lib/publish";
 
 type FieldNote = {
   slug: string;
@@ -16,7 +17,12 @@ function loadFieldNote(slug: string): FieldNote | null {
   const filePath = path.join(dir, `${slug}.mdx`);
   if (!fs.existsSync(filePath)) return null;
 
-  const { data } = matter(fs.readFileSync(filePath, "utf8"));
+  const fileContent = fs.readFileSync(filePath, "utf8");
+  const { data } = matter(fileContent);
+
+  // If explicitly unpublished, skip it
+  if (!isPublished(data)) return null;
+
   return {
     slug,
     title: (data.title as string) ?? slug,

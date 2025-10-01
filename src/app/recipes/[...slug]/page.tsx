@@ -18,12 +18,12 @@ type RecipeFrontmatter = {
   description?: string;
   text?: string;
   hero?: string;
+  published?: boolean;
   shareImage?: string;
   date?: string;
   parentPost?: string;
   yield?: string;
   prepTime?: string;
-  "prep time"?: string;
   bakingPrepTime?: string;
   bakingTime?: string;
   cookingPrepTime?: string;
