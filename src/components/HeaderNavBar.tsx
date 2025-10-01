@@ -20,13 +20,6 @@ type MenuKey =
 
 type RecentItem = { title: string; href: string; date?: string };
 
-type HighlightItem = {
-  title: string;
-  href: string;
-  img?: string;
-  date?: string;
-};
-
 type HeaderNavBarProps = {
   postsRecent?: { title: string; href: string }[];
   postsHighlights?: { title: string; href: string; img?: string }[];
