@@ -1,23 +1,42 @@
 // src/components/HeroLatestCraft.tsx
 import Image from "next/image";
 import Link from "next/link";
-import { getLatestCraft } from "lib/crafts";
+import { getAllCrafts } from "lib/crafts"; // ⬅️ change: use all crafts
+import { isPublished } from "lib/publish";
+
+type Craft = {
+  slug: string;
+  title: string;
+  date: string | Date;
+  hero?: string;
+  text?: string;
+  published?: boolean;
+};
+
+const toISO = (d: string | Date) => (typeof d === "string" ? new Date(d) : d);
 
 export default function HeroLatestCraft() {
-  const craft = getLatestCraft();
+  // 1) load all crafts
+  const all = getAllCrafts() as Craft[];
 
-  if (!craft) {
-    console.log("[HeroLatestCraft] No craft returned from getLatestCraft()");
-    return (
-      <section className="my-12 border border-red-300 rounded-lg p-4">
-        <h2 className="text-xl font-semibold text-red-700">
-          No latest craft found.
-        </h2>
-        <p className="text-sm text-red-600">
-          getLatestCraft() returned null/undefined.
-        </p>
-      </section>
-    );
+  // 2) filter to published using your util
+  const published = all.filter((c) =>
+    isPublished({
+      date: typeof c.date === "string" ? c.date : c.date.toISOString(),
+      published: c.published,
+    })
+  );
+
+  // 3) sort newest → oldest
+  published.sort((a, b) => +toISO(b.date) - +toISO(a.date));
+
+  // 4) take the latest published (or render nothing)
+  const craft = published[0];
+  if (!craft) return null;
+
+  function truncateText(text: string, maxChars: number): string {
+    if (text.length <= maxChars) return text;
+    return text.slice(0, maxChars).trimEnd() + "…";
   }
 
   return (
@@ -36,24 +55,24 @@ export default function HeroLatestCraft() {
         )}
 
         <div className="flex-1">
-          <Link href={`/Crafts/${craft.slug}`}>
+          <Link href={`/crafts/${craft.slug}`}>
             <h3 className="text-2xl font-semibold text-gray-800 hover:underline mb-2">
               {craft.title}
             </h3>
           </Link>
           <p className="text-sm text-gray-500 mb-6">
-            {craft.date.toLocaleDateString(undefined, {
+            {toISO(craft.date).toLocaleDateString(undefined, {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}
           </p>
-          <div
-            className="text-lg text-gray-700 mb-8 [&_a]:underline [&_a]:text-green-700"
-            dangerouslySetInnerHTML={{ __html: craft.text ?? "" }}
-          />
+          <p className="text-lg text-gray-700 mb-8">
+            {truncateText(craft.text ?? "", 350)}
+          </p>
+
           <Link
-            href={`/Crafts/${craft.slug}`}
+            href={`/crafts/${craft.slug}`}
             className="text-green-700 font-semibold hover:underline">
             Read more →
           </Link>
