@@ -6,7 +6,6 @@ import FooterPlain from "components/FooterPlain";
 export default function PlaceholderHome() {
   return (
     <main className="min-h-screen flex flex-col bg-[#fefcf9]">
-      {/* HeaderNavBar (green background, logo + title) */}
       <header className="w-full border-b border-black/5 bg-[#2f5d4b]">
         <div className="mx-auto max-w-6xl px-4 h-20 flex items-center gap-3">
           <Image
@@ -26,7 +25,7 @@ export default function PlaceholderHome() {
           </div>
           <div className="ml-auto">
             <span className="text-[#fefcf9]/80 text-sm">
-              Coming October 2025
+              Coming November 2025
             </span>
           </div>
         </div>
