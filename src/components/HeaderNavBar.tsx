@@ -33,6 +33,14 @@ type HeaderNavBarProps = {
   printablesHighlights?: { title: string; href: string; img?: string }[];
 };
 
+type HL = { title: string; href: string; img?: string };
+const asHL = (
+  x: { title?: string; href?: string; img?: string } | undefined
+): HL | undefined =>
+  x && x.title && x.href
+    ? { title: x.title, href: x.href, img: x.img }
+    : undefined;
+
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -82,6 +90,222 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
     sortRecent
   );
 
+  const sortAlphaByTitle = (a: { title?: string }, b: { title?: string }) =>
+    (a.title || "").localeCompare(b.title || "", undefined, {
+      sensitivity: "base",
+    });
+
+  const printablesRecentSortedAlpha = [...(props.printablesRecent ?? [])]
+    .sort(sortAlphaByTitle)
+    .slice(0, 5);
+
+  const firstByHrefTests = <T extends { href?: string }>(
+    arr: T[] | undefined,
+    tests: string[]
+  ) => {
+    const a = arr ?? [];
+    for (const item of a) {
+      const h = (item.href || "").toLowerCase();
+      if (tests.some((t) => h.startsWith(t) || h.includes(t))) return item;
+    }
+    return undefined;
+  };
+
+  // Choose from highlights first; if not found, fall back to recent.
+  // If still empty overall, fall back to first 4 of whichever source exists.
+  const srcH = props.printablesHighlights ?? [];
+  const srcR = props.printablesRecent ?? [];
+
+  const pick = (tests: string[]) =>
+    asHL(firstByHrefTests(srcH, tests)) ?? asHL(firstByHrefTests(srcR, tests));
+
+  // Replace the helper with this broader matcher (above printablesCategoryHighlights)
+  const firstByHrefPatterns = <T extends { href?: string; title?: string }>(
+    arr: T[] | undefined,
+    patterns: (RegExp | string)[],
+    fallbackTitleRegex?: RegExp
+  ) => {
+    const list = arr ?? [];
+    const hit =
+      list.find((i) => {
+        const h = i.href || "";
+        return patterns.some((p) =>
+          typeof p === "string" ? h.includes(p) : p.test(h)
+        );
+      }) ??
+      (fallbackTitleRegex
+        ? list.find((i) => fallbackTitleRegex.test(i.title || ""))
+        : undefined);
+    return hit as T | undefined;
+  };
+
+  // (optional) quick visibility into what we have
+  console.debug("[HeaderNavBar] printables inputs", {
+    highlights: props.printablesHighlights,
+    recent: props.printablesRecent,
+  });
+
+  console.debug("[printables] href samples", {
+    highlights: (props.printablesHighlights ?? []).map((x) => x.href),
+    recent: (props.printablesRecent ?? []).map((x) => x.href),
+  });
+
+  console.debug("[printables] chosen-before-normalize", {
+    recipes: "pending",
+    projects: "pending",
+    fieldNotes: "pending",
+    tags: "pending",
+  });
+
+  // Rebuild the category highlights with wider nets + title fallbacks
+  const picksRaw = [
+    // Recipes
+    firstByHrefPatterns(
+      props.printablesHighlights,
+      [
+        "/printables/recipes",
+        "/downloads/recipes",
+        "/recipes/printables",
+        "/recipes/",
+      ],
+      /recipe/i
+    ) ??
+      firstByHrefPatterns(
+        props.printablesRecent,
+        [
+          "/printables/recipes",
+          "/downloads/recipes",
+          "/recipes/printables",
+          "/recipes/",
+        ],
+        /recipe/i
+      ),
+
+    // Projects
+    firstByHrefPatterns(
+      props.printablesHighlights,
+      [
+        "/printables/projects",
+        "/downloads/projects",
+        "/crafts/printables",
+        "/projects/",
+      ],
+      /(project|craft)/i
+    ) ??
+      firstByHrefPatterns(
+        props.printablesRecent,
+        [
+          "/printables/projects",
+          "/downloads/projects",
+          "/crafts/printables",
+          "/projects/",
+        ],
+        /(project|craft)/i
+      ),
+
+    // Field Notes
+    firstByHrefPatterns(
+      props.printablesHighlights,
+      [
+        "/printables/field-notes",
+        "/downloads/field-notes",
+        "/woodland/field-notes",
+      ],
+      /(field\s*notes|foraged)/i
+    ) ??
+      firstByHrefPatterns(
+        props.printablesRecent,
+        [
+          "/printables/field-notes",
+          "/downloads/field-notes",
+          "/woodland/field-notes",
+        ],
+        /(field\s*notes|foraged)/i
+      ),
+
+    // Tags
+    firstByHrefPatterns(
+      props.printablesHighlights,
+      ["/printables/tags", "/downloads/tags"],
+      /tag/i
+    ) ??
+      firstByHrefPatterns(
+        props.printablesRecent,
+        ["/printables/tags", "/downloads/tags"],
+        /tag/i
+      ),
+  ].filter(Boolean) as { title?: string; href?: string; img?: string }[];
+
+  console.debug("[printables] chosen-raw", {
+    recipes: picksRaw[0]?.href,
+    projects: picksRaw[1]?.href,
+    fieldNotes: picksRaw[2]?.href,
+    tags: picksRaw[3]?.href,
+  });
+
+  // ➊ Helper: top-up with unique items from a pool (by href)
+  const topUpHighlights = <T extends { href?: string }>(
+    base: T[],
+    pool: T[],
+    max = 4
+  ) => {
+    const seen = new Set(base.map((x) => (x.href || "").toLowerCase()));
+    for (const item of pool) {
+      const h = (item.href || "").toLowerCase();
+      if (!h || seen.has(h)) continue;
+      base.push(item);
+      seen.add(h);
+      if (base.length >= max) break;
+    }
+    return base.slice(0, max);
+  };
+
+  // … keep your existing picksRaw computation …
+
+  // ➋ Normalize + guaranteed fill to 4 cards
+  const picksNormalized: HL[] = picksRaw
+    .map((x) =>
+      x?.title && x?.href
+        ? { title: x.title, href: x.href, img: x.img }
+        : undefined
+    )
+    .filter(Boolean) as HL[];
+
+  // Build a pool from highlights first, then recent, normalized to HL shape
+  const pool: HL[] = [
+    ...(props.printablesHighlights ?? []),
+    ...(props.printablesRecent ?? []),
+  ]
+    .map((x: any) =>
+      x?.title && x?.href
+        ? { title: x.title, href: x.href, img: x.img }
+        : undefined
+    )
+    .filter(Boolean) as HL[];
+
+  // ➌ Final list: start with what we matched, then top-up from pool to 4
+  const printablesCategoryHighlights: HL[] = topUpHighlights(
+    picksNormalized,
+    pool,
+    4
+  );
+
+  const woodlandHighlightsEffective =
+    (props.woodlandHighlights?.length ?? 0) > 0
+      ? props.woodlandHighlights
+      : [
+          {
+            title: "Witches’ Butter",
+            href: "/woodland/field-notes/witches-butter",
+            img: "/images/posts/witches-butter.jpeg",
+          },
+          {
+            title: "Ghost Pipe Craft",
+            href: "/woodland/woodland-crafts/ghost-pipe",
+            img: "/images/crafts/ghost-pipe.png",
+          },
+        ];
+
   useEffect(() => {
     function handleDown(e: MouseEvent) {
       if (searchOpen) {
@@ -103,21 +327,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  const woodlandHighlightsEffective =
-    (props.woodlandHighlights?.length ?? 0) > 0
-      ? props.woodlandHighlights
-      : [
-          {
-            title: "Witches’ Butter",
-            href: "/woodland/field-notes/witches-butter",
-            img: "/images/posts/witches-butter.jpeg",
-          },
-          {
-            title: "Ghost Pipe Craft",
-            href: "/woodland/woodland-crafts/ghost-pipe",
-            img: "/images/crafts/ghost-pipe.png",
-          },
-        ];
   return (
     <div className="min-w-0">
       <nav className="sticky top-0 z-50 border-b border-black/5 bg-[#2f5d4b]/95 backdrop-blur">
@@ -441,11 +650,24 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               { href: "/printables/tags", label: "Tags" },
             ]}
           />
-          {/* <DropDownPanelRecentList
+          <DropDownPanelRecentList
             className="col-span-12 md:col-span-4 md:col-start-5"
-            items={printablesRecentSorted}
+            items={printablesRecentSortedAlpha}
             emptyMessage="No printables yet."
-          /> */}
+          />
+          <DropDownHighLightsGrid
+            className="col-span-12 md:col-span-3 md:col-start-9"
+            items={
+              printablesCategoryHighlights as {
+                title: string;
+                href: string;
+                img?: string;
+              }[]
+            }
+            fallbackImg="/images/header-banner/log-garden.jpeg"
+            emptyMessage="No highlights yet."
+            maxItems={4}
+          />
         </DropDownPanelContainer>
       </nav>
     </div>

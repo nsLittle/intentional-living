@@ -2,9 +2,7 @@
 import path from "path";
 import fs from "fs";
 import matter from "gray-matter";
-
 import HeaderNavBar from "./HeaderNavBar";
-import { getAllRecipes } from "../lib/recipes";
 import { getRecentPosts, getPostHighlights } from "../lib/posts";
 import { getAllCrafts } from "../lib/crafts";
 import { getAllPrintables } from "lib/printables";
@@ -12,7 +10,6 @@ import {
   computeRecentPrintables,
   computePrintableHighlights,
 } from "lib/printablesRecent";
-import { getWoodlandHighlights } from "lib/woodland";
 import { isPublished } from "lib/publish";
 
 type RecentLink = { title: string; href: string };
@@ -20,14 +17,6 @@ type RecentLink = { title: string; href: string };
 type PublishAwareRecent = { title: string; href: string; date: string };
 
 type HighlightLink = { title: string; href: string; img?: string };
-
-// type CraftLite = {
-//   slug: string;
-//   title: string;
-//   date?: string;
-//   hero?: string;
-//   published?: boolean;
-// };
 
 type NoteRecent = { title: string; href: string; date: string };
 
@@ -37,37 +26,6 @@ type WoodlandHighlight = {
   img?: string;
   date: string;
 };
-
-/** Read MDX filenames from a folder and map to {title, href} with gray-matter */
-// function readMdxAsRecent(
-//   folderAbs: string,
-//   hrefBase: string,
-//   limit: number
-// ): RecentLink[] {
-//   if (!fs.existsSync(folderAbs)) return [];
-//   const files = fs
-//     .readdirSync(folderAbs)
-//     .filter((f) => f.endsWith(".mdx"))
-//     .map((f) => {
-//       const slug = f.replace(/\.mdx$/, "");
-//       const raw = fs.readFileSync(path.join(folderAbs, f), "utf8");
-//       const { data } = matter(raw);
-//       const title = (data.title as string) ?? slug;
-//       const date = (data.date as string) ?? ""; // YYYY-MM-DD preferred
-//       return { slug, title, date };
-//     })
-//     .sort((a, b) => {
-//       const ad = Date.parse(a.date || "");
-//       const bd = Date.parse(b.date || "");
-//       if ((bd || 0) !== (ad || 0)) return (bd || 0) - (ad || 0);
-//       return a.title.localeCompare(b.title, undefined, { sensitivity: "base" });
-//     });
-
-//   return files.slice(0, limit).map(({ slug, title }) => ({
-//     title,
-//     href: `${hrefBase}/${slug}`,
-//   }));
-// }
 
 function readMdxRecentPublished(
   absDir: string,
@@ -141,7 +99,6 @@ function readMdxHighlightsPublished(
   return rows;
 }
 
-/** Recent, publish-aware reader for a recipes folder */
 function readRecipesRecentPublished(
   recipesDirAbs: string,
   limit: number
@@ -243,64 +200,12 @@ function readRecipesHighlightsPublished(
   return rows;
 }
 
-/** Filter Recipes to those tagged `foraged-recipes` and map to recent links */
-// function recentForagedFromRecipes(limit: number): RecentLink[] {
-//   // Prefer lib if tags are exposed there; otherwise fall back to reading files directly.
-//   try {
-//     const all = getAllRecipes();
-//     const filtered = all.filter(
-//       (r: any) => Array.isArray(r.tags) && r.tags.includes("foraged-recipes")
-//     );
-//     const sorted = filtered.sort((a: any, b: any) => {
-//       const ad = Date.parse(a.date || "");
-//       const bd = Date.parse(b.date || "");
-//       if ((bd || 0) !== (ad || 0)) return (bd || 0) - (ad || 0);
-//       return (a.title || "").localeCompare(b.title || "", undefined, {
-//         sensitivity: "base",
-//       });
-//     });
-//     return sorted.slice(0, limit).map((r: any) => ({
-//       title: r.title,
-//       href: `/recipes/${r.slug}`,
-//     }));
-//   } catch {
-//     const recipesDir = path.join(process.cwd(), "src", "content", "recipes");
-//     if (!fs.existsSync(recipesDir)) return [];
-//     const files = fs
-//       .readdirSync(recipesDir)
-//       .filter((f) => f.endsWith(".mdx"))
-//       .map((f) => {
-//         const slug = f.replace(/\.mdx$/, "");
-//         const raw = fs.readFileSync(path.join(recipesDir, f), "utf8");
-//         const { data } = matter(raw);
-//         const tags = Array.isArray(data.tags) ? (data.tags as string[]) : [];
-//         const title = (data.title as string) ?? slug;
-//         const date = (data.date as string) ?? "";
-//         return { slug, title, date, tags };
-//       })
-//       .filter((x) => x.tags.includes("foraged-recipes"))
-//       .sort((a, b) => {
-//         const ad = Date.parse(a.date || "");
-//         const bd = Date.parse(b.date || "");
-//         if ((bd || 0) !== (ad || 0)) return (bd || 0) - (ad || 0);
-//         return a.title.localeCompare(b.title, undefined, {
-//           sensitivity: "base",
-//         });
-//       });
-//     return files.slice(0, limit).map(({ slug, title }) => ({
-//       title,
-//       href: `/recipes/${slug}`,
-//     }));
-//   }
-// }
-
 function readForagedRecipesRecentPublished(
   recipesDirAbs: string,
   limit: number
 ): NoteRecent[] {
   if (!fs.existsSync(recipesDirAbs)) return [];
 
-  // Walk recursively so nested recipe folders work
   const walk = (dir: string): string[] =>
     fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
       const full = path.join(dir, e.name);
@@ -408,7 +313,7 @@ export default async function HeaderNavBarServer() {
 
   const recipesHighlights = readRecipesHighlightsPublished(recipesDirAbs, 4);
 
-  // Crafts (site-wide, publish-aware; typed via return element)
+  // Crafts
   type CraftDetail = ReturnType<typeof getAllCrafts>[number];
   const craftsAll: CraftDetail[] = getAllCrafts();
 
