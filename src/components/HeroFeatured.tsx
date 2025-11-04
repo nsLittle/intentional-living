@@ -20,58 +20,39 @@ export default function HeroFeatured() {
       />
 
       <div className="mt-8 flex gap-4 mb-8">
-        <button
-          className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
- rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
-          <Link
-            href="/recipes"
-            className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
-            Recipes
-          </Link>
-        </button>
-        <button
-          className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
- rounded-full font-semibold text-white bg-[#3d6f5f] shadow-md">
-          <Link
-            href="/crafts"
-            className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
-            Crafts
-          </Link>
-        </button>
-        <button
-          className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
- rounded-full font-semibold text-white bg-[#4b816d] shadow-md">
-          <Link
-            href="/printables"
-            className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
-            Printables
-          </Link>
-        </button>
+        <Link
+          href="/recipes"
+          className="inline-flex items-center justify-center w-36 h-16 rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
+          Recipes
+        </Link>
+        <Link
+          href="/crafts"
+          className="inline-flex items-center justify-center w-36 h-16 rounded-full font-semibold text-white bg-[#3d6f5f] shadow-md">
+          Crafts
+        </Link>
+        <Link
+          href="/printables"
+          className="inline-flex items-center justify-center w-36 h-16 rounded-full font-semibold text-white bg-[#6ea38d] shadow-md">
+          Printables
+        </Link>
       </div>
+
       <div className="mt-8 flex gap-4 mb-14">
-        <button
-          className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
- rounded-full font-semibold text-white bg-[#6ea38d] shadow-md">
-          <Link
-            href="/posts"
-            className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
-            Posts
-          </Link>
-        </button>
-        <button
-          className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
- rounded-full font-semibold text-[#3c3027] bg-[#9ec5b6] shadow-md">
+        <Link
+          href="/posts"
+          className="inline-flex items-center justify-center w-36 h-16 rounded-full font-semibold text-[#2f3b32] bg-[#b8c9b4] shadow-md">
+          Posts
+        </Link>
+        <Link
+          href="#"
+          className="inline-flex items-center justify-center w-36 h-16 rounded-full font-semibold text-[#3c3027] bg-[#eae3d4] shadow-md">
           TBD
-        </button>
-        <button
-          className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap
- rounded-full font-semibold text-[#3c3027] bg-[#f5f0e7] shadow-md">
-          <Link
-            href="/reframer"
-            className="inline-flex items-center justify-center w-36 h-16 whitespace-nowrap rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
-            Alignment
-          </Link>
-        </button>
+        </Link>
+        <Link
+          href="/reframer"
+          className="inline-flex items-center justify-center w-36 h-16 rounded-full font-semibold text-white bg-[#8b6e4e] shadow-md">
+          Alignment
+        </Link>
       </div>
     </div>
   );
