@@ -25,7 +25,7 @@ export default function PlaceholderHome() {
           </div>
           <div className="ml-auto">
             <span className="text-[#fefcf9]/80 text-sm">
-              Coming November 2025
+              Coming December 2025
             </span>
           </div>
         </div>
