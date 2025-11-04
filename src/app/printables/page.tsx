@@ -105,7 +105,7 @@ export default function PrintablesPage() {
                               <Link
                                 href={`/printables/${slug}`}
                                 className="hover:underline">
-                                {p.title}
+                                {p.title} Recipe
                               </Link>
                             </p>
                             <p className="text-sm text-gray-600 break-all">
@@ -173,7 +173,7 @@ export default function PrintablesPage() {
                           <Link
                             href={`/printables/${slug}`}
                             className="hover:underline">
-                            {p.title}
+                            {p.title} Pattern
                           </Link>
                         </p>
                         <p className="text-sm text-gray-600 break-all">
@@ -247,7 +247,7 @@ export default function PrintablesPage() {
                           <Link
                             href={`/field-notes/${slug}`}
                             className="hover:underline">
-                            {p.title}
+                            {p.title} Field Notes
                           </Link>
                         </p>
                         <p className="text-sm text-gray-600 break-all">
