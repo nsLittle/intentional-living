@@ -48,7 +48,7 @@ export default function PostsPage() {
     <>
       <HeaderNavBarServer />
       <Header />
-      <div className="bg-white text-black">
+      <div className="bg-[#fefcf9] text-[#5c5045]">
         <div className="max-w-5xl mx-auto px-6 py-12">
           <h1 className="font-serif text-[#5c5045] text-4xl font-bold text-center">
             All Posts

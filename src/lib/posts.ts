@@ -27,27 +27,59 @@ export type PostLink = {
 
 export function getLatestPost() {
   const contentDir = path.join(process.cwd(), "src", "content", "posts");
+  if (!fs.existsSync(contentDir)) return null;
+
   const filenames = fs
     .readdirSync(contentDir, { withFileTypes: true })
     .filter((e) => e.isFile() && e.name.endsWith(".mdx"))
     .map((e) => e.name);
 
-  const posts = filenames.map((filename) => {
+  const items = filenames.map((filename) => {
     const filePath = path.join(contentDir, filename);
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContents);
+    const raw = fs.readFileSync(filePath, "utf8");
+    const { data } = matter(raw);
+
+    const stat = fs.statSync(filePath);
+    const parsed =
+      typeof data?.date === "string" ? new Date(data.date) : undefined;
+    const dateObj = parsed && !isNaN(parsed.getTime()) ? parsed : stat.mtime;
+
+    const slug = filename.replace(/\.mdx?$/, "");
 
     return {
-      slug: filename.replace(/\.mdx?$/, ""),
-      title: data.title || filename,
-      date: new Date(data.date),
-      text: data.text ? data.text.slice(0, 200).trim() + "..." : "",
-      hero: data.hero || null,
+      data, // keep full front-matter for isPublished
+      slug,
+      title: (data?.title as string) ?? slug,
+      date: dateObj, // keep as Date to match HeroLatestPost usage
+      text:
+        typeof data?.text === "string" && data.text.trim().length > 0
+          ? `${data.text.trim().slice(0, 200)}...`
+          : "",
+      hero:
+        typeof data?.hero === "string" && data.hero.trim().length > 0
+          ? data.hero.trim()
+          : null,
+      _sort: dateObj.getTime(),
+    } as {
+      data: any;
+      slug: string;
+      title: string;
+      date: Date;
+      text: string;
+      hero: string | null;
+      _sort: number;
     };
   });
 
-  const sorted = posts.sort((a, b) => b.date.getTime() - a.date.getTime());
-  return sorted[0];
+  const latest = items
+    .filter((it) => isPublished(it.data)) // ✅ gate with isPublished
+    .sort((a, b) => b._sort - a._sort)[0];
+
+  if (!latest) return null;
+
+  // Return only what the component needs
+  const { slug, title, date, text, hero } = latest;
+  return { slug, title, date, text, hero };
 }
 
 export function getRecentPosts(limit = 5): PostItem[] {
