@@ -1,21 +1,21 @@
-// src/components/HeroLatestPost.tsx
+// src/components/HeroLatestWoodlands.tsx
 import Image from "next/image";
 import Link from "next/link";
-import { getLatestPost } from "lib/posts";
+import { getLatestWoodland } from "lib/woodland";
 
-export default function HeroLatestPost() {
-  const post = getLatestPost();
+export default function HeroLatestWoodlands() {
+  const item = getLatestWoodland();
 
-  if (!post) return null;
+  if (!item) return null;
 
   return (
     <section className="my-2 mt-8">
-      <h2 className="text-4xl font-bold mb-6">My Latest Posts…</h2>
+      <h2 className="text-4xl font-bold mb-6">Latest from the Woodlands…</h2>
       <div className="flex flex-col md:flex-row items-start gap-6">
-        {post.hero && (
+        {item.hero && (
           <Image
-            src={post.hero}
-            alt={post.title}
+            src={item.hero}
+            alt={item.title}
             height={400}
             width={300}
             priority
@@ -24,26 +24,22 @@ export default function HeroLatestPost() {
         )}
 
         <div className="flex-1">
-          <Link href={`/posts/${post.slug}`}>
+          <Link href={item.href}>
             <h3 className="text-2xl font-semibold text-gray-800 hover:underline mb-2">
-              {post.title}
+              {item.title}
             </h3>
           </Link>
           <p className="text-sm text-gray-500 mb-6">
-            {post.date.toLocaleDateString(undefined, {
+            {item.date.toLocaleDateString(undefined, {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}
           </p>
-          <div
-            className="text-lg text-gray-700 mb-8 [&_a]:underline [&_a]:text-green-700"
-            dangerouslySetInnerHTML={{ __html: post.text ?? "" }}
-          />
           <Link
-            href={`/posts/${post.slug}`}
+            href={item.href}
             className="text-green-700 font-semibold hover:underline">
-            Read more →
+            Explore →
           </Link>
         </div>
       </div>

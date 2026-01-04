@@ -10,6 +10,7 @@ type Raw = {
   date?: string;
   hero?: string;
   highlight?: boolean;
+  published?: boolean;
 };
 
 function collectFrom(dirRel: string, hrefBase: string) {
@@ -64,4 +65,81 @@ export function getWoodlandHighlights(limit = 4): HighlightItem[] {
     href,
     img: meta.hero, // if present, DropDownHighLightsGrid will use it
   }));
+}
+
+import { isPublished } from "./publish"; // top of file (ensure this import exists)
+
+export function getLatestWoodland(): {
+  href: string;
+  title: string;
+  date: Date;
+  hero: string | null;
+} | null {
+  // Directly read files so we can compute a robust sort timestamp
+  const groups = [
+    { dirRel: "field-notes", hrefBase: "/woodland/field-notes" },
+    { dirRel: "woodland-crafts", hrefBase: "/woodland/woodland-crafts" },
+    { dirRel: "foraged-recipes", hrefBase: "/woodland/foraged-recipes" },
+  ];
+
+  const entries: Array<{
+    meta: Raw;
+    href: string;
+    _sort: number;
+    dateObj: Date;
+    title: string;
+    hero: string | null;
+  }> = [];
+
+  for (const g of groups) {
+    const dir = path.join(process.cwd(), "src", "content", g.dirRel);
+    if (!fs.existsSync(dir)) continue;
+
+    for (const f of fs.readdirSync(dir)) {
+      if (!/\.(mdx?|MDX?)$/.test(f)) continue;
+
+      const slug = f.replace(/\.(mdx?|MDX?)$/, "");
+      const filePath = path.join(dir, f);
+      const raw = fs.readFileSync(filePath, "utf8");
+      const { data } = matter(raw);
+      const meta = (data ?? {}) as Raw;
+
+      // Build date with fallback to file mtime
+      const stat = fs.statSync(filePath);
+      const parsed =
+        typeof meta.date === "string" ? new Date(meta.date) : undefined;
+      const dateObj = parsed && !isNaN(parsed.getTime()) ? parsed : stat.mtime;
+
+      const href = `${g.hrefBase}/${slug}`;
+      const title = meta.title ?? slug;
+      const hero =
+        typeof meta.hero === "string" && meta.hero.trim()
+          ? meta.hero.trim()
+          : null;
+
+      // Respect drafts if present (and SHOW_DRAFTS flags off)
+      if (!isPublished(meta)) continue;
+
+      entries.push({
+        meta,
+        href,
+        _sort: dateObj.getTime(),
+        dateObj,
+        title,
+        hero,
+      });
+    }
+  }
+
+  if (entries.length === 0) return null;
+
+  entries.sort((a, b) => b._sort - a._sort);
+  const latest = entries[0];
+
+  return {
+    href: latest.href,
+    title: latest.title,
+    date: latest.dateObj,
+    hero: latest.hero,
+  };
 }

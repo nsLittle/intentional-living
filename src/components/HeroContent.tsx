@@ -2,6 +2,9 @@ import HeroLatestPost from "./HeroLatestPost";
 import HeroIntro from "./HeroIntro";
 import HeroFeatured from "./HeroFeatured";
 import HeroLatestCraft from "./HeroLatestCraft";
+import HeroLatestRecipe from "./HeroLatestRecipe";
+import HeroLatestWoodlands from "./HeroLatestWoodlands";
+import HeroFeaturedPost from "./HeroFeaturedPost";
 
 export default function HeroContent() {
   return (
@@ -13,18 +16,28 @@ export default function HeroContent() {
         <HeroFeatured />
       </div>
 
-      <div className="mb-16 border-t border-gray-300">
-        {/* Latest Posts */}
-        <HeroLatestPost />
-      </div>
+      {/* Featured Post */}
+      <HeroFeaturedPost />
 
-      <div className="border-t border-gray-300">
-        {/* Latest Craft */}
-        <HeroLatestCraft />
-      </div>
+      {/* <div className="mb-16 border-t border-gray-300"> */}
+      {/* Latest Posts */}
+      {/* <HeroLatestPost />
+      </div> */}
 
+      {/* <div className="border-t border-gray-300"> */}
+      {/* Latest Craft */}
+      {/* <HeroLatestCraft />
+      </div> */}
+
+      {/* <div className="border-t border-gray-300"> */}
       {/* Latest Recipe */}
-      {/* <HeroLatestRecipe /> */}
+      {/* <HeroLatestRecipe />
+      </div> */}
+
+      {/* <div className="border-t border-gray-300"> */}
+      {/* Latest Woodlands */}
+      {/* <HeroLatestWoodlands />
+      </div> */}
     </div>
   );
 }
