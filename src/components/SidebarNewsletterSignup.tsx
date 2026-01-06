@@ -9,9 +9,10 @@ export default function SidebarNewsletterSignup() {
 
   return (
     <div className="bg-[#3b6c5a] text-white p-6 rounded-xl shadow-md mt-8">
-      <h3 className="text-2xl font-semibold mb-2">Newsletter</h3>
+      <h3 className="text-2xl font-semibold mb-2">Simple Notes</h3>
       <p className="mb-4 text-sm">
-        Get recipes, tips, and first access to new posts.
+        Join me for pantry-first recipes, small craft projects, and slow living
+        notes from Vermont.
       </p>
 
       <form className="flex flex-col gap-3" onSubmit={onSubmit} noValidate>

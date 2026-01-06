@@ -9,9 +9,10 @@ export default function FooterNewsletterSignup() {
 
   return (
     <div className="w-full max-w-md text-center mb-6">
-      <h3 className="text-white text-xl font-semibold mb-2">Newsletter</h3>
+      <h3 className="text-white text-xl font-semibold mb-2">Simple Notes</h3>
       <p className="text-gray-300 mb-4">
-        Get recipes, tips, and first access to new posts.
+        Join me for pantry-first recipes, small craft projects, and slow living
+        notes from Vermont.
       </p>
 
       <form
