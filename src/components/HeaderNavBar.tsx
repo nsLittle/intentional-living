@@ -32,14 +32,13 @@ type HeaderNavBarProps = {
   printablesRecent?: { title: string; href: string }[];
   printablesHighlights?: { title: string; href: string; img?: string }[];
 };
-
 type HL = { title: string; href: string; img?: string };
-const asHL = (
-  x: { title?: string; href?: string; img?: string } | undefined
-): HL | undefined =>
-  x && x.title && x.href
-    ? { title: x.title, href: x.href, img: x.img }
-    : undefined;
+
+type RawHL = {
+  title?: string;
+  href?: string;
+  img?: string;
+};
 
 export const viewport = {
   width: "device-width",
@@ -98,23 +97,6 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
   const printablesRecentSortedAlpha = [...(props.printablesRecent ?? [])]
     .sort(sortAlphaByTitle)
     .slice(0, 5);
-
-  const firstByHrefTests = <T extends { href?: string }>(
-    arr: T[] | undefined,
-    tests: string[]
-  ) => {
-    const a = arr ?? [];
-    for (const item of a) {
-      const h = (item.href || "").toLowerCase();
-      if (tests.some((t) => h.startsWith(t) || h.includes(t))) return item;
-    }
-    return undefined;
-  };
-
-  // Choose from highlights first; if not found, fall back to recent.
-  // If still empty overall, fall back to first 4 of whichever source exists.
-  const srcH = props.printablesHighlights ?? [];
-  const srcR = props.printablesRecent ?? [];
 
   // const pick = (tests: string[]) =>
   //   asHL(firstByHrefTests(srcH, tests)) ?? asHL(firstByHrefTests(srcR, tests));
