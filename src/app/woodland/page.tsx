@@ -132,12 +132,12 @@ export default function AllNatureNotesIndexPage() {
       <div className="bg-white text-black">
         <div className="max-w-5xl mx-auto px-6 py-12">
           <h1 className="font-serif text-[#5c5045] text-4xl font-bold text-center">
-            All Woodland Notes
+            All Woodland Field Notes
           </h1>
 
           {notes.length === 0 && (
             <p className="mt-6 text-center text-gray-600">
-              No notes found. Ensure MDX files exist in:
+              No field notes found. Ensure MDX files exist in:
               <code className="mx-1 px-2 py-0.5 rounded bg-gray-100">
                 src/content/field-notes/
               </code>

@@ -11,7 +11,7 @@ import Search from "./Search";
 import SearchResults from "./SearchResults";
 
 type MenuKey =
-  | "posts"
+  | "notes"
   | "recipes"
   | "crafts"
   | "woodlands"
@@ -297,7 +297,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           {
             title: "Witches’ Butter",
             href: "/woodland/field-notes/witches-butter",
-            img: "/images/posts/witches-butter.jpeg",
+            img: "/images/notes/witches-butter.jpeg",
           },
           {
             title: "Ghost Pipe Craft",
@@ -360,16 +360,16 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
               <ul className="flex flex-wrap justify-center gap-4 md:gap-6 items-center">
                 <li
                   className="relative inline-flex items-center"
-                  onMouseEnter={() => openMenu("posts")}
+                  onMouseEnter={() => openMenu("notes")}
                   onMouseLeave={scheduleClose}>
                   <Link
-                    href="/posts"
+                    href="/notes"
                     className="text-[#fefcf9] text-base hover:underline"
-                    onFocus={() => openMenu("posts")}
+                    onFocus={() => openMenu("notes")}
                     onBlur={scheduleClose}
-                    aria-expanded={open === "posts"}
+                    aria-expanded={open === "notes"}
                     aria-haspopup="true">
-                    Posts
+                    Notes
                   </Link>
                 </li>
 
@@ -507,20 +507,20 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           </div>
         </div>
 
-        {/* Dropdown panel for posts */}
+        {/* Dropdown panel for notes */}
         <DropDownPanelContainer
-          isOpen={open === "posts"}
-          onOpen={() => openMenu("posts")}
+          isOpen={open === "notes"}
+          onOpen={() => openMenu("notes")}
           onClose={scheduleClose}>
           <DropDownPanelCategoryGrid
             className="col-span-12 md:col-span-3 md:col-start-1"
-            title="Posts"
-            allHref="/posts"
-            allLabel="All Posts →"
+            title="Notes"
+            allHref="/notes"
+            allLabel="All Notes →"
             items={[
-              { href: "/posts/woodland", label: "Woodland Finds" },
-              { href: "/posts/kitchen", label: "Kitchen Recipes" },
-              { href: "/posts/crafts", label: "Crafty Creations" },
+              { href: "/notes/woodland", label: "Woodland Finds" },
+              { href: "/notes/kitchen", label: "Kitchen Recipes" },
+              { href: "/notes/crafts", label: "Crafty Creations" },
             ]}
           />
           {/* ✅ Use postsRecentSorted for the middle column */}
@@ -610,11 +610,11 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
           onClose={scheduleClose}>
           <DropDownPanelCategoryGrid
             className="col-span-12 md:col-span-3 md:col-start-1"
-            title="All Woodland Notes"
+            title="All Woodland Field Notes"
             allHref="/woodland"
-            allLabel="All Woodland Notes →"
+            allLabel="All Woodland Field Notes →"
             items={[
-              { href: "/woodland/field-notes", label: "Field Notes" },
+              { href: "/woodland/field-notes", label: "Woodland Field Notes" },
               { href: "/woodland/woodland-crafts", label: "Woodland Crafts" },
               { href: "/woodland/foraged-recipes", label: "Foraged Recipes" },
             ]}

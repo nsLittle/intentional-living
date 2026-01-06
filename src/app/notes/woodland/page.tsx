@@ -1,4 +1,3 @@
-// src/app/posts/crafts/page.tsx
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -8,7 +7,7 @@ import Header from "components/Header";
 import LayoutAllPosts from "components/LayoutAllPosts";
 import Footer from "components/Footer";
 
-export default function CraftyPostsPage() {
+export default function WoodlandPostsPage() {
   const dir = path.join(process.cwd(), "src", "content", "posts");
   const files = fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"));
 
@@ -29,8 +28,8 @@ export default function CraftyPostsPage() {
     };
   });
 
-  const craftyPosts = allPosts
-    .filter((p) => p.tags.includes("crafts"))
+  const woodlandPosts = allPosts
+    .filter((p) => p.tags.includes("woodland"))
     .sort((a, b) => {
       const ad = Date.parse(a.date ?? "");
       const bd = Date.parse(b.date ?? "");
@@ -47,11 +46,11 @@ export default function CraftyPostsPage() {
       <div className="bg-white text-black">
         <div className="max-w-5xl mx-auto px-6 py-12">
           <h1 className="font-serif text-[#5c5045] text-4xl font-bold text-center">
-            Posts about Crafty Projects
+            Notes about Woodland Finds
           </h1>
         </div>
       </div>
-      <LayoutAllPosts posts={craftyPosts} />
+      <LayoutAllPosts posts={woodlandPosts} />
       <Footer />
     </>
   );

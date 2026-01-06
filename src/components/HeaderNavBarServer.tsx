@@ -16,14 +16,14 @@ type RecentLink = { title: string; href: string };
 
 type PublishAwareRecent = { title: string; href: string; date: string };
 
-type HighlightLink = { title: string; href: string; img?: string };
+type HighlightLink = { title: string; href: string; img: string };
 
 type NoteRecent = { title: string; href: string; date: string };
 
 type WoodlandHighlight = {
   title: string;
   href: string;
-  img?: string;
+  img: string;
   date: string;
 };
 

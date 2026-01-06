@@ -5,7 +5,7 @@ import { useState } from "react";
 const btnClass =
   "mx-auto block px-8 py-5 rounded-full font-semibold text-white bg-[#6ea38d] shadow-md hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f5d50] disabled:opacity-60";
 
-export default function Reframer() {
+export default function ReAlignment() {
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export default function Reframer() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/reframer", {
+      const res = await fetch("/api/realignment", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ prompt: trimmed }),
@@ -64,7 +64,7 @@ export default function Reframer() {
               onChange={(e) => setPrompt(e.target.value)}
               rows={6}
               className="w-full rounded-md border border-gray-300 bg-white p-3 outline-none focus:ring-2 focus:ring-gray-300"
-              placeholder="For example: I messed up again; I’ll never be good at this."
+              placeholder="For example: I feel overwhelmed and I don’t know where to start.."
             />
           </label>
 
