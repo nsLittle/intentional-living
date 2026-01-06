@@ -55,7 +55,8 @@ export default function ForagedRecipesIndexPage() {
     <>
       <HeaderNavBarServer />
       <Header />
-      <LayoutAllFieldNotes notes={recipes} heading="Foraged Recipes" />
+      <h1 className="font-serif text-3xl text-[#2f5d4b]">Foraged Recipes</h1>
+      <LayoutAllFieldNotes notes={recipes} />
       <Footer />
     </>
   );
