@@ -1,9 +1,5 @@
-import HeroLatestPost from "./HeroLatestPost";
 import HeroIntro from "./HeroIntro";
 import HeroFeatured from "./HeroFeatured";
-import HeroLatestCraft from "./HeroLatestCraft";
-import HeroLatestRecipe from "./HeroLatestRecipe";
-import HeroLatestWoodlands from "./HeroLatestWoodlands";
 import HeroFeaturedPost from "./HeroFeaturedPost";
 
 export default function HeroContent() {

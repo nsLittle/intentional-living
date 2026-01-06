@@ -116,8 +116,8 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
   const srcH = props.printablesHighlights ?? [];
   const srcR = props.printablesRecent ?? [];
 
-  const pick = (tests: string[]) =>
-    asHL(firstByHrefTests(srcH, tests)) ?? asHL(firstByHrefTests(srcR, tests));
+  // const pick = (tests: string[]) =>
+  //   asHL(firstByHrefTests(srcH, tests)) ?? asHL(firstByHrefTests(srcR, tests));
 
   // Replace the helper with this broader matcher (above printablesCategoryHighlights)
   const firstByHrefPatterns = <T extends { href?: string; title?: string }>(
