@@ -18,6 +18,25 @@ type PostListItem = {
   img?: string | null;
 };
 
+type PostFrontMatter = {
+  title?: string;
+  date?: string;
+  text?: string;
+  hero?: string;
+  published?: boolean;
+  // add other known fields as you introduce them
+};
+
+type LatestPostItem = {
+  data: PostFrontMatter;
+  slug: string;
+  title: string;
+  date: Date;
+  text: string;
+  hero: string | null;
+  _sort: number;
+};
+
 export type PostLink = {
   title: string;
   href: string;
@@ -37,7 +56,7 @@ export function getLatestPost() {
   const items = filenames.map((filename) => {
     const filePath = path.join(contentDir, filename);
     const raw = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(raw);
+    const { data } = matter(raw) as { data: PostFrontMatter };
 
     const stat = fs.statSync(filePath);
     const parsed =
@@ -47,28 +66,20 @@ export function getLatestPost() {
     const slug = filename.replace(/\.mdx?$/, "");
 
     return {
-      data, // keep full front-matter for isPublished
+      data,
       slug,
-      title: (data?.title as string) ?? slug,
-      date: dateObj, // keep as Date to match HeroLatestPost usage
+      title: data.title ?? slug,
+      date: dateObj,
       text:
-        typeof data?.text === "string" && data.text.trim().length > 0
+        typeof data.text === "string" && data.text.trim().length > 0
           ? `${data.text.trim().slice(0, 200)}...`
           : "",
       hero:
-        typeof data?.hero === "string" && data.hero.trim().length > 0
+        typeof data.hero === "string" && data.hero.trim().length > 0
           ? data.hero.trim()
           : null,
       _sort: dateObj.getTime(),
-    } as {
-      data: any;
-      slug: string;
-      title: string;
-      date: Date;
-      text: string;
-      hero: string | null;
-      _sort: number;
-    };
+    } satisfies LatestPostItem;
   });
 
   const latest = items
