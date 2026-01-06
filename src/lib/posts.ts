@@ -121,7 +121,7 @@ export function getRecentPosts(limit = 5): PostItem[] {
       href: `/posts/${slug}`,
       date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-    } as PostListItem & { data: any };
+    } satisfies PostListItem & { data: PostFrontMatter };
   });
 
   // TEMP DEBUG: see what isPublished thinks about each item
@@ -129,13 +129,6 @@ export function getRecentPosts(limit = 5): PostItem[] {
     if (it.title.toLowerCase().includes("chanterelle")) {
       // surface exactly what's in front-matter
       // eslint-disable-next-line no-console
-      console.log(
-        "[DEBUG posts] title=%s published=%o date=%o isPublished=%o",
-        it.title,
-        it.data?.published,
-        it.data?.date,
-        isPublished(it.data)
-      );
     }
   });
 
@@ -163,7 +156,7 @@ export function getPostHighlights(limit = 4): PostLink[] {
   const items = filenames.map((filename) => {
     const filePath = path.join(contentDir, filename);
     const raw = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(raw);
+    const { data } = matter(raw) as { data: PostFrontMatter };
 
     const stat = fs.statSync(filePath);
     const parsed =
@@ -183,7 +176,7 @@ export function getPostHighlights(limit = 4): PostLink[] {
       img: hero,
       date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-    } as PostListItem & { data: any };
+    } satisfies PostListItem & { data: PostFrontMatter };
   });
 
   return items
