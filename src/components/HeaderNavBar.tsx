@@ -34,12 +34,6 @@ type HeaderNavBarProps = {
 };
 type HL = { title: string; href: string; img?: string };
 
-type RawHL = {
-  title?: string;
-  href?: string;
-  img?: string;
-};
-
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -253,12 +247,18 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
     )
     .filter(Boolean) as HL[];
 
+  type MaybeHL = {
+    title?: string;
+    href?: string;
+    img?: string;
+  };
+
   // Build a pool from highlights first, then recent, normalized to HL shape
   const pool: HL[] = [
     ...(props.printablesHighlights ?? []),
     ...(props.printablesRecent ?? []),
   ]
-    .map((x: any) =>
+    .map((x: MaybeHL) =>
       x?.title && x?.href
         ? { title: x.title, href: x.href, img: x.img }
         : undefined
