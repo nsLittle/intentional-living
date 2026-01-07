@@ -21,9 +21,9 @@ export default function HeroFeatured() {
 
       <div className="mt-12 flex gap-4 mb-8">
         <Link
-          href="/posts"
+          href="/notes"
           className="inline-flex items-center justify-center w-36 h-16 rounded-full font-semibold text-white bg-[#2f5d50] shadow-md">
-          Posts
+          Notes
         </Link>
         <Link
           href="/recipes"

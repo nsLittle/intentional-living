@@ -417,7 +417,7 @@ export default function HeaderNavBar(props: HeaderNavBarProps) {
 
                 <li>
                   <Link
-                    href="/reframer"
+                    href="/alignment"
                     className="text-[#fefcf9] text-base hover:underline">
                     Alignment
                   </Link>

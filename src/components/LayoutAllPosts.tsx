@@ -35,7 +35,7 @@ export default function LayoutAllPosts({ posts }: LayoutAllPostsProps) {
             )}
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-2">
-                <Link href={`/posts/${post.slug}`} className="hover:underline">
+                <Link href={`/notes/${post.slug}`} className="hover:underline">
                   {post.title}
                 </Link>
               </h2>
