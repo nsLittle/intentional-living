@@ -41,6 +41,12 @@ export const viewport = {
 };
 
 export default function HeaderNavBar(props: HeaderNavBarProps) {
+  console.log("✅ HeaderNavBar mounted", {
+    postsRecent: props.postsRecent?.length ?? 0,
+    postsHighlights: props.postsHighlights?.length ?? 0,
+    path: typeof window !== "undefined" ? window.location.pathname : "server",
+  });
+
   const [open, setOpen] = useState<MenuKey>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");

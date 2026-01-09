@@ -10,31 +10,12 @@ export type PostItem = {
   date?: string;
 };
 
-type PostListItem = {
-  title: string;
-  href: string;
-  date: string;
-  _sort: number;
-  img?: string | null;
-};
-
 type PostFrontMatter = {
   title?: string;
   date?: string;
   text?: string;
   hero?: string;
   published?: boolean;
-  // add other known fields as you introduce them
-};
-
-type LatestPostItem = {
-  data: PostFrontMatter;
-  slug: string;
-  title: string;
-  date: Date;
-  text: string;
-  hero: string | null;
-  _sort: number;
 };
 
 export type PostLink = {
@@ -44,100 +25,121 @@ export type PostLink = {
   date?: string;
 };
 
-export function getLatestPost() {
-  const contentDir = path.join(process.cwd(), "src", "content", "posts");
-  if (!fs.existsSync(contentDir)) return null;
+type NoteRow = {
+  data: PostFrontMatter;
+  title: string;
+  href: string;
+  date: string;
+  _sort: number;
+  img?: string;
+};
 
-  const filenames = fs
-    .readdirSync(contentDir, { withFileTypes: true })
-    .filter((e) => e.isFile() && e.name.endsWith(".mdx"))
-    .map((e) => e.name);
+const NOTES_DIR = path.join(process.cwd(), "src", "content", "notes");
 
-  const items = filenames.map((filename) => {
-    const filePath = path.join(contentDir, filename);
+const walkMdxFiles = (dir: string): string[] => {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    const full = path.join(dir, e.name);
+    if (e.isDirectory()) return walkMdxFiles(full);
+    return e.isFile() && e.name.endsWith(".mdx") ? [full] : [];
+  });
+};
+
+const buildNoteRows = (): NoteRow[] => {
+  const files = walkMdxFiles(NOTES_DIR);
+
+  return files.map((filePath) => {
     const raw = fs.readFileSync(filePath, "utf8");
     const { data } = matter(raw) as { data: PostFrontMatter };
+
+    // slug relative to notes root (supports nested)
+    const rel = path.relative(NOTES_DIR, filePath);
+    const slug = rel.replace(/\\/g, "/").replace(/\.mdx?$/, "");
 
     const stat = fs.statSync(filePath);
     const parsed =
       typeof data?.date === "string" ? new Date(data.date) : undefined;
     const dateObj = parsed && !isNaN(parsed.getTime()) ? parsed : stat.mtime;
 
-    const slug = filename.replace(/\.mdx?$/, "");
+    const hero =
+      typeof data?.hero === "string" && data.hero.trim().length > 0
+        ? data.hero.trim()
+        : undefined;
 
     return {
       data,
-      slug,
-      title: data.title ?? slug,
-      date: dateObj,
-      text:
-        typeof data.text === "string" && data.text.trim().length > 0
-          ? `${data.text.trim().slice(0, 200)}...`
-          : "",
-      hero:
-        typeof data.hero === "string" && data.hero.trim().length > 0
-          ? data.hero.trim()
-          : null,
+      title: data?.title ?? slug,
+      href: `/notes/${slug}`,
+      date: dateObj.toISOString(),
       _sort: dateObj.getTime(),
-    } satisfies LatestPostItem;
+      img: hero,
+    };
   });
+};
 
-  const latest = items
-    .filter((it) => isPublished(it.data)) // ✅ gate with isPublished
+export function getLatestPost() {
+  if (!fs.existsSync(NOTES_DIR)) return null;
+
+  // pick latest published row
+  const latest = buildNoteRows()
+    .filter((it) => isPublished(it.data))
     .sort((a, b) => b._sort - a._sort)[0];
 
   if (!latest) return null;
 
-  // Return only what the component needs
-  const { slug, title, date, text, hero } = latest;
-  return { slug, title, date, text, hero };
+  // read the actual file content to build an excerpt
+  const filePath = path.join(
+    NOTES_DIR,
+    latest.href.replace(/^\/notes\//, "") + ".mdx"
+  );
+
+  let excerpt = "";
+
+  // 1) Prefer frontmatter text (most reliable)
+  if (
+    typeof latest.data?.text === "string" &&
+    latest.data.text.trim().length > 0
+  ) {
+    const t = latest.data.text.trim().replace(/\s+/g, " ");
+    excerpt = t.length > 250 ? t.slice(0, 250).trimEnd() + "…" : t;
+  } else {
+    // 2) Fallback: strip from MDX body
+    try {
+      const raw = fs.readFileSync(filePath, "utf8");
+      const parsed = matter(raw);
+
+      const plain = parsed.content
+        .replace(/```[\s\S]*?```/g, " ")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
+        .replace(/\[[^\]]*\]\([^)]+\)/g, " ")
+        .replace(/[#>*_`~-]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      excerpt =
+        plain.length > 100 ? plain.slice(0, 250).trimEnd() + "…" : plain;
+    } catch {
+      excerpt = "";
+    }
+  }
+
+  return {
+    slug: latest.href.replace(/^\/notes\//, ""),
+    title: latest.title,
+    date: new Date(latest.date),
+    text: excerpt, // now a plain-text excerpt
+    hero: latest.img ?? null,
+  };
 }
 
 export function getRecentPosts(limit = 5): PostItem[] {
-  const contentDir = path.join(process.cwd(), "src", "content", "posts");
-  if (!fs.existsSync(contentDir)) return [];
+  if (!fs.existsSync(NOTES_DIR)) return [];
 
-  const filenames = fs
-    .readdirSync(contentDir, { withFileTypes: true })
-    .filter((e) => e.isFile() && e.name.endsWith(".mdx"))
-    .map((e) => e.name);
-
-  // Build with full front-matter, then filter with isPublished, then sort/slice/map
-  const items = filenames.map((filename) => {
-    const filePath = path.join(contentDir, filename);
-    const raw = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(raw);
-
-    const stat = fs.statSync(filePath);
-    const parsed =
-      typeof data?.date === "string" ? new Date(data.date) : undefined;
-    const dateObj = parsed && !isNaN(parsed.getTime()) ? parsed : stat.mtime;
-
-    const slug = filename.replace(/\.mdx?$/, "");
-
-    return {
-      data, // keep front-matter so we can call isPublished
-      title: data?.title ?? slug,
-      href: `/posts/${slug}`,
-      date: dateObj.toISOString(),
-      _sort: dateObj.getTime(),
-    } satisfies PostListItem & { data: PostFrontMatter };
-  });
-
-  // TEMP DEBUG: see what isPublished thinks about each item
-  items.forEach((it) => {
-    if (it.title.toLowerCase().includes("chanterelle")) {
-      // surface exactly what's in front-matter
-      // eslint-disable-next-line no-console
-    }
-  });
-
-  return items
-    .filter((it) => isPublished(it.data)) // 🔒 only published & not future-dated
+  return buildNoteRows()
+    .filter((it) => isPublished(it.data))
     .sort((a, b) => {
-      // Primary: newest first
       if (b._sort !== a._sort) return b._sort - a._sort;
-      // Secondary: title A→Z
       return a.title.localeCompare(b.title, "en", { sensitivity: "base" });
     })
     .slice(0, limit)
@@ -145,45 +147,13 @@ export function getRecentPosts(limit = 5): PostItem[] {
 }
 
 export function getPostHighlights(limit = 4): PostLink[] {
-  const contentDir = path.join(process.cwd(), "src", "content", "posts");
-  if (!fs.existsSync(contentDir)) return [];
+  if (!fs.existsSync(NOTES_DIR)) return [];
 
-  const filenames = fs
-    .readdirSync(contentDir, { withFileTypes: true })
-    .filter((e) => e.isFile() && e.name.endsWith(".mdx"))
-    .map((e) => e.name);
-
-  const items = filenames.map((filename) => {
-    const filePath = path.join(contentDir, filename);
-    const raw = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(raw) as { data: PostFrontMatter };
-
-    const stat = fs.statSync(filePath);
-    const parsed =
-      typeof data?.date === "string" ? new Date(data.date) : undefined;
-    const dateObj = parsed && !isNaN(parsed.getTime()) ? parsed : stat.mtime;
-
-    const slug = filename.replace(/\.mdx?$/, "");
-    const hero =
-      typeof data?.hero === "string" && data.hero.trim().length > 0
-        ? data.hero.trim()
-        : undefined;
-
-    return {
-      data, // keep for isPublished
-      title: (data?.title as string) ?? slug,
-      href: `/posts/${slug}`,
-      img: hero,
-      date: dateObj.toISOString(),
-      _sort: dateObj.getTime(),
-    } satisfies PostListItem & { data: PostFrontMatter };
-  });
-
-  return items
-    .filter((it) => isPublished(it.data)) // ✅ boolean-only gate
+  return buildNoteRows()
+    .filter((it) => isPublished(it.data))
     .sort((a, b) => {
-      if (b._sort !== a._sort) return b._sort - a._sort; // newest → oldest
-      return a.title.localeCompare(b.title, "en", { sensitivity: "base" }); // A→Z
+      if (b._sort !== a._sort) return b._sort - a._sort;
+      return a.title.localeCompare(b.title, "en", { sensitivity: "base" });
     })
     .slice(0, limit)
     .map(({ title, href, img, date }) => ({ title, href, img, date }));

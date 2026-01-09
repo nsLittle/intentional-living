@@ -10,7 +10,7 @@ export default function HeroLatestPost() {
 
   return (
     <section className="my-2 mt-8">
-      <h2 className="text-4xl font-bold mb-6">My Latest Posts…</h2>
+      <h2 className="text-4xl font-bold mb-6">My Latest Notes…</h2>
       <div className="flex flex-col md:flex-row items-start gap-6">
         {post.hero && (
           <Image
@@ -24,7 +24,7 @@ export default function HeroLatestPost() {
         )}
 
         <div className="flex-1">
-          <Link href={`/posts/${post.slug}`}>
+          <Link href={`/notes/${post.slug}`}>
             <h3 className="text-2xl font-semibold text-gray-800 hover:underline mb-2">
               {post.title}
             </h3>
@@ -41,7 +41,7 @@ export default function HeroLatestPost() {
             dangerouslySetInnerHTML={{ __html: post.text ?? "" }}
           />
           <Link
-            href={`/posts/${post.slug}`}
+            href={`/notes/${post.slug}`}
             className="text-green-700 font-semibold hover:underline">
             Read more →
           </Link>
