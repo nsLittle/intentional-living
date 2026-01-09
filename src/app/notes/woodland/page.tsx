@@ -8,7 +8,7 @@ import LayoutAllPosts from "components/LayoutAllPosts";
 import Footer from "components/Footer";
 
 export default function WoodlandPostsPage() {
-  const dir = path.join(process.cwd(), "src", "content", "posts");
+  const dir = path.join(process.cwd(), "src", "content", "notes");
   const files = fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"));
 
   const allPosts = files.map((file) => {
