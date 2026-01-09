@@ -12,7 +12,7 @@ export default function HeroFeatured() {
       </p>
 
       <Image
-        src="/images/posts/cat-in-moss.png"
+        src="/images/notes/cat-in-moss.jpeg"
         alt="Cat in moss"
         width={600}
         height={400}
