@@ -9,7 +9,7 @@ import LinkReturnPost from "./LinkReturnPost";
 import ButtonDownloadPdf from "components/ButtonDownloadPdf";
 import PinterestShare from "./PinterestShare";
 import FacebookShareButton from "./FacebookShareButton";
-import SectionCard from "./SectionCard";
+import SectionCard from "components/SectionCard";
 
 type WoodlandCraftLayoutProps = {
   title: string;
@@ -119,9 +119,21 @@ export default function LayoutWoodlandsCraft({
                   <h3 className="text-sm uppercase tracking-wide text-gray-500 mb-1">
                     Instructions
                   </h3>
-                  <p className="whitespace-pre-line leading-relaxed">
-                    {instructions}
-                  </p>
+
+                  <ol className="list-decimal pl-6 space-y-3">
+                    {instructions
+                      .split("\n")
+                      .map((line) => line.trim())
+                      .filter(Boolean)
+                      .map((line, idx) => (
+                        <li key={idx}>
+                          {line
+                            .replace(/^\d+\.\s*/, "") // remove "1. "
+                            .replace(/\*\*(.*?)\*\*/g, "$1")}{" "}
+                          {/* remove **bold** */}
+                        </li>
+                      ))}
+                  </ol>
                 </div>
               )}
             </SectionCard>
@@ -139,7 +151,7 @@ export default function LayoutWoodlandsCraft({
           </div>
 
           {/* MDX body content */}
-          <section className="prose">{children}</section>
+          {/* <section className="prose">{children}</section> */}
 
           <div className="mt-10">
             <LinkReturnHome />

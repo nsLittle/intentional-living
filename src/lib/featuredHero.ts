@@ -19,32 +19,40 @@
 
 export type HeroKey = "post" | "woodland" | "recipe" | "craft";
 
-export function pickFeaturedHeroKey(now: Date = new Date()): HeroKey {
+export function pickFeaturedHeroKey(
+  now: Date = new Date(),
+  available?: Partial<Record<HeroKey, boolean>>
+): HeroKey {
   const envOverride =
     (process.env.NEXT_PUBLIC_FEATURED_HERO as HeroKey | undefined) ??
     (process.env.FEATURED_HERO as HeroKey | undefined);
   if (envOverride && isValidKey(envOverride)) return envOverride;
 
-  const m = now.getMonth(); // 0=Jan..11=Dec
+  const m = now.getMonth();
   const season = monthToSeason(m);
 
-  // bias pairs by season
   const baseOrder: HeroKey[] = (() => {
     switch (season) {
-      case "winter": // Recipes first
+      case "winter":
         return ["recipe", "post", "craft", "woodland"];
-      case "spring": // Woodland first
+      case "spring":
         return ["woodland", "post", "recipe", "craft"];
-      case "summer": // Woodland/Crafts first
+      case "summer":
         return ["woodland", "craft", "post", "recipe"];
-      case "fall": // Recipes/Crafts first
+      case "fall":
         return ["recipe", "craft", "woodland", "post"];
     }
   })();
 
-  // Daily rotation: pick by weekday from a length-7 sequence that cycles baseOrder
-  const weekday = now.getDay(); // 0..6
+  const weekday = now.getDay();
   const seq: HeroKey[] = Array.from({ length: 7 }, (_, i) => baseOrder[i % 4]);
+
+  // ✅ NEW: pick first key in rotation that is available
+  const start = weekday;
+  for (let i = 0; i < seq.length; i++) {
+    const k = seq[(start + i) % seq.length];
+    if (!available || available[k] !== false) return k;
+  }
 
   return seq[weekday];
 }

@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import LayoutPost from "components/LayoutPost";
+import LayoutWoodlandsCraft from "components/LayoutWoodlandCrafts";
 
 type Craft = {
   slug: string;
@@ -9,6 +9,10 @@ type Craft = {
   date?: string;
   hero?: string;
   text?: string;
+  materials?: string[];
+  instructions?: string;
+  pdf?: string;
+  parentPost?: string;
 };
 
 function loadCraft(slug: string): Craft | null {
@@ -23,6 +27,10 @@ function loadCraft(slug: string): Craft | null {
     date: (data.date as string) ?? undefined,
     hero: (data.hero as string) ?? undefined,
     text: (data.text as string) ?? undefined,
+    materials: (data.materials as string[]) ?? undefined,
+    instructions: (data.instructions as string) ?? undefined,
+    pdf: (data.pdf as string) ?? undefined,
+    parentPost: (data.parentPost as string) ?? undefined,
   };
 }
 
@@ -49,11 +57,15 @@ export default async function WoodlandCraftDetail({
   if (!craft) return null;
 
   return (
-    <LayoutPost
+    <LayoutWoodlandsCraft
       title={craft.title}
       date={craft.date}
       hero={craft.hero}
+      parentPost={craft.parentPost}
       text={toHtml(craft.text)}
+      materials={craft.materials}
+      instructions={craft.instructions}
+      pdf={craft.pdf}
     />
   );
 }

@@ -47,27 +47,41 @@ export function getLatestRecipe() {
 
   const files = walkMdxFiles(RECIPES_DIR);
 
-  const recipes = files.map((filePath) => {
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContents);
+  const recipes = files
+    .map((filePath) => {
+      const fileContents = fs.readFileSync(filePath, "utf8");
+      const { data } = matter(fileContents);
 
-    const rel = path.relative(RECIPES_DIR, filePath); // e.g. "soup-pasta/chicken-noodle-soup.mdx"
-    const slug = rel.replace(/\\/g, "/").replace(/\.mdx?$/, "");
+      // ✅ normalize published flag (supports `published` or `isPublished`)
+      const publishedRaw = data?.isPublished ?? data?.published; // accept either key
 
-    // frontmatter date (if valid) else file mtime
-    const fmDate =
-      typeof data?.date === "string" ? new Date(data.date) : undefined;
-    const date =
-      fmDate && !isNaN(fmDate.getTime()) ? fmDate : fs.statSync(filePath).mtime;
+      const isPublished =
+        typeof publishedRaw === "boolean"
+          ? publishedRaw
+          : typeof publishedRaw === "string"
+          ? publishedRaw.trim().toLowerCase() === "true"
+          : true; // default published unless explicitly false
 
-    return {
-      slug,
-      title: data.title || slug,
-      date,
-      text: data.text ? data.text.slice(0, 200).trim() + "..." : "",
-      hero: data.hero || null,
-    };
-  });
+      const rel = path.relative(RECIPES_DIR, filePath);
+      const slug = rel.replace(/\\/g, "/").replace(/\.mdx?$/, "");
+
+      const fmDate =
+        typeof data?.date === "string" ? new Date(data.date) : undefined;
+      const date =
+        fmDate && !isNaN(fmDate.getTime())
+          ? fmDate
+          : fs.statSync(filePath).mtime;
+
+      return {
+        slug,
+        title: data.title || slug,
+        date,
+        text: data.text ? data.text.slice(0, 200).trim() + "..." : "",
+        hero: data.hero || null,
+        isPublished,
+      };
+    })
+    .filter((r) => r.isPublished); // ✅ unpublished excluded
 
   const sorted = recipes.sort((a, b) => b.date.getTime() - a.date.getTime());
   return sorted[0] ?? null;

@@ -9,7 +9,7 @@ import Footer from "components/Footer";
 import { isPublished } from "lib/publish";
 
 export default function PostsPage() {
-  const dir = path.join(process.cwd(), "src", "content", "posts");
+  const dir = path.join(process.cwd(), "src", "content", "notes");
   const files = fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"));
 
   type FM = {
@@ -24,8 +24,13 @@ export default function PostsPage() {
     .map((file) => {
       const slug = file.replace(/\.mdx$/, "");
       const filePath = path.join(dir, file);
-      const { data } = matter(fs.readFileSync(filePath, "utf8"));
-      return { slug, data: data as FM };
+      try {
+        const { data } = matter(fs.readFileSync(filePath, "utf8"));
+        return { slug, data: data as FM };
+      } catch (err) {
+        console.error("❌ Broken frontmatter in:", filePath);
+        throw err;
+      }
     })
     .filter((p) => isPublished(p.data))
     .sort((a, b) => {
