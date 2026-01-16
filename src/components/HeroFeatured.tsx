@@ -44,7 +44,7 @@ export default function HeroFeatured() {
           Woodlands
         </Link>
         <Link
-          href="/reframer"
+          href="/alignment"
           className="inline-flex items-center justify-center w-36 h-16 rounded-full font-semibold text-white bg-[#8b6e4e] shadow-md">
           Alignment
         </Link>
