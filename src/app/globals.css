@@ -17,6 +17,54 @@
 }
 
 @media print {
+  @page {
+    size: Letter;
+    margin: 0.5in;
+  }
+
+  /* Reduce hero height for print to fit page 1 */
+  .recipe-hero-wrap {
+    height: 1.5in !important; /* ~5 lines */
+    overflow: hidden !important;
+  }
+
+  .recipe-hero {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    max-height: none !important;
+  }
+
+  /* Remove extra spacing around the intro grid */
+  .no-print + * {
+    margin-top: 0 !important;
+  }
+
+  /* Remove screen-first spacing that creates extra pages */
+  .recipe-ways-card {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Force: Page 1 ends after spice mix instructions */
+  .recipe-instructions-card {
+    break-after: page; /* modern */
+    page-break-after: always; /* legacy */
+  }
+
+  /* Avoid awkward splits */
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  .recipe-instructions-card,
+  .recipe-ways-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
   html,
   body {
     height: auto !important; /* override the global height:100% */
@@ -52,6 +100,17 @@
   .shadow-xl,
   .shadow-2xl {
     box-shadow: none !important;
+  }
+
+  .print-site-hero {
+    height: 1.25in !important; /* frees ~5 lines */
+    overflow: hidden !important;
+  }
+
+  .print-site-hero img {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
   }
 }
 

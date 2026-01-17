@@ -69,7 +69,9 @@ export default function LayoutRecipe({
       <div className="no-print">
         <HeaderNavBarServer />
       </div>
-      <Header />
+      <div className="print-site-hero">
+        <Header />
+      </div>
       <div className="w-full bg-[#fefcf9] px-6 py-12 flex flex-col items-center">
         <article className="w-full max-w-3xl">
           {/* Title + date */}
@@ -115,7 +117,7 @@ export default function LayoutRecipe({
 
                 {/* Image column (1/3) */}
                 {hero ? (
-                  <div className="md:col-span-1">
+                  <div className="md:col-span-1 recipe-hero-wrap">
                     <Image
                       src={hero}
                       alt={title}
@@ -123,7 +125,7 @@ export default function LayoutRecipe({
                       height={450}
                       priority
                       sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-                      className="w-full h-auto rounded-xl shadow object-cover"
+                      className="recipe-hero w-full h-auto rounded-xl shadow object-cover"
                     />
                   </div>
                 ) : null}
@@ -180,7 +182,7 @@ export default function LayoutRecipe({
           {hasMethodSection ? (
             <SectionCard className="mt-16 mb-16">
               <h2 className="text-3xl font-semibold mb-6">
-                {method} Instructions
+                One Way I Use This
               </h2>
 
               {(bakingPrepTime || bakingTime) && (
@@ -188,7 +190,7 @@ export default function LayoutRecipe({
                   {bakingPrepTime && (
                     <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
                       <div className="text-sm uppercase tracking-wide text-gray-500">
-                        {method} Prep Time
+                        Prep Time
                       </div>
                       <div className="text-lg">{bakingPrepTime}</div>
                     </div>
@@ -196,7 +198,7 @@ export default function LayoutRecipe({
                   {bakingTime && (
                     <div className="rounded-xl bg-white/70 px-4 py-3 shadow">
                       <div className="text-sm uppercase tracking-wide text-gray-500">
-                        {method} Time
+                        Cooking Time
                       </div>
                       <div className="text-lg">{bakingTime}</div>
                     </div>
@@ -206,9 +208,7 @@ export default function LayoutRecipe({
 
               {bakingIngredients?.length ? (
                 <section className="mb-10">
-                  <h3 className="text-xl font-semibold mb-4">
-                    {method} Ingredients
-                  </h3>
+                  <h3 className="text-xl font-semibold mb-4">Ingredients</h3>
                   <ul className="list-disc pl-6 space-y-2">
                     {bakingIngredients.map((item, idx) => (
                       <li key={idx}>{item}</li>
@@ -219,7 +219,7 @@ export default function LayoutRecipe({
 
               {bakingSteps?.length ? (
                 <section className="mb-2">
-                  <h3 className="text-xl font-semibold mb-4">{method} Steps</h3>
+                  <h3 className="text-xl font-semibold mb-4">Steps</h3>
                   <ol className="list-decimal pl-6 space-y-3">
                     {bakingSteps.map((step, idx) => (
                       <li key={idx}>{step}</li>

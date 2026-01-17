@@ -55,8 +55,18 @@ for (const slug of slugs) {
   const urlToRender = `${base}/recipes/${slug}`;
   console.log(`→ Rendering ${urlToRender}`);
 
-  await page.goto(urlToRender, { waitUntil: "networkidle" });
-  await page.emulateMedia({ media: "print" }); // use your print CSS
+  // Emulate print BEFORE waiting for final layout so print CSS affects layout
+  await page.goto(urlToRender, { waitUntil: "domcontentloaded" });
+  await page.emulateMedia({ media: "print" });
+
+  // Wait for your critical content to exist in the DOM
+  await page.waitForSelector('h2:has-text("Instructions")', { timeout: 30000 });
+  await page.waitForSelector('h2:has-text("One Way I Use This")', {
+    timeout: 30000,
+  });
+
+  // Optional but often important for layout stability
+  await page.waitForTimeout(250);
 
   const pdfPath = path.join(outDir, `${slug}.pdf`);
   await page.pdf({
