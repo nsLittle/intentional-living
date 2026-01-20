@@ -8,7 +8,7 @@ type Props = {
 
 export default function LinkReturnPost({
   href,
-  label = "← Return to Post",
+  label = "← Return to Note",
   className = "",
 }: Props) {
   return (

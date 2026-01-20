@@ -61,9 +61,7 @@ for (const slug of slugs) {
 
   // Wait for your critical content to exist in the DOM
   await page.waitForSelector('h2:has-text("Instructions")', { timeout: 30000 });
-  await page.waitForSelector('h2:has-text("One Way I Use This")', {
-    timeout: 30000,
-  });
+  await page.waitForSelector("h1", { state: "visible" });
 
   // Optional but often important for layout stability
   await page.waitForTimeout(250);

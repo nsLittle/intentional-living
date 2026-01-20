@@ -60,18 +60,25 @@ export default function LayoutFieldNotes({
             </div>
           )}
 
+{process.env.NODE_ENV === "development" && text ? (
+  <pre className="mt-4 p-3 text-xs bg-gray-100 rounded whitespace-pre-wrap">
+    {JSON.stringify(text)}
+  </pre>
+) : null}
+
+
           {/* Intro */}
-          {(text || hero) && (
-            <div className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-              <div className="md:col-span-2 space-y-6">
-                {text && (
-                  <div
-                    className="text-lg leading-relaxed whitespace-pre-line 
-             [&_a]:text-green-700 [&_a]:font-medium [&_a]:underline 
-             [&_a:hover]:text-green-900"
-                    dangerouslySetInnerHTML={{ __html: text }}
-                  />
-                )}
+          {text && (
+  <div
+    className="text-lg leading-relaxed whitespace-pre-line 
+      [&_a]:text-green-700 [&_a]:font-medium [&_a]:underline 
+      [&_a:hover]:text-green-900"
+  >
+    {text}
+  </div>
+)}
+
+
               </div>
 
               {hero ? (
