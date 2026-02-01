@@ -1,12 +1,16 @@
 import HeroIntro from "./HeroIntro";
 import HeroFeatured from "./HeroFeatured";
 import HeroFeaturedPost from "./HeroFeaturedPost";
+import HeroNowPopup from "./HeroNowPopUp";
 
 export default function HeroContent() {
   return (
     <div className="flex-grow flex flex-col pr-0 lg:pr-10">
       {/* Main */}
       <HeroIntro />
+      <div className="border-t border-gray-300">
+        <HeroNowPopup />
+      </div>
       <div className="border-t border-gray-300">
         {/* Featured */}
         <HeroFeatured />
