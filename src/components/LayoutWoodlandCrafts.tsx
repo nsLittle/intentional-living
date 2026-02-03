@@ -155,6 +155,8 @@ export default function LayoutWoodlandsCraft({
           {/* MDX body content */}
           {/* <section className="prose">{children}</section> */}
 
+          <section className="prose mt-10">{children}</section>
+
           <div className="mt-10">
             <LinkReturnHome />
           </div>

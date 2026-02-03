@@ -60,27 +60,28 @@ export default function LayoutFieldNotes({
             </div>
           )}
 
-{process.env.NODE_ENV === "development" && text ? (
-  <pre className="mt-4 p-3 text-xs bg-gray-100 rounded whitespace-pre-wrap">
-    {JSON.stringify(text)}
-  </pre>
-) : null}
+          {process.env.NODE_ENV === "development" && text ? (
+            <pre className="mt-4 p-3 text-xs bg-gray-100 rounded whitespace-pre-wrap">
+              {JSON.stringify(text)}
+            </pre>
+          ) : null}
 
-
-          {/* Intro */}
-          {text && (
-  <div
-    className="text-lg leading-relaxed whitespace-pre-line 
-      [&_a]:text-green-700 [&_a]:font-medium [&_a]:underline 
-      [&_a:hover]:text-green-900"
-  >
-    {text}
-  </div>
-)}
-
-
+          {/* Intro + optional hero image */}
+          {text || hero ? (
+            <div className="mt-8 mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+              {/* Text (2/3) */}
+              <div className="md:col-span-2 space-y-6">
+                {text ? (
+                  <div
+                    className="text-lg leading-relaxed whitespace-pre-line
+            [&_a]:text-green-700 [&_a]:font-medium [&_a]:underline
+            [&_a:hover]:text-green-900">
+                    {text}
+                  </div>
+                ) : null}
               </div>
 
+              {/* Image (1/3) */}
               {hero ? (
                 <div className="md:col-span-1">
                   <Image
@@ -95,7 +96,7 @@ export default function LayoutFieldNotes({
                 </div>
               ) : null}
             </div>
-          )}
+          ) : null}
 
           {/* Download PDF button */}
           <div className="mt-8">

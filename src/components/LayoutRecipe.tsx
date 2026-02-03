@@ -56,8 +56,6 @@ export default function LayoutRecipe({
   children,
   methodLabel,
 }: RecipeLayoutProps) {
-  const method = methodLabel ?? "Baking";
-
   const hasMethodSection =
     Boolean(bakingPrepTime) ||
     Boolean(bakingTime) ||

@@ -17,6 +17,7 @@ export default function HeroNowPopup({
   variant = "landscape",
 }: NowPopupProps) {
   const [open, setOpen] = useState(true);
+  const [isPortrait, setIsPortrait] = useState<boolean | null>(null);
 
   // Use sessionStorage so it shows once per tab/session.
   // Later we can switch to localStorage (once per day/week) if you want.
@@ -48,6 +49,22 @@ export default function HeroNowPopup({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, autoCloseMs]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const img = new window.Image();
+    img.src = "/images/notes/orchid-window.jpeg";
+
+    img.onload = () => {
+      setIsPortrait(img.naturalHeight >= img.naturalWidth);
+    };
+
+    img.onerror = () => {
+      // safe fallback: keep your current default layout behavior
+      setIsPortrait(false);
+    };
+  }, [open]);
 
   const close = () => {
     setOpen(false);
@@ -142,7 +159,13 @@ export default function HeroNowPopup({
             </p>
 
             {/* Two column layout */}
-            <div className="grid grid-cols-2 gap-16 items-center">
+            {/* Layout: auto portrait vs landscape */}
+            <div
+              className={
+                isPortrait
+                  ? "grid grid-cols-1 gap-10 items-center"
+                  : "grid grid-cols-2 gap-16 items-center"
+              }>
               {/* Left: text */}
               <div className="text-xl leading-9 text-neutral-700 text-center max-w-lg mx-auto space-y-6">
                 <p>
