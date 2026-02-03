@@ -68,8 +68,8 @@ export default function LayoutWoodlandsCraft({
 
           {/* Intro text + image (2/3 text, 1/3 image) */}
           {(text || hero) && (
-            <div className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-              <div className="md:col-span-2 space-y-6">
+            <div className="mb-14 grid grid-cols-1 md:grid-cols-[1fr_420px] gap-20 items-start">
+              <div className="flex justify-end">
                 {text && (
                   <div
                     className="text-lg leading-relaxed whitespace-pre-line
@@ -99,7 +99,9 @@ export default function LayoutWoodlandsCraft({
           {/* Woodland Craft details */}
           {(materials && materials.length) || instructions ? (
             <SectionCard>
-              <h2 className="text-2xl font-semibold mb-4">Woodland Craft</h2>
+              <h2 className="text-2xl font-semibold mb-4">
+                Craft Instructions
+              </h2>
 
               {materials && materials.length > 0 && (
                 <div className="mb-6">

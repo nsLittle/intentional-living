@@ -95,7 +95,7 @@ export default function HeroNowPopup({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="A small moment from Simple Intentions"
+        aria-label="Small Moments from Simple Intentions"
         className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="relative w-full max-w-3xl rounded-3xl bg-white shadow-[0_40px_120px_rgba(0,0,0,0.35)] p-10">
           {/* Shimmer overlay */}
@@ -134,25 +134,31 @@ export default function HeroNowPopup({
 
             {/* Title banner */}
             <h2 className="text-4xl font-bold leading-snug text-black mb-2 text-center">
-              Living life in small gestures.
+              Living Life in Small Gestures.
             </h2>
 
             <p className="text-base uppercase tracking-widest text-neutral-500 mb-10 text-center">
-              A small moment • {dateLabel}
+              Small Moments • {dateLabel}
             </p>
 
             {/* Two column layout */}
             <div className="grid grid-cols-2 gap-16 items-center">
               {/* Left: text */}
-              <p className="text-xl leading-9 text-neutral-700 text-center max-w-lg mx-auto">
-                A small tropical touch in a winter-scape. On mornings when the
-                air bites at the windows and the world outside feels hushed and
-                frozen, it can be hard to remember warmth. A gift of orchids
-                from a friend rests quietly beside the snow beyond the glass, a
-                gentle reminder that growth and care still exist even in the
-                coldest seasons. In this small contrast — bloom against frost —
-                I am reminded to notice the quiet gestures that soften a day.
-              </p>
+              <div className="text-xl leading-9 text-neutral-700 text-center max-w-lg mx-auto space-y-6">
+                <p>
+                  {" "}
+                  A small tropical touch in a winter-scape. On mornings when the
+                  air bites at the windows and the world outside feels hushed
+                  and frozen, it can be hard to remember warmth.
+                </p>
+                <p>
+                  A gift of orchids from a friend rests quietly beside the snow
+                  beyond the glass, a gentle reminder that growth and care still
+                  exist even in the coldest seasons. In this small contrast —
+                  bloom against frost — I am reminded to notice the quiet
+                  gestures that soften a day.
+                </p>
+              </div>
 
               {/* Right: image */}
               <div className="flex justify-end">
@@ -181,7 +187,7 @@ export default function HeroNowPopup({
                   type="button"
                   onClick={close}
                   className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-neutral-800 hover:bg-neutral-50">
-                  Keep wandering →
+                  Start wandering →
                 </button>
               </div>
             </div>
