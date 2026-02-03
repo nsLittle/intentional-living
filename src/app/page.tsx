@@ -24,9 +24,9 @@ export default function Home() {
       </div>
 
       <div
-        className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-8
-                grid gap-8
-               sm:grid-cols-[2fr_1fr] sm:items-start">
+        className="mx-auto max-w-screen-xl px-6 sm:px-10 lg:px-16 xl:px-24 py-8
+              grid gap-8
+              sm:grid-cols-[2fr_1fr] sm:items-start">
         {/* Sidebar (right on desktop) */}
         <div className="order-2 sm:order-none sm:col-start-2 sm:row-start-1 min-w-0">
           <Sidebar />

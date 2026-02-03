@@ -155,7 +155,7 @@ export default function HeroNowPopup({
                 Living Life in Small Gestures.
               </h2>
 
-              <p className="text-base uppercase tracking-widest text-neutral-500 mb-10 text-center">
+              <p className="text-sm uppercase tracking-widest text-neutral-500 mb-10 text-center">
                 Small Moments • {dateLabel}
               </p>
 
@@ -185,14 +185,17 @@ export default function HeroNowPopup({
                 </div>
 
                 {/* Right: image */}
-                <div className="flex justify-end">
+                {/* Image */}
+                <div className="flex justify-center">
                   <Image
                     src="/images/notes/orchid-window.jpeg"
                     alt="Purple orchid beside a snowy Vermont window"
-                    width={380}
-                    height={520}
+                    width={280}
+                    height={390}
                     priority
-                    className="rounded-xl shadow-md object-cover"
+                    className="rounded-xl shadow-md object-cover
+             w-[210px] h-[295px]      /* ~3/4 on mobile */
+             sm:w-[280px] sm:h-[390px]" /* desktop size */
                   />
                 </div>
               </div>
@@ -203,14 +206,14 @@ export default function HeroNowPopup({
                 <div className="flex items-center gap-3">
                   <a
                     href="/leave-a-note-contact"
-                    className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-neutral-800 hover:bg-neutral-50">
+                    className="rounded-full border border-neutral-600 bg-neutral-50 px-4 py-2 text-neutral-800 hover:bg-neutral-100">
                     Share your own note →
                   </a>
 
                   <button
                     type="button"
                     onClick={close}
-                    className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-neutral-800 hover:bg-neutral-50">
+                    className="rounded-full border border-neutral-600 bg-neutral-50 px-4 py-2 text-neutral-800 hover:bg-neutral-100">
                     Start wandering →
                   </button>
                 </div>

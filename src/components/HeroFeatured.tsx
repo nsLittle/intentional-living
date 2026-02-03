@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function HeroFeatured() {
   return (
     <div className="mt-8">
-      <h2 className="text-4xl font-bold mb-6">Featured Recipes & Guides</h2>
+      <h2 className="text-4xl font-bold mb-6">Recipes, Crafts & Field Notes</h2>
       <p className="mt-4 text-xl mb-8 max-w  leading-relaxed">
         Meander through our woodsy pages for inspiration and simple intentions.
         From seasonal foraging finds, recipes and wild crafting from Vermont.
