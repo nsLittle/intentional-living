@@ -113,32 +113,33 @@ export default function HeroNowPopup({
         role="dialog"
         aria-modal="true"
         aria-label="Small Moments from Simple Intentions"
-        className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="relative w-full max-w-3xl rounded-3xl bg-white shadow-[0_40px_120px_rgba(0,0,0,0.35)] p-10">
-          {/* Shimmer overlay */}
-          <div className="pointer-events-none absolute inset-0">
-            <div
-              className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-black/10 to-transparent"
-              style={{ animation: "siShimmer 2.6s ease-in-out infinite" }}
-            />
-          </div>
+        className="fixed inset-0 z-50 overflow-y-auto p-4">
+        <div className="min-h-full flex items-center justify-center">
+          <div className="relative w-full max-w-3xl rounded-3xl bg-white shadow-[0_40px_120px_rgba(0,0,0,0.35)] p-6 sm:p-10 my-6">
+            {/* Shimmer overlay */}
+            <div className="pointer-events-none absolute inset-0">
+              <div
+                className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-black/10 to-transparent"
+                style={{ animation: "siShimmer 2.6s ease-in-out infinite" }}
+              />
+            </div>
 
-          <div className="relative">
-            <div className="flex items-start justify-between gap-4">
-              {/* <div className="text-xs tracking-wide uppercase text-neutral-500">
+            <div className="relative">
+              <div className="flex items-start justify-between gap-4">
+                {/* <div className="text-xs tracking-wide uppercase text-neutral-500">
                 A small moment • {dateLabel}
               </div> */}
 
-              <button
-                type="button"
-                onClick={close}
-                className="absolute top-6 right-6 rounded-full px-2 py-1 text-neutral-500 hover:text-neutral-900"
-                aria-label="Close">
-                ✕
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={close}
+                  className="absolute top-6 right-6 rounded-full px-2 py-1 text-neutral-500 hover:text-neutral-900"
+                  aria-label="Close">
+                  ✕
+                </button>
+              </div>
 
-            {/* <div className="w-full flex justify-center mt-4">
+              {/* <div className="w-full flex justify-center mt-4">
               <Image
                 src="/images/notes/orchid-window.jpeg"
                 alt="Purple orchid beside a snowy Vermont window"
@@ -149,69 +150,70 @@ export default function HeroNowPopup({
               />
             </div> */}
 
-            {/* Title banner */}
-            <h2 className="text-4xl font-bold leading-snug text-black mb-2 text-center">
-              Living Life in Small Gestures.
-            </h2>
+              {/* Title banner */}
+              <h2 className="text-4xl font-bold leading-snug text-black mb-2 text-center">
+                Living Life in Small Gestures.
+              </h2>
 
-            <p className="text-base uppercase tracking-widest text-neutral-500 mb-10 text-center">
-              Small Moments • {dateLabel}
-            </p>
+              <p className="text-base uppercase tracking-widest text-neutral-500 mb-10 text-center">
+                Small Moments • {dateLabel}
+              </p>
 
-            {/* Two column layout */}
-            {/* Layout: auto portrait vs landscape */}
-            <div
-              className={
-                isPortrait
-                  ? "grid grid-cols-1 gap-10 items-center"
-                  : "grid grid-cols-2 gap-16 items-center"
-              }>
-              {/* Left: text */}
-              <div className="text-xl leading-9 text-neutral-700 text-center max-w-lg mx-auto space-y-6">
-                <p>
-                  {" "}
-                  A small tropical touch in a winter-scape. On mornings when the
-                  air bites at the windows and the world outside feels hushed
-                  and frozen, it can be hard to remember warmth.
-                </p>
-                <p>
-                  A gift of orchids from a friend rests quietly beside the snow
-                  beyond the glass, a gentle reminder that growth and care still
-                  exist even in the coldest seasons. In this small contrast —
-                  bloom against frost — I am reminded to notice the quiet
-                  gestures that soften a day.
-                </p>
+              {/* Two column layout */}
+              {/* Layout: auto portrait vs landscape */}
+              <div
+                className={
+                  isPortrait
+                    ? "grid grid-cols-1 gap-10 items-center"
+                    : "grid grid-cols-2 gap-16 items-center"
+                }>
+                {/* Left: text */}
+                <div className="text-xl leading-9 text-neutral-700 text-center max-w-lg mx-auto space-y-6">
+                  <p>
+                    {" "}
+                    A small tropical touch in a winter-scape. On mornings when
+                    the air bites at the windows and the world outside feels
+                    hushed and frozen, it can be hard to remember warmth.
+                  </p>
+                  <p>
+                    A gift of orchids from a friend rests quietly beside the
+                    snow beyond the glass, a gentle reminder that growth and
+                    care still exist even in the coldest seasons. In this small
+                    contrast — bloom against frost — I am reminded to notice the
+                    quiet gestures that soften a day.
+                  </p>
+                </div>
+
+                {/* Right: image */}
+                <div className="flex justify-end">
+                  <Image
+                    src="/images/notes/orchid-window.jpeg"
+                    alt="Purple orchid beside a snowy Vermont window"
+                    width={380}
+                    height={520}
+                    priority
+                    className="rounded-xl shadow-md object-cover"
+                  />
+                </div>
               </div>
 
-              {/* Right: image */}
-              <div className="flex justify-end">
-                <Image
-                  src="/images/notes/orchid-window.jpeg"
-                  alt="Purple orchid beside a snowy Vermont window"
-                  width={380}
-                  height={520}
-                  priority
-                  className="rounded-xl shadow-md object-cover"
-                />
-              </div>
-            </div>
+              <div className="mt-10 flex items-center justify-between text-sm text-neutral-500">
+                <span>Closes in ~15 seconds</span>
 
-            <div className="mt-10 flex items-center justify-between text-sm text-neutral-500">
-              <span>Closes in ~15 seconds</span>
+                <div className="flex items-center gap-3">
+                  <a
+                    href="/leave-a-note-contact"
+                    className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-neutral-800 hover:bg-neutral-50">
+                    Share your own note →
+                  </a>
 
-              <div className="flex items-center gap-3">
-                <a
-                  href="/leave-a-note-contact"
-                  className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-neutral-800 hover:bg-neutral-50">
-                  Share your own note →
-                </a>
-
-                <button
-                  type="button"
-                  onClick={close}
-                  className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-neutral-800 hover:bg-neutral-50">
-                  Start wandering →
-                </button>
+                  <button
+                    type="button"
+                    onClick={close}
+                    className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-neutral-800 hover:bg-neutral-50">
+                    Start wandering →
+                  </button>
+                </div>
               </div>
             </div>
           </div>
