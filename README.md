@@ -1,6 +1,17 @@
 # 🌿 Intentional Living
 
-_Seasonal foraging, wild food recipes, and reflections on simple living from the Vermont woods._
+Simple Intentions is built around a simple idea:
+
+Life rarely falls apart all at once. More often, we drift.
+
+The purpose of this site is to help people notice that drift and gently return to what matters through reflection, practical tools, seasonal projects, recipes, and small daily practices.
+
+Current utility tools include:
+
+Intentional Alignment
+Newsletter
+Future: Intention Explorer
+Future: Intention Cultivator
 
 This is a handcrafted site built with [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), and hosted on [Netlify](https://simple-intentions.netlify.app/).
 
@@ -44,14 +55,32 @@ Then visit: http://localhost:3000
 
 ## ✨ Features
 
-🌲 Beautiful landing page with banner, buttons, and personal intro
-🌼 Sidebar with intro story, and newletter subscription
-📫 Footer with newsletter subscription and navigation quick links
-🎨 Tailwind CSS styling with custom fonts and earthy palette
-📄 MDX-based blog posts, recipes, craft projects stored in src/content
-🔁 Dynamic routing for individual post, recipe, craft project pages (src/posts/[slug]/page.tsx)
-🧠 gray-matter used to parse frontmatter from .mdx files
+- 🌲 Intentional-living homepage with philosophy, tools, and content
+- 🌼 Sidebar featuring utility tools and newsletter signup
+- 📫 Footer with navigation and newsletter subscription
+- 🎨 Tailwind CSS styling with custom fonts and earthy palette
+- 📄 MDX-based notes, recipes, and craft projects stored in `src/content`
+- 🔁 Dynamic routing for individual content pages
+- 🧠 Frontmatter parsing with `gray-matter`
 
 ## 🌲 Incoming Features
 
-- Search, Comments, and Post/Recipe/Project Ratings
+The site is evolving from a traditional blog into a practical intentional-living platform.
+
+### Current Utility Tools
+
+- Intentional Alignment
+- Newsletter
+
+### Planned Utility Tools
+
+- Intention Explorer
+- Intention Cultivator
+
+### Philosophy
+
+Content supports the philosophy.
+
+Tools support action.
+
+Both work together to help visitors notice, return, and cultivate what matters.
