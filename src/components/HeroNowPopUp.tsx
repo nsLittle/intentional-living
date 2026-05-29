@@ -13,21 +13,72 @@ type NowPopupProps = {
 
 export default function HeroNowPopup({
   storageKey = "si_now_popup_seen_v1",
-  autoCloseMs = 15_000,
+  autoCloseMs = 10_000,
   variant = "landscape",
 }: NowPopupProps) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [isPortrait, setIsPortrait] = useState<boolean | null>(null);
 
   // Use sessionStorage so it shows once per tab/session.
   // Later we can switch to localStorage (once per day/week) if you want.
   useEffect(() => {
+    let isEligible = false;
+    let opened = false;
+
+    // Pick a threshold between 50% and 75% (earned + a little “easter egg” feel)
+    const threshold = 0.5 + Math.random() * 0.25;
+
+    const getScrollProgress = () => {
+      const doc = document.documentElement;
+      const scrollTop = window.scrollY || doc.scrollTop || 0;
+      const scrollHeight = doc.scrollHeight || 0;
+      const clientHeight = doc.clientHeight || window.innerHeight || 0;
+
+      const totalScrollable = Math.max(1, scrollHeight - clientHeight);
+      return scrollTop / totalScrollable; // 0..1
+    };
+
+    const tryOpen = () => {
+      if (!isEligible || opened) return;
+
+      const progress = getScrollProgress();
+      if (progress >= threshold) {
+        opened = true;
+        setOpen(true);
+        window.removeEventListener("scroll", onScroll, {
+          passive: true,
+        } as any);
+      }
+    };
+
+    const onScroll = () => {
+      // rAF keeps scroll handler cheap
+      window.requestAnimationFrame(tryOpen);
+    };
+
     try {
       const seen = sessionStorage.getItem(storageKey);
-      if (!seen) setOpen(true);
+      const hasVisitedBefore =
+        sessionStorage.getItem("si_has_visited_v1") === "1";
+
+      // Mark visit ASAP
+      sessionStorage.setItem("si_has_visited_v1", "1");
+
+      // Eligibility: return visitor + not seen
+      isEligible = hasVisitedBefore && !seen;
+
+      if (isEligible) {
+        window.addEventListener("scroll", onScroll, { passive: true });
+        // in case they land mid-page or scroll is already past threshold
+        tryOpen();
+      }
     } catch {
-      setOpen(true);
+      // If storage fails, keep it closed (no surprise popup)
     }
+
+    return () => {
+      window.removeEventListener("scroll", onScroll, { passive: true } as any);
+    };
   }, [storageKey]);
 
   useEffect(() => {
@@ -93,14 +144,6 @@ export default function HeroNowPopup({
         }
       `}</style>
 
-      {/* <button
-        type="button"
-        onClick={close}
-        className="absolute top-4 right-4 text-neutral-500 hover:text-neutral-900"
-        aria-label="Close">
-        ✕
-      </button> */}
-
       {/* Backdrop */}
       <div
         className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm"
@@ -138,17 +181,6 @@ export default function HeroNowPopup({
                   ✕
                 </button>
               </div>
-
-              {/* <div className="w-full flex justify-center mt-4">
-              <Image
-                src="/images/notes/orchid-window.jpeg"
-                alt="Purple orchid beside a snowy Vermont window"
-                width={250}
-                height={500}
-                priority
-                className="rounded-xl shadow-md object-cover"
-              />
-            </div> */}
 
               {/* Title banner */}
               <h2 className="text-4xl font-bold leading-snug text-black mb-2 text-center">
