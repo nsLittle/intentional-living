@@ -1,37 +1,45 @@
+// src/components/HeroIntro.tsx
+import Link from "next/link";
+
 export default function HeroIntro() {
   return (
-    <section aria-label="Intro" className="max-w-2xl mt-12 mb-16">
-      <h1 className="text-4xl font-bold text-black leading-tight">
-        Simple Intentions, Vermont Made
-      </h1>
+    <section aria-label="Intro" className="my-2 mt-8">
+      <h2 className="text-5xl font-bold leading-tight mb-8">
+        Intentional Living Begins With Attention
+      </h2>
 
-      <div className="mb-6">
-        <p className="mt-6 text-xl leading-loose">
-          Life doesn’t steady itself. It steadies through small, repeated
-          gestures.
+      <div className="text-lg text-gray-700 mb-8 [&_a]:underline [&_a]:text-green-700">
+        <p className="text-2xl italic text-gray-600 leading-relaxed mb-6">
+          Life rarely falls apart all at once. More often, we drift.
         </p>
 
-        <p className="mt-6 text-xl leading-loose">
-          This is a quiet space for women rebuilding from chaos — with
-          pantry-first rhythms, weekly structure, and gentle rituals that make
-          daily life feel calm again.
+        <p className="mb-4">
+          A neglected routine. A crowded schedule. A value forgotten. A season
+          of life that quietly asks something different from us.
         </p>
 
-        <p className="mt-10 text-xl leading-loose">
-          Bed made. Food steady. Body moving. Tomorrow written down.
+        <p className="mb-4">
+          Simple Intentions exists to help you notice that drift and gently
+          return to what matters.
         </p>
 
-        <p className="mt-6 text-xl leading-loose">Walk with me. This works.</p>
+        <p className="mb-4">
+          Here you&apos;ll find reflections, practical tools, seasonal projects,
+          recipes, and small daily practices designed to bring greater clarity,
+          steadiness, and intention to ordinary life.
+        </p>
+
+        <p>
+          Not through perfection. Through attention. Through returning. Through
+          small actions repeated often enough to shape a life.
+        </p>
       </div>
 
-      {/* Primary CTA (can be wired to your existing Link component) */}
-      <div className="mt-10">
-        <a
-          href="/slow-life-from-chaos"
-          className="inline-block text-lg font-semibold underline underline-offset-4">
-          Read the framework →
-        </a>
-      </div>
+      <Link
+        href="/alignment"
+        className="text-green-700 font-semibold hover:underline">
+        Try the Alignment Tool →
+      </Link>
     </section>
   );
 }
