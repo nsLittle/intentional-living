@@ -11,14 +11,14 @@ export default function Sidebar() {
         <SidebarIntro />
       </div>
 
+      {/*Alignment Link*/}
+      <div className="mt-8 mb-8">
+        <SidebarAlignmentLink />
+      </div>
+
       {/* Newsletter Signup */}
       <div className="mt-8 mb-24">
         <SidebarNewsletterSignup />
-      </div>
-
-      {/*Alignment Link*/}
-      <div className="mt-8 mb-24">
-        <SidebarAlignmentLink />
       </div>
     </aside>
   );

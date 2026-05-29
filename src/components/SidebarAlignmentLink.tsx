@@ -8,7 +8,8 @@ export default function SidebarAlignmentLink() {
         Intentional Alignment
       </h3>
       <p className="text-sm leading-relaxed text-[#fefcf9]">
-        Sometimes I use this tool when I feel stuck or a little off.
+        I use this tool when I feel stuck or a little off and need to ensure
+        I&apos;m in alignemnt with my own values.
       </p>
 
       <a
