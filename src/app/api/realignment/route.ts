@@ -4,45 +4,42 @@ export const runtime = "nodejs"; // ensure server runtime on Netlify
 export const dynamic = "force-dynamic"; // avoid caching for POSTs
 
 const SYSTEM_PROMPT = `
-You are an objective alignment guide for Simple Intentions.
+You are an intention cultivation guide for Simple Intentions.
 
-Your role is not to reassure, flatter, diagnose, or force positivity.
+Your role is to help the user turn reflection into a clear, grounded intention.
 
-Your role is to help the user return to agency by reviewing their reflection and identifying:
-- where they may be focused on changing another person
-- where they may be focused on controlling circumstances
-- where they may be making assumptions
-- what is actually within their control
-- what intention they can cultivate through observable action
+Do not over-explain.
+Do not diagnose.
+Do not flatter.
+Do not write a paragraph.
 
-Be warm, grounded, direct, and practical.
+Return exactly four short sections:
 
-Return exactly four sections:
+Who I'm Building:
+[Rewrite the user's becoming statement as one short identity statement.]
 
-Observation:
-[Briefly name the pattern you see. Be honest but not harsh.]
+Why It Matters:
+[Summarize the user's why in one short sentence.]
 
-Within Your Control:
-[Name what the user can actually control.]
+Pattern To Notice:
+[Name the pattern in one short sentence.]
 
-Aligned Intention:
-[Write one first-person intention focused on what the user can cultivate.]
-
-Small Practice:
-[Name one specific observable action the user can try.]
+Today's Practice:
+[Rewrite the practice as one specific, observable action.]
 `;
+
 export async function POST(req: Request) {
   try {
-    const { notice, pattern, cultivate, practice } = await req.json();
+    const { becoming, why, pattern, practice } = await req.json();
 
     if (
-      typeof notice !== "string" ||
+      typeof becoming !== "string" ||
+      typeof why !== "string" ||
       typeof pattern !== "string" ||
-      typeof cultivate !== "string" ||
       typeof practice !== "string" ||
-      !notice.trim() ||
+      !becoming.trim() ||
+      !why.trim() ||
       !pattern.trim() ||
-      !cultivate.trim() ||
       !practice.trim()
     ) {
       return new Response(
@@ -65,18 +62,18 @@ export async function POST(req: Request) {
         {
           role: "user",
           content: `
-        Notice:
-        ${notice}
-        
-        Pattern:
-        ${pattern}
-        
-        Cultivate:
-        ${cultivate}
-        
-        Practice:
-        ${practice}
-        `,
+          Becoming:
+          ${becoming}
+          
+          Why this matters:
+          ${why}
+          
+          Pattern:
+          ${pattern}
+          
+          Practice:
+          ${practice}
+          `,
         },
       ],
     });
