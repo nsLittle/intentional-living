@@ -21,7 +21,7 @@ export default function AlignmentPhilosophy() {
 
             <p className="mt-4 font-serif text-[#5c5045] text-lg text-center max-w-2xl mx-auto">
               Simple Intentions helps you turn that becoming into one small
-              practice you can return to today.
+              practice you return to everyday.
             </p>
 
             <p className="mt-4 font-serif text-[#5c5045] text-lg text-center max-w-2xl mx-auto">

@@ -10,12 +10,14 @@ export default function HeroContent() {
         <HeroNowPopup />
       </div>
 
-      {/* Featured Post */}
-      <HeroFeaturedPost />
-
       <div>
         {/* Featured */}
         <HeroFeatured />
+      </div>
+
+      <div className="mt-12">
+        {/* Featured Post */}
+        <HeroFeaturedPost />
       </div>
 
       {/* <div className="mb-16 border-t border-gray-300"> */}

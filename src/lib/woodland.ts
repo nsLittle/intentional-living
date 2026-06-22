@@ -9,6 +9,7 @@ type Raw = {
   title?: string;
   date?: string;
   hero?: string;
+  text?: string;
   highlight?: boolean;
   published?: boolean;
 };
@@ -74,6 +75,7 @@ export function getLatestWoodland(): {
   title: string;
   date: Date;
   hero: string | null;
+  text: string;
 } | null {
   // Directly read files so we can compute a robust sort timestamp
   const groups = [
@@ -89,6 +91,7 @@ export function getLatestWoodland(): {
     dateObj: Date;
     title: string;
     hero: string | null;
+    text: string;
   }> = [];
 
   for (const g of groups) {
@@ -117,6 +120,11 @@ export function getLatestWoodland(): {
           ? meta.hero.trim()
           : null;
 
+      const text =
+        typeof meta.text === "string" && meta.text.trim()
+          ? meta.text.trim()
+          : "";
+
       // Respect drafts if present (and SHOW_DRAFTS flags off)
       if (!isPublished(meta)) continue;
 
@@ -127,6 +135,7 @@ export function getLatestWoodland(): {
         dateObj,
         title,
         hero,
+        text,
       });
     }
   }
@@ -141,5 +150,40 @@ export function getLatestWoodland(): {
     title: latest.title,
     date: latest.dateObj,
     hero: latest.hero,
+    text: latest.text,
   };
+}
+
+export function getAllWoodlands() {
+  const groups = [
+    { dirRel: "field-notes", hrefBase: "/woodland/field-notes" },
+    { dirRel: "woodland-crafts", hrefBase: "/woodland/woodland-crafts" },
+    { dirRel: "foraged-recipes", hrefBase: "/woodland/foraged-recipes" },
+  ];
+
+  return groups.flatMap((g) => {
+    const dir = path.join(process.cwd(), "src", "content", g.dirRel);
+    if (!fs.existsSync(dir)) return [];
+
+    return fs
+      .readdirSync(dir)
+      .filter((f) => /\.(mdx?|MDX?)$/.test(f))
+      .map((f) => {
+        const slug = f.replace(/\.(mdx?|MDX?)$/, "");
+        const filePath = path.join(dir, f);
+        const raw = fs.readFileSync(filePath, "utf8");
+        const { data } = matter(raw);
+        const meta = (data ?? {}) as Raw;
+
+        return {
+          slug,
+          href: `${g.hrefBase}/${slug}`,
+          title: meta.title ?? slug,
+          date: meta.date ?? fs.statSync(filePath).mtime.toISOString(),
+          hero: meta.hero,
+          text: meta.text,
+          published: meta.published,
+        };
+      });
+  });
 }

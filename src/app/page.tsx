@@ -15,7 +15,7 @@ export default function Home() {
 
       <div className="mx-auto max-w-screen-6xl px-6 sm:px-10 lg:px-16 xl:px-24">
         {/* Full-width hero above the fold */}
-        <section className="-mx-6 sm:-mx-10 lg:-mx-16 xl:-mx-24 bg-[#f6f1ea] pt-0 pb-10">
+        <section className="-mx-6 sm:-mx-10 lg:-mx-16 xl:-mx-24 bg-white pt-0 pb-10">
           {" "}
           <div className="mx-auto max-w-3xl px-6">
             <HeroIntro />
@@ -25,31 +25,27 @@ export default function Home() {
         <div />
 
         {/* Section Intro */}
-        <div className="text-center mt-12">
+        {/* Section Intro */}
+        <div className="-mx-6 sm:-mx-10 lg:-mx-16 xl:-mx-24 bg-[#f6f1ea] text-center mt-0 py-12 px-6">
           <h2 className="text-4xl md:text-5xl font-bold mb-3">
             Intentional Living in Action
           </h2>
 
-          <p className="text-lg text-gray-600 italic">
-            Small examples from the kitchen, garden, woods, and home.
+          <p className="text-md italic mt-6">
+            A Vermont-based lifestyle journal exploring intentional living
+            through simple recipes, crafty projects, and seasonal reflection.
           </p>
-
-          <p className="text-md text-gray-600 mt-6">
-            Simple Intentions is a Vermont-based lifestyle journal exploring
-            intentional living through food, crafts, nature, and seasonal
-            reflection.
-          </p>
-        </div>
-
-        {/* Content */}
-        <div className="grid gap-8 sm:grid-cols-[2fr_1fr] sm:items-start">
-          <div className="min-w-0">
-            <HeroContent />
-          </div>
 
           <aside className="min-w-0">
             <Sidebar />
           </aside>
+        </div>
+
+        {/* Content */}
+        <div className="grid gap-8">
+          <div className="min-w-0">
+            <HeroContent />
+          </div>
         </div>
       </div>
 
